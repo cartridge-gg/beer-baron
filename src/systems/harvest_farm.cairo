@@ -1,5 +1,5 @@
 #[system]
-mod build_farm {
+mod harvest_farm {
     use array::ArrayTrait;
     use array::SpanTrait;
     use box::BoxTrait;
@@ -13,7 +13,9 @@ mod build_farm {
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
 
-    use beer_barron::constants::{GAME_CONFIG, hops, NUMBER_OF_FARM_PLOTS};
+    use beer_barron::constants::{
+        GAME_CONFIG, hops, CROP_GROWTH_TIME, CROP_YIELD, SEED_GROWN_OFFSET, NUMBER_OF_FARM_PLOTS
+    };
 
 
     fn execute(ctx: Context, game_id: u64, area_type: Span<u64>) {
@@ -37,24 +39,25 @@ mod build_farm {
             let item_type = *area_type[area_id];
 
             if item_type != 0 {
-                // check if player has enough items and subtract
-                let mut item_balance = get!(
-                    ctx.world, (game_id, ctx.origin, item_type), (ItemBalance)
-                );
-                assert(item_balance.balance > 0, 'you do not have enough items');
-                item_balance.balance -= 1;
-                set!(ctx.world, (item_balance));
+                // check if time_built
+                let mut farm_area = get!(ctx.world, (game_id, ctx.origin, area_id), (FarmArea));
+                let time_since_build = get_block_timestamp() - farm_area.time_built;
 
-                set!(
-                    ctx.world,
-                    FarmArea {
-                        game_id,
-                        player_id: ctx.origin,
-                        area_id: area_id.into(),
-                        area_type: item_type,
-                        time_built: get_block_timestamp()
-                    }
-                );
+                // harvest and reset
+                if (time_since_build > CROP_GROWTH_TIME.try_into().unwrap()) {
+                    // get grown hop balance - see consts file
+                    // grown item is the hop + 10 for ids
+                    let mut item_balance = get!(
+                        ctx.world,
+                        (game_id, ctx.origin, item_type + SEED_GROWN_OFFSET.try_into().unwrap()),
+                        (ItemBalance)
+                    );
+                    // reset time and area
+                    item_balance.balance += CROP_YIELD.try_into().unwrap();
+                    farm_area.time_built == 0;
+                    farm_area.area_type == 0;
+                    set!(ctx.world, (farm_area, item_balance));
+                }
             }
 
             area_id += 1;

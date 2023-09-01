@@ -12,6 +12,7 @@ struct GoldBalance {
     balance: u128,
 }
 
+// All Items use this, they are internal tokens
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct ItemBalance {
     #[key]
@@ -20,6 +21,6 @@ struct ItemBalance {
     player_id: ContractAddress,
     #[key]
     item_id: u128,
-    balance: u32,
+    balance: u128,
 }
 

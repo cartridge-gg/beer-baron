@@ -15,12 +15,23 @@ mod test {
 
     // project imports
     use beer_barron::components::auction::{Auction, AuctionTrait, auction};
-    use beer_barron::components::balances::{gold_balance, GoldBalance, ItemBalance, item_balance,};
+    use beer_barron::components::balances::{gold_balance, GoldBalance, ItemBalance, item_balance};
+    use beer_barron::components::game::{
+        Game, GameTracker, Ownership, game, game_tracker, ownership
+    };
+    use beer_barron::components::beer::{Brew, BrewBatchTrack, BeerID, brew, brew_batch_track};
+
+    use beer_barron::components::player::{Player, FarmArea, player, farm_area};
+
 
     // systems
     use beer_barron::systems::buy_hops::{buy_hops};
     use beer_barron::systems::start_hops_auction::{start_hops_auction};
     use beer_barron::systems::game::{start_game, join_game, create_game};
+    use beer_barron::systems::build_farm::{build_farm};
+    use beer_barron::systems::harvest_farm::{harvest_farm};
+    use beer_barron::systems::brew_beer::{brew_beer};
+    use beer_barron::systems::bottle_beer::{bottle_beer};
 
     // consts
     use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE};
@@ -28,7 +39,16 @@ mod test {
     fn setup() -> IWorldDispatcher {
         // components
         let mut components = array![
-            gold_balance::TEST_CLASS_HASH, item_balance::TEST_CLASS_HASH, auction::TEST_CLASS_HASH
+            gold_balance::TEST_CLASS_HASH,
+            item_balance::TEST_CLASS_HASH,
+            auction::TEST_CLASS_HASH,
+            game::TEST_CLASS_HASH,
+            game_tracker::TEST_CLASS_HASH,
+            ownership::TEST_CLASS_HASH,
+            player::TEST_CLASS_HASH,
+            farm_area::TEST_CLASS_HASH,
+            brew::TEST_CLASS_HASH,
+            brew_batch_track::TEST_CLASS_HASH
         ];
 
         // // systems
@@ -37,7 +57,11 @@ mod test {
             start_hops_auction::TEST_CLASS_HASH,
             start_game::TEST_CLASS_HASH,
             join_game::TEST_CLASS_HASH,
-            create_game::TEST_CLASS_HASH
+            create_game::TEST_CLASS_HASH,
+            build_farm::TEST_CLASS_HASH,
+            brew_beer::TEST_CLASS_HASH,
+            harvest_farm::TEST_CLASS_HASH,
+            bottle_beer::TEST_CLASS_HASH
         ];
 
         // deploy executor, world and register components/systems
@@ -76,15 +100,7 @@ mod test {
         (world, game_id, player_id)
     }
 
-    #[test]
-    #[available_gas(600000000)]
-    fn test_start() {
-        let (world, game_id, player_id) = create_start();
-    }
-
-    #[test]
-    #[available_gas(600000000)]
-    fn test_buy_hops() {
+    fn player_buy_hops() -> (IWorldDispatcher, u64, ContractAddress) {
         let (world, game_id, player_id) = create_start();
 
         let buy_quantity = 1;
@@ -96,6 +112,107 @@ mod test {
         assert(
             player_balance.balance < STARTING_BALANCE.try_into().unwrap(), 'balance not updated'
         );
+        (world, game_id, player_id)
+    }
+
+    fn player_build_farm() -> (IWorldDispatcher, u64, ContractAddress) {
+        let (world, game_id, player_id) = player_buy_hops();
+
+        let crop: felt252 = 0;
+
+        let mut calldata = Default::default();
+        Serde::serialize(@game_id, ref calldata);
+        Serde::serialize(@array![hops::GALAXY.into(), crop, crop, crop, crop, crop], ref calldata);
+
+        world.execute('build_farm', calldata);
+        (world, game_id, player_id)
+    }
+
+    fn player_harvest_farm() -> (IWorldDispatcher, u64, ContractAddress) {
+        let (world, game_id, player_id) = player_build_farm();
+
+        let crop: felt252 = 0;
+
+        let mut calldata = Default::default();
+        Serde::serialize(@game_id, ref calldata);
+        Serde::serialize(@array![hops::GALAXY.into(), crop, crop, crop, crop, crop], ref calldata);
+
+        starknet::testing::set_block_timestamp(2000);
+
+        world.execute('harvest_farm', calldata);
+        (world, game_id, player_id)
+    }
+
+    fn player_brew_beer() -> (IWorldDispatcher, u64, ContractAddress) {
+        let (world, game_id, player_id) = player_harvest_farm();
+
+        world.execute('brew_beer', array![game_id.into(), 1]);
+        (world, game_id, player_id)
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_start() {
+        let (world, game_id, player_id) = create_start();
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_buy_hops() {
+        let (world, game_id, player_id) = player_buy_hops();
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_build_farm() {
+        let (world, game_id, player_id) = player_build_farm();
+    }
+
+    #[test]
+    #[should_panic(
+        expected: (
+            'you do not have enough items',
+            'ENTRYPOINT_FAILED',
+            'ENTRYPOINT_FAILED',
+            'ENTRYPOINT_FAILED'
+        )
+    )]
+    #[available_gas(600000000)]
+    fn test_build_farm_too_much() {
+        let (world, game_id, player_id) = player_buy_hops();
+
+        let crop: felt252 = 0;
+
+        let mut calldata = Default::default();
+        Serde::serialize(@game_id, ref calldata);
+        Serde::serialize(
+            @array![hops::GALAXY.into(), hops::GALAXY.into(), crop, crop, crop, crop], ref calldata
+        );
+
+        world.execute('build_farm', calldata);
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_harvest_farm() {
+        let (world, game_id, player_id) = player_harvest_farm();
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_brew_beer() {
+        let (world, game_id, player_id) = player_brew_beer();
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_bottle_beer() {
+        let (world, game_id, player_id) = player_brew_beer();
+
+        starknet::testing::set_block_timestamp(4000);
+
+        // game_id, beer_id, batch_id - hardcoded
+        world.execute('bottle_beer', array![game_id.into(), 1, 1]);
     }
 }
 

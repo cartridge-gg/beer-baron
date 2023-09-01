@@ -16,8 +16,7 @@ struct FarmArea {
     #[key]
     player_id: ContractAddress,
     #[key]
-    area_id: u64,
-    area_type: u64,
-    time_built: u64,
+    area_id: u64, // area_id is the index of the area in the player's array of areas
+    area_type: u64, // crop type
+    time_built: u64, // built time
 }
-
