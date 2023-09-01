@@ -1,6 +1,6 @@
 [package]
 cairo-version = "2.1.1"
-name = "dojo_examples"
+name = "beer_barron"
 version = "0.1.0"
 
 [cairo]
@@ -8,6 +8,7 @@ sierra-replace-ids = true
 
 [dependencies]
 dojo = { git = "https://github.com/dojoengine/dojo" }
+dojo_defi = { git = "https://github.com/dojoengine/dojo" }
 
 [[target.dojo]]
 
