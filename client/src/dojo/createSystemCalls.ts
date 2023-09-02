@@ -4,100 +4,99 @@ import { EntityIndex, getComponentValue, setComponent } from "@latticexyz/recs";
 import { uuid } from "@latticexyz/utils";
 import { ClientComponents } from "./createClientComponents";
 import { updatePositionWithDirection } from "../utils";
+import { fromFixed } from "@/utils/fixed";
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
-    { execute, contractComponents }: SetupNetworkResult,
-    { Position, Moves }: ClientComponents
+    { execute, contractComponents, call }: SetupNetworkResult,
+    // { Position, Moves }: ClientComponents
 ) {
 
-    const spawn = async (signer: Account) => {
-
-        const entityId = parseInt(signer.address) as EntityIndex;
-
-        const positionId = uuid();
-        Position.addOverride(positionId, {
-            entity: entityId,
-            value: { x: 1000, y: 1000 },
-        });
-
-        const movesId = uuid();
-        Moves.addOverride(movesId, {
-            entity: entityId,
-            value: { remaining: 100 },
-        });
+    const create_game = async (signer: Account) => {
 
         try {
-            const tx = await execute(signer, "spawn", []);
-
+            const tx = await execute(signer, "create_game", []);
             console.log(tx)
+
             const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
-
-            const events = parseEvent(receipt)
-            const entity = parseInt(events[0].entity.toString()) as EntityIndex
-
-            const movesEvent = events[0] as Moves;
-            setComponent(contractComponents.Moves, entity, { remaining: movesEvent.remaining })
-
-            const positionEvent = events[1] as Position;
-            setComponent(contractComponents.Position, entity, { x: positionEvent.x, y: positionEvent.y })
-        } catch (e) {
-            console.log(e)
-            Position.removeOverride(positionId);
-            Moves.removeOverride(movesId);
-        } finally {
-            Position.removeOverride(positionId);
-            Moves.removeOverride(movesId);
-        }
-    };
-
-    const move = async (signer: Account, direction: Direction) => {
-
-        const entityId = parseInt(signer.address) as EntityIndex;
-
-        const positionId = uuid();
-        Position.addOverride(positionId, {
-            entity: entityId,
-            value: updatePositionWithDirection(direction, getComponentValue(Position, entityId) as Position),
-        });
-
-        const movesId = uuid();
-        Moves.addOverride(movesId, {
-            entity: entityId,
-            value: { remaining: (getComponentValue(Moves, entityId)?.remaining || 0) - 1 },
-        });
-
-        try {
-            const tx = await execute(signer, "move", [direction]);
-
-            console.log(tx)
-            const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
-
             console.log(receipt)
 
-            const events = parseEvent(receipt)
-            const entity = parseInt(events[0].entity.toString()) as EntityIndex
-
-            const movesEvent = events[0] as Moves;
-            setComponent(contractComponents.Moves, entity, { remaining: movesEvent.remaining })
-
-            const positionEvent = events[1] as Position;
-            setComponent(contractComponents.Position, entity, { x: positionEvent.x, y: positionEvent.y })
         } catch (e) {
             console.log(e)
-            Position.removeOverride(positionId);
-            Moves.removeOverride(movesId);
-        } finally {
-            Position.removeOverride(positionId);
-            Moves.removeOverride(movesId);
         }
-
     };
 
+    const join_game = async (signer: Account, game_id: number, name: string) => {
+
+        try {
+            const tx = await execute(signer, "join_game", [game_id, name]);
+            console.log('join_game', tx)
+            const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+            console.log('join_game', receipt)
+
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
+    const start_game = async (signer: Account, game_id: number) => {
+
+        try {
+            const tx = await execute(signer, "start_game", [game_id]);
+            console.log('start_game', tx)
+            const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+            console.log('start_game', receipt)
+
+        } catch (e) {
+            console.log(e)
+        }
+    };
+
+    const view_hop_price = async (game_id: number, item_id: number) => {
+
+        try {
+            const tx = await call("view_hop_price", [game_id, item_id]);
+            console.log('view_hop_price', fromFixed(tx[0]))
+            return fromFixed(tx[0])
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+    const view_beer_price = async (game_id: number, item_id: number) => {
+
+        try {
+            const tx = await call("view_beer_price", [game_id, item_id]);
+            console.log('view_beer_price', fromFixed(tx[0]))
+            return fromFixed(tx[0])
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
+    const buy_hops = async (signer: Account, game_id: number, item_id: number, amount: number) => {
+        try {
+            const tx = await execute(signer, "buy_hops", [game_id, item_id, amount]);
+            console.log(tx)
+
+            const receipt = await signer.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+            console.log(receipt)
+
+        } catch (e) {
+            console.log(e)
+        }
+
+    }
+
     return {
-        spawn,
-        move
+        create_game,
+        join_game,
+        start_game,
+        view_hop_price,
+        view_beer_price,
+        buy_hops
     };
 }
 

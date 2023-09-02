@@ -1,0 +1,2981 @@
+{
+  "world": {
+    "name": "world",
+    "address": null,
+    "class_hash": "0x1527b232cbd77c7f021fdc129339d7623edfd9a9c79a1b9add29c9064961497",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "World",
+        "interface_name": "dojo::world::IWorld"
+      },
+      {
+        "type": "struct",
+        "name": "core::array::Span::<core::felt252>",
+        "members": [
+          {
+            "name": "snapshot",
+            "type": "@core::array::Array::<core::felt252>"
+          }
+        ]
+      },
+      {
+        "type": "struct",
+        "name": "core::array::Span::<core::array::Span::<core::felt252>>",
+        "members": [
+          {
+            "name": "snapshot",
+            "type": "@core::array::Array::<core::array::Span::<core::felt252>>"
+          }
+        ]
+      },
+      {
+        "type": "enum",
+        "name": "core::bool",
+        "variants": [
+          {
+            "name": "False",
+            "type": "()"
+          },
+          {
+            "name": "True",
+            "type": "()"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "dojo::world::IWorld",
+        "items": [
+          {
+            "type": "function",
+            "name": "component",
+            "inputs": [
+              {
+                "name": "name",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::starknet::class_hash::ClassHash"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "register_component",
+            "inputs": [
+              {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "system",
+            "inputs": [
+              {
+                "name": "name",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::starknet::class_hash::ClassHash"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "register_system",
+            "inputs": [
+              {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "uuid",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::integer::u32"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "emit",
+            "inputs": [
+              {
+                "name": "keys",
+                "type": "core::array::Array::<core::felt252>"
+              },
+              {
+                "name": "values",
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "execute",
+            "inputs": [
+              {
+                "name": "system",
+                "type": "core::felt252"
+              },
+              {
+                "name": "calldata",
+                "type": "core::array::Array::<core::felt252>"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "entity",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "keys",
+                "type": "core::array::Span::<core::felt252>"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u8"
+              },
+              {
+                "name": "length",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_entity",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "keys",
+                "type": "core::array::Span::<core::felt252>"
+              },
+              {
+                "name": "offset",
+                "type": "core::integer::u8"
+              },
+              {
+                "name": "value",
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "entities",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "index",
+                "type": "core::felt252"
+              },
+              {
+                "name": "length",
+                "type": "core::integer::u32"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "(core::array::Span::<core::felt252>, core::array::Span::<core::array::Span::<core::felt252>>)"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "set_executor",
+            "inputs": [
+              {
+                "name": "contract_address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "executor",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "delete_entity",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "keys",
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "origin",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::starknet::contract_address::ContractAddress"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "caller_system",
+            "inputs": [],
+            "outputs": [
+              {
+                "type": "core::felt252"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "is_owner",
+            "inputs": [
+              {
+                "name": "address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "target",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "grant_owner",
+            "inputs": [
+              {
+                "name": "address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "target",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "revoke_owner",
+            "inputs": [
+              {
+                "name": "address",
+                "type": "core::starknet::contract_address::ContractAddress"
+              },
+              {
+                "name": "target",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "is_writer",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "system",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::bool"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "grant_writer",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "system",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          },
+          {
+            "type": "function",
+            "name": "revoke_writer",
+            "inputs": [
+              {
+                "name": "component",
+                "type": "core::felt252"
+              },
+              {
+                "name": "system",
+                "type": "core::felt252"
+              }
+            ],
+            "outputs": [],
+            "state_mutability": "external"
+          }
+        ]
+      },
+      {
+        "type": "constructor",
+        "name": "constructor",
+        "inputs": [
+          {
+            "name": "executor",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::WorldSpawned",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "address",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          },
+          {
+            "name": "caller",
+            "type": "core::starknet::contract_address::ContractAddress",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::ComponentRegistered",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "name",
+            "type": "core::felt252",
+            "kind": "data"
+          },
+          {
+            "name": "class_hash",
+            "type": "core::starknet::class_hash::ClassHash",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::SystemRegistered",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "name",
+            "type": "core::felt252",
+            "kind": "data"
+          },
+          {
+            "name": "class_hash",
+            "type": "core::starknet::class_hash::ClassHash",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::StoreSetRecord",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "table",
+            "type": "core::felt252",
+            "kind": "data"
+          },
+          {
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>",
+            "kind": "data"
+          },
+          {
+            "name": "offset",
+            "type": "core::integer::u8",
+            "kind": "data"
+          },
+          {
+            "name": "value",
+            "type": "core::array::Span::<core::felt252>",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::StoreDelRecord",
+        "kind": "struct",
+        "members": [
+          {
+            "name": "table",
+            "type": "core::felt252",
+            "kind": "data"
+          },
+          {
+            "name": "keys",
+            "type": "core::array::Span::<core::felt252>",
+            "kind": "data"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::world::world::Event",
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "WorldSpawned",
+            "type": "dojo::world::world::WorldSpawned",
+            "kind": "nested"
+          },
+          {
+            "name": "ComponentRegistered",
+            "type": "dojo::world::world::ComponentRegistered",
+            "kind": "nested"
+          },
+          {
+            "name": "SystemRegistered",
+            "type": "dojo::world::world::SystemRegistered",
+            "kind": "nested"
+          },
+          {
+            "name": "StoreSetRecord",
+            "type": "dojo::world::world::StoreSetRecord",
+            "kind": "nested"
+          },
+          {
+            "name": "StoreDelRecord",
+            "type": "dojo::world::world::StoreDelRecord",
+            "kind": "nested"
+          }
+        ]
+      }
+    ]
+  },
+  "executor": {
+    "name": "executor",
+    "address": null,
+    "class_hash": "0x6ac7478eec43bd66aacf829f58dcb4694d0e241dc52b332f64de2b736c24137",
+    "abi": [
+      {
+        "type": "impl",
+        "name": "Executor",
+        "interface_name": "dojo::executor::IExecutor"
+      },
+      {
+        "type": "struct",
+        "name": "core::array::Span::<core::felt252>",
+        "members": [
+          {
+            "name": "snapshot",
+            "type": "@core::array::Array::<core::felt252>"
+          }
+        ]
+      },
+      {
+        "type": "interface",
+        "name": "dojo::executor::IExecutor",
+        "items": [
+          {
+            "type": "function",
+            "name": "execute",
+            "inputs": [
+              {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash"
+              },
+              {
+                "name": "calldata",
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "state_mutability": "view"
+          },
+          {
+            "type": "function",
+            "name": "call",
+            "inputs": [
+              {
+                "name": "class_hash",
+                "type": "core::starknet::class_hash::ClassHash"
+              },
+              {
+                "name": "entrypoint",
+                "type": "core::felt252"
+              },
+              {
+                "name": "calldata",
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "outputs": [
+              {
+                "type": "core::array::Span::<core::felt252>"
+              }
+            ],
+            "state_mutability": "view"
+          }
+        ]
+      },
+      {
+        "type": "event",
+        "name": "dojo::executor::executor::Event",
+        "kind": "enum",
+        "variants": []
+      }
+    ]
+  },
+  "systems": [
+    {
+      "name": "buy_hops",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::buy_hops::buy_hops::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "item_id",
+          "type": "core::integer::u128"
+        },
+        {
+          "name": "amount",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x31af05287dabc0b491bf1b4a205fd98ba8279f6fe6dc544dac3241ac637d59",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "item_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "amount",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::buy_hops::buy_hops::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "create_game",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::game::create_game::ContractState"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "core::integer::u64"
+        }
+      ],
+      "class_hash": "0x52428038372a7a85a5e26c5190bcf8c504c36fdb82953cf0e4d91f3adc6029",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::integer::u64"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::game::create_game::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "join_game",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::game::join_game::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "name",
+          "type": "core::felt252"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "core::starknet::contract_address::ContractAddress"
+        }
+      ],
+      "class_hash": "0x24d4499d642485be1c6d112011209df29021352035fc1e16b40b478d5f5b9c2",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "name",
+              "type": "core::felt252"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::game::join_game::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "start_game",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::game::start_game::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x309d52dacffb162a110de5edcc349ef5efd66255a2201ff91d399a019b8139e",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::game::start_game::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "start_hops_auction",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::start_hops_auction::start_hops_auction::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "item_id",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x1a20885a06e4649bc5f5e4fce90dc2112d19720b69f7e59deffc5c5f674b6af",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "item_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::start_hops_auction::start_hops_auction::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "build_farm",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::build_farm::build_farm::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "area_type",
+          "type": "core::array::Span::<core::integer::u64>"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x16f2242e4ee3552fd96438314993ac1ed43d7bb2306de30f8126ba9b0ee913c",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u64>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u64>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "area_type",
+              "type": "core::array::Span::<core::integer::u64>"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::build_farm::build_farm::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "harvest_farm",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::harvest_farm::harvest_farm::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "area_type",
+          "type": "core::array::Span::<core::integer::u64>"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x6680bed0c2f2ea9dc655404c07e6279eff8af2ac8f202ccdfa7cfe135e38c15",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::integer::u64>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::integer::u64>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "area_type",
+              "type": "core::array::Span::<core::integer::u64>"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::harvest_farm::harvest_farm::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "brew_beer",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::brew_beer::brew_beer::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "beer_id",
+          "type": "beer_barron::components::beer::BeerID"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x2548895d6014b3b1310c31d59f1ad30de8672961be7dd34692f48f296a8b59e",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "beer_barron::components::beer::BeerID",
+          "variants": [
+            {
+              "name": "None",
+              "type": "()"
+            },
+            {
+              "name": "DragonHideBlazeIPA",
+              "type": "()"
+            },
+            {
+              "name": "MithrilHaze",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "beer_id",
+              "type": "beer_barron::components::beer::BeerID"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::brew_beer::brew_beer::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "bottle_beer",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::bottle_beer::bottle_beer::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "beer_id",
+          "type": "beer_barron::components::beer::BeerID"
+        },
+        {
+          "name": "batch_id",
+          "type": "core::integer::u64"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x11af33a713156c809d772972da7a8cc4c2d0093f16e47d8d950a731f3d8f887",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "beer_barron::components::beer::BeerID",
+          "variants": [
+            {
+              "name": "None",
+              "type": "()"
+            },
+            {
+              "name": "DragonHideBlazeIPA",
+              "type": "()"
+            },
+            {
+              "name": "MithrilHaze",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "beer_id",
+              "type": "beer_barron::components::beer::BeerID"
+            },
+            {
+              "name": "batch_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::bottle_beer::bottle_beer::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "start_beer_auction",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::start_beer_auction::start_beer_auction::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "item_id",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x7db5f303631f14056c9900163235ee6dda448c0e22477a1954433718407df19",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "item_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::start_beer_auction::start_beer_auction::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "sell_beer",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::systems::sell_beer::sell_beer::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "beer_id",
+          "type": "beer_barron::components::beer::BeerID"
+        },
+        {
+          "name": "amount",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [],
+      "class_hash": "0x5928d82c3369ff33adc43f51bf7b2f892544ca9bd77c0646a8c0d1f10a8e86",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "beer_barron::components::beer::BeerID",
+          "variants": [
+            {
+              "name": "None",
+              "type": "()"
+            },
+            {
+              "name": "DragonHideBlazeIPA",
+              "type": "()"
+            },
+            {
+              "name": "MithrilHaze",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "beer_id",
+              "type": "beer_barron::components::beer::BeerID"
+            },
+            {
+              "name": "amount",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::systems::sell_beer::sell_beer::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "view_hop_price",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::view::view_hop_price::view_hop_price::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "item_id",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "cubit::f128::types::fixed::Fixed"
+        }
+      ],
+      "class_hash": "0x6e42b6677f7e29be542a2101ea0e18dfd812daa7739e1a88ece1da83c282e01",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "cubit::f128::types::fixed::Fixed",
+          "members": [
+            {
+              "name": "mag",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "sign",
+              "type": "core::bool"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "item_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "cubit::f128::types::fixed::Fixed"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::view::view_hop_price::view_hop_price::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "view_beer_price",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@beer_barron::view::view_beer_price::view_beer_price::ContractState"
+        },
+        {
+          "name": "game_id",
+          "type": "core::integer::u64"
+        },
+        {
+          "name": "item_id",
+          "type": "core::integer::u128"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "cubit::f128::types::fixed::Fixed"
+        }
+      ],
+      "class_hash": "0x27e51d124ce14badd475535df1b4f3e073db9e1433e38e86e97ae82537c07d2",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "cubit::f128::types::fixed::Fixed",
+          "members": [
+            {
+              "name": "mag",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "sign",
+              "type": "core::bool"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "game_id",
+              "type": "core::integer::u64"
+            },
+            {
+              "name": "item_id",
+              "type": "core::integer::u128"
+            },
+            {
+              "name": "ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "cubit::f128::types::fixed::Fixed"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::view::view_beer_price::view_beer_price::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "library_call",
+      "inputs": [
+        {
+          "name": "self",
+          "type": "@dojo::world::library_call::ContractState"
+        },
+        {
+          "name": "class_hash",
+          "type": "core::starknet::class_hash::ClassHash"
+        },
+        {
+          "name": "entrypoint",
+          "type": "core::felt252"
+        },
+        {
+          "name": "calladata",
+          "type": "core::array::Span::<core::felt252>"
+        }
+      ],
+      "outputs": [
+        {
+          "type": "core::array::Span::<core::felt252>"
+        }
+      ],
+      "class_hash": "0x5c3f8568adfef908692f02fcfcc80e303c237183fe864f6cff8c34d29d3f130",
+      "dependencies": [],
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "struct",
+          "name": "core::array::Span::<core::felt252>",
+          "members": [
+            {
+              "name": "snapshot",
+              "type": "@core::array::Array::<core::felt252>"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::IWorldDispatcher",
+          "members": [
+            {
+              "name": "contract_address",
+              "type": "core::starknet::contract_address::ContractAddress"
+            }
+          ]
+        },
+        {
+          "type": "struct",
+          "name": "dojo::world::Context",
+          "members": [
+            {
+              "name": "world",
+              "type": "dojo::world::IWorldDispatcher"
+            },
+            {
+              "name": "origin",
+              "type": "core::starknet::contract_address::ContractAddress"
+            },
+            {
+              "name": "system",
+              "type": "core::felt252"
+            },
+            {
+              "name": "system_class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "execute",
+          "inputs": [
+            {
+              "name": "class_hash",
+              "type": "core::starknet::class_hash::ClassHash"
+            },
+            {
+              "name": "entrypoint",
+              "type": "core::felt252"
+            },
+            {
+              "name": "calladata",
+              "type": "core::array::Span::<core::felt252>"
+            },
+            {
+              "name": "_ctx",
+              "type": "dojo::world::Context"
+            }
+          ],
+          "outputs": [
+            {
+              "type": "core::array::Span::<core::felt252>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "dojo::world::library_call::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    }
+  ],
+  "contracts": [],
+  "components": [
+    {
+      "name": "Auction",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "item_id",
+          "type": "u128",
+          "key": true
+        },
+        {
+          "name": "target_price",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "decay_constant",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "max_sellable",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "time_scale",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "start_time",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "sold",
+          "type": "u128",
+          "key": false
+        }
+      ],
+      "class_hash": "0x4480d320f62a9b7f02dd59d12072447abae1646d7f92ae88ca0f6b581afb9fc",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::auction::auction::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "TavernAuction",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "item_id",
+          "type": "u128",
+          "key": true
+        },
+        {
+          "name": "target_price",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "decay_constant",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "per_time_unit",
+          "type": "Fixed",
+          "key": false
+        },
+        {
+          "name": "start_time",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "sold",
+          "type": "u128",
+          "key": false
+        }
+      ],
+      "class_hash": "0x4cf61a77cb90f49c20407b64d9147db4dc1c5051d964f90c5714f808f61d217",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::auction::tavern_auction::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "GoldBalance",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "balance",
+          "type": "u128",
+          "key": false
+        }
+      ],
+      "class_hash": "0x290d59dbb9c4114b50ce6d915fcd8d12b7f44197eaedb7f56b49ff001463277",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::balances::gold_balance::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "ItemBalance",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "item_id",
+          "type": "u128",
+          "key": true
+        },
+        {
+          "name": "balance",
+          "type": "u128",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7cc22cffd4f5fc757d655cf46c2a5bcf4218a439dfa7a1a6acf7ad4e6f71dac",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::balances::item_balance::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "Game",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "start_time",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "status",
+          "type": "bool",
+          "key": false
+        },
+        {
+          "name": "number_players",
+          "type": "u32",
+          "key": false
+        }
+      ],
+      "class_hash": "0x467ef1f169f41256105013cd0f66ad0f09bd0ed3de928cd20b9f8284cafe116",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::game::game::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "GameTracker",
+      "members": [
+        {
+          "name": "entity_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "count",
+          "type": "u64",
+          "key": false
+        }
+      ],
+      "class_hash": "0x55cabbbf36610c0740e5fd9f83f8a335cec50f9c99c29be279a2a3e26961683",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::game::game_tracker::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "Ownership",
+      "members": [
+        {
+          "name": "entity_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "game_id",
+          "type": "u32",
+          "key": true
+        },
+        {
+          "name": "address",
+          "type": "felt252",
+          "key": false
+        }
+      ],
+      "class_hash": "0x64979c9a18222e8835c35bed62f58990e3f82b6f25a6687378c9d25415ad3f8",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::game::ownership::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "Player",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "name",
+          "type": "felt252",
+          "key": false
+        }
+      ],
+      "class_hash": "0x7735c3ae41f81fa41a624d91aa0a88c414c8f1d30a8ef796e9e2aeccc45a52a",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::player::player::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "FarmArea",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "area_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "area_type",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "time_built",
+          "type": "u64",
+          "key": false
+        }
+      ],
+      "class_hash": "0x25e2bde8ab254869b57de2bd228a686c3a3a6025f78c0db178f15cd9a7c4278",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::player::farm_area::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "Brew",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "player_id",
+          "type": "ContractAddress",
+          "key": true
+        },
+        {
+          "name": "batch_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "beer_id",
+          "type": "u64",
+          "key": false
+        },
+        {
+          "name": "time_built",
+          "type": "u64",
+          "key": false
+        }
+      ],
+      "class_hash": "0x68bbdcd9e0e87b9d7ecacf42e0bb7566d4715add87e9eac8b8518c2d25a1",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::beer::brew::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    },
+    {
+      "name": "BrewBatchTrack",
+      "members": [
+        {
+          "name": "game_id",
+          "type": "u64",
+          "key": true
+        },
+        {
+          "name": "count",
+          "type": "u64",
+          "key": false
+        }
+      ],
+      "class_hash": "0x54656588dbbd58189753cfc0333dc32884190ddc59811b3b28e76bf144f1361",
+      "abi": [
+        {
+          "type": "function",
+          "name": "name",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::felt252"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "size",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::integer::u32"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "enum",
+          "name": "core::bool",
+          "variants": [
+            {
+              "name": "False",
+              "type": "()"
+            },
+            {
+              "name": "True",
+              "type": "()"
+            }
+          ]
+        },
+        {
+          "type": "function",
+          "name": "schema",
+          "inputs": [],
+          "outputs": [
+            {
+              "type": "core::array::Array::<(core::felt252, core::felt252, core::bool)>"
+            }
+          ],
+          "state_mutability": "view"
+        },
+        {
+          "type": "event",
+          "name": "beer_barron::components::beer::brew_batch_track::Event",
+          "kind": "enum",
+          "variants": []
+        }
+      ]
+    }
+  ]
+}

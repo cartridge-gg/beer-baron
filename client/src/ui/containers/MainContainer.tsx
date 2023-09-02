@@ -1,8 +1,8 @@
-import { BeerMarket } from "./modules/BeerMarket"
-import { FarmLand } from "./modules/FarmLand"
-import { HopMarket } from "./modules/HopMarket"
-import { LeaderBoard } from "./modules/LeaderBoard"
-import { TopNavigation } from "./modules/TopNavigation"
+import { BeerMarket } from "../modules/BeerMarket"
+import { FarmLand } from "../modules/FarmLand"
+import { HopMarket } from "../modules/HopMarket"
+import { LeaderBoard } from "../modules/LeaderBoard"
+import { TopNavigation } from "../modules/TopNavigation"
 
 export const MainContainer = () => {
     return <div className="grid grid-cols-4">
