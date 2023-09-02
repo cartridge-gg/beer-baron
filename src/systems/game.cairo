@@ -90,7 +90,7 @@ mod start_game {
     use beer_barron::components::game::{Game, GameTracker};
     use beer_barron::components::player::{Player};
 
-    use beer_barron::constants::{GAME_CONFIG, hops};
+    use beer_barron::constants::{GAME_CONFIG, hops, beers};
 
     // adds player to the game
     // TODO: Add Lords Deposit
@@ -99,12 +99,18 @@ mod start_game {
         let mut game = get!(ctx.world, (game_id), (Game));
         assert(game.status, 'game is not running');
 
-        // TODO: Start Auctions
-
+        // Start hop auctions
         ctx.world.execute('start_hops_auction', array![game_id.into(), hops::CHINOOK.into()]);
         ctx.world.execute('start_hops_auction', array![game_id.into(), hops::CITRA.into()]);
         ctx.world.execute('start_hops_auction', array![game_id.into(), hops::GALAXY.into()]);
 
+        // start beer auctions
+        ctx
+            .world
+            .execute(
+                'start_beer_auction', array![game_id.into(), beers::DRAGON_HIDE_BLAZE_IPA.into()]
+            );
+        ctx.world.execute('start_beer_auction', array![game_id.into(), beers::MITHRIL_HAZE.into()]);
         // change status to active
         game.status == true;
         set!(ctx.world, (game));

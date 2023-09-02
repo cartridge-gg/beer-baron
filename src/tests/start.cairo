@@ -14,7 +14,9 @@ mod test {
     use dojo::test_utils::spawn_test_world;
 
     // project imports
-    use beer_barron::components::auction::{Auction, AuctionTrait, auction};
+    use beer_barron::components::auction::{
+        Auction, AuctionTrait, auction, TavernAuction, tavern_auction
+    };
     use beer_barron::components::balances::{gold_balance, GoldBalance, ItemBalance, item_balance};
     use beer_barron::components::game::{
         Game, GameTracker, Ownership, game, game_tracker, ownership
@@ -32,9 +34,11 @@ mod test {
     use beer_barron::systems::harvest_farm::{harvest_farm};
     use beer_barron::systems::brew_beer::{brew_beer};
     use beer_barron::systems::bottle_beer::{bottle_beer};
+    use beer_barron::systems::start_beer_auction::{start_beer_auction};
+    use beer_barron::systems::sell_beer::{sell_beer};
 
     // consts
-    use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE};
+    use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE, beers};
 
     fn setup() -> IWorldDispatcher {
         // components
@@ -48,7 +52,8 @@ mod test {
             player::TEST_CLASS_HASH,
             farm_area::TEST_CLASS_HASH,
             brew::TEST_CLASS_HASH,
-            brew_batch_track::TEST_CLASS_HASH
+            brew_batch_track::TEST_CLASS_HASH,
+            tavern_auction::TEST_CLASS_HASH
         ];
 
         // // systems
@@ -61,7 +66,9 @@ mod test {
             build_farm::TEST_CLASS_HASH,
             brew_beer::TEST_CLASS_HASH,
             harvest_farm::TEST_CLASS_HASH,
-            bottle_beer::TEST_CLASS_HASH
+            bottle_beer::TEST_CLASS_HASH,
+            start_beer_auction::TEST_CLASS_HASH,
+            sell_beer::TEST_CLASS_HASH
         ];
 
         // deploy executor, world and register components/systems
@@ -89,13 +96,23 @@ mod test {
 
         world.execute('start_game', array![game_id.into()]);
 
+        // hop auctions
         let auction_GALAXY = get!(world, (game_id, hops::GALAXY).into(), (Auction));
         let auction_CHINOOK = get!(world, (game_id, hops::CHINOOK).into(), (Auction));
-        let auction_CHINOOK = get!(world, (game_id, hops::CHINOOK).into(), (Auction));
-
+        let auction_CITRA = get!(world, (game_id, hops::CITRA).into(), (Auction));
         assert(auction_GALAXY.start_time > 0, 'auction not started');
         assert(auction_CHINOOK.start_time > 0, 'auction not started');
-        assert(auction_CHINOOK.start_time > 0, 'auction not started');
+        assert(auction_CITRA.start_time > 0, 'auction not started');
+
+        // beer auctions
+        let dragonhide_ipa_market = get!(
+            world, (game_id, beers::DRAGON_HIDE_BLAZE_IPA).into(), (TavernAuction)
+        );
+        let mithril_haze_market = get!(
+            world, (game_id, beers::MITHRIL_HAZE).into(), (TavernAuction)
+        );
+        assert(dragonhide_ipa_market.start_time > 0, 'auction not started');
+        assert(mithril_haze_market.start_time > 0, 'auction not started');
 
         (world, game_id, player_id)
     }
@@ -147,6 +164,17 @@ mod test {
         let (world, game_id, player_id) = player_harvest_farm();
 
         world.execute('brew_beer', array![game_id.into(), 1]);
+        (world, game_id, player_id)
+    }
+
+    fn player_bottle_beer() -> (IWorldDispatcher, u64, ContractAddress) {
+        let (world, game_id, player_id) = player_brew_beer();
+
+        starknet::testing::set_block_timestamp(4000);
+
+        // game_id, beer_id, batch_id - hardcoded
+        world.execute('bottle_beer', array![game_id.into(), 1, 1]);
+
         (world, game_id, player_id)
     }
 
@@ -207,12 +235,15 @@ mod test {
     #[test]
     #[available_gas(600000000)]
     fn test_bottle_beer() {
-        let (world, game_id, player_id) = player_brew_beer();
+        let (world, game_id, player_id) = player_bottle_beer();
+    }
 
-        starknet::testing::set_block_timestamp(4000);
+    #[test]
+    #[available_gas(600000000)]
+    fn test_sell_beer() {
+        let (world, game_id, player_id) = player_bottle_beer();
 
-        // game_id, beer_id, batch_id - hardcoded
-        world.execute('bottle_beer', array![game_id.into(), 1, 1]);
+        world.execute('sell_beer', array![game_id.into(), 1, 1]);
     }
 }
 

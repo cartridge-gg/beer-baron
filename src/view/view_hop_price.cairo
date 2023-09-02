@@ -1,5 +1,5 @@
 #[system]
-mod view_price {
+mod view_hop_price {
     use core::debug::PrintTrait;
     use array::ArrayTrait;
     use core::traits::{Into};
@@ -12,7 +12,7 @@ mod view_price {
     use beer_barron::components::auction::{Auction, AuctionTrait};
     use beer_barron::components::balances::{GoldBalance};
 
-    fn execute(ctx: Context, game_id: u64, item_id: u128, amount: u128) -> Fixed {
+    fn execute(ctx: Context, game_id: u64, item_id: u128) -> Fixed {
         let mut auction = get!(ctx.world, (game_id, item_id), Auction);
 
         // convert auction to VRGDA
