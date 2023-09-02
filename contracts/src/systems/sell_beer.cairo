@@ -43,7 +43,6 @@ mod sell_beer {
                 FixedTrait::new(auction.sold, false) // amount sold
             );
 
-        price.print();
         auction.sold += amount;
 
         // // we sell beer into the auction and in return get gold
