@@ -1,3 +1,5 @@
+export const BREW_TIME = 100000
+export const GROW_TIME = 100000;
 // used for internal enum in cairo
 export enum BeerID {
     DragonHideBlaze = 1,
@@ -10,6 +12,11 @@ export enum Beers {
     MithralHaze = 1002
 }
 
+export const BeerNames: { [key in Beers]: string } = {
+    [Beers.DragonHideBlaze]: "Dragon Hide Blaze", // Spaces added for better readability
+    [Beers.MithralHaze]: "Mithral Haze"
+};
+
 export enum Hops {
     Cintra = 1,
     Chinook = 2,
@@ -21,6 +28,24 @@ export enum Flowers {
     Chinook = 102,
     Galaxy = 103,
 }
+
+export const HopImages = {
+    [Hops.Cintra]: '/images/items/seeds/seed.png',
+    [Hops.Chinook]: '/images/items/seeds/seed.png',
+    [Hops.Galaxy]: '/images/items/seeds/seed.png',
+};
+
+export const FlowerImages = {
+    [Flowers.Cintra]: '/images/items/flowers/cintra.png',
+    [Flowers.Chinook]: '/images/items/flowers/chinook.png',
+    [Flowers.Galaxy]: '/images/items/flowers/galaxy.png',
+};
+
+export const BeerImages = {
+    [Beers.DragonHideBlaze]: '/images/items/beers/barrel.png',
+    [Beers.MithralHaze]: '/images/items/beers/barrel.png',
+};
+
 
 export type HopQuantity = {
     hop: Flowers;

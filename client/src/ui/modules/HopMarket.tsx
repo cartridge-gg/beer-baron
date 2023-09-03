@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Hops } from "@/dojo/gameConfig.ts";
+import { FlowerImages, Hops } from "@/dojo/gameConfig.ts";
 import { useQueryParams } from "@/dojo/useQueryParams";
 
 
@@ -40,18 +40,16 @@ const useHopPricePolling = (hopType: Hops) => {
 const HopPriceDisplay = ({ hopType }: { hopType: Hops }) => {
     const { setup: { systemCalls: { buy_hops } }, account: { account } } = useDojo();
     const { price, isLoading } = useHopPricePolling(hopType);
-
     const { game_id } = useQueryParams();
-
-    console.log(price)
 
     return (
         <div className="flex justify-between py-2 border-t border-b">
             <div className="self-center flex">
+
                 <h5 className="self-center" >{Hops[hopType]}:</h5>
                 <div className={`self-center px-3 ${isLoading ?? 'animate-pulse'}`}>${price?.toFixed(4)}</div>
             </div>
-            <Button size={'icon'} variant={'outline'} onClick={() => buy_hops({ account, game_id, item_id: hopType, amount: 1 })}>Buy</Button>
+            <Button size={'sm'} variant={'outline'} onClick={() => buy_hops({ account, game_id, item_id: hopType, amount: 1 })}>Buy</Button>
         </div>
     );
 }
@@ -60,7 +58,7 @@ const HopPriceDisplay = ({ hopType }: { hopType: Hops }) => {
 export const HopMarket = () => {
     return (
         <>
-            <h4>Hop Market</h4>
+            <h3>Hop Market</h3>
             <HopPriceDisplay hopType={Hops.Cintra} />
             <HopPriceDisplay hopType={Hops.Galaxy} />
             <HopPriceDisplay hopType={Hops.Chinook} />

@@ -1,17 +1,13 @@
 import { useDojo } from '@/DojoContext';
 import { Button } from '@/components/ui/button';
 import { getEntityIdFromKeys } from '@/dojo/createSystemCalls';
-import { Hops } from '@/dojo/gameConfig';
+import { FlowerImages, GROW_TIME, Hops } from '@/dojo/gameConfig';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { useComponentValue } from '@dojoengine/react';
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-
-
-const GROW_TIME = 1000000; // Grow time in milliseconds
-
-const FarmCell = ({ initialHop, index }: any) => {
+const FarmCell = ({ index }: any) => {
     const { game_id } = useQueryParams();
     const { setup: { systemCalls: { build_farm, harvest_farm }, components: { FarmArea } }, account: { account } } = useDojo();
 
@@ -22,12 +18,12 @@ const FarmCell = ({ initialHop, index }: any) => {
     const [selectedHop, setSelectedHop] = useState(Hops.Cintra);
 
     const getColor = () => {
-        if (!farm?.time_built) return 'white';
+        if (!farm?.time_built) return 'bg-yellow-300';
         const duration = Date.now() - (farm?.time_built * 1000);
 
-        if (duration >= GROW_TIME) return 'green';
-        if (duration >= GROW_TIME / 2) return 'yellow';
-        return 'orange';
+        if (duration >= GROW_TIME) return 'bg-green-700 animate-pulse';
+        if (duration >= GROW_TIME / 2) return 'bg-yellow-700';
+        return 'bg-orange-700';
     };
 
     const handleSelectChange = (e: any) => {
@@ -48,19 +44,22 @@ const FarmCell = ({ initialHop, index }: any) => {
 
     return (
         <div
-            className='flex flex-col w-48 h-48 p-8'
-            style={{
-                backgroundColor: getColor(),
-            }}
+            className={`flex flex-col w-48 h-48 p-8 rounded-2xl ${getColor()}`}
         >
-            <h4>{farm?.area_type && <span>{Hops[farm?.area_type]}</span>}</h4>
+            {farm?.area_type! ? (<div className='flex pb-3'>
+                <img className="w-8" src={FlowerImages[farm?.area_type! + 100 as keyof typeof FlowerImages]} alt="" />
+                <h4>{farm?.area_type && <span>{Hops[farm?.area_type]}</span>}</h4>
+            </div>) : ''}
 
             {timeRemaining && timeRemaining > 0 && (
                 <span className='text-xs mb-2'>Harvest: {getTimeRemaining()}</span>
             )}
 
-            <div className='flex'>
+            {!timeRemaining && farm?.area_type && (<Button className='mb-1 self-center' size={'sm'} onClick={() => harvest_farm({ account, game_id })}>Harvest Farmland</Button>)}
+
+            <div className='flex space-x-1'>
                 <Button className='py-2' size={'sm'} onClick={() => handlePlanting(selectedHop, index)}>Plant</Button>
+
                 <select
                     value={selectedHop}
                     onChange={handleSelectChange}
@@ -90,15 +89,18 @@ export const FarmLand = () => {
 
     return (
         <>
-            <h4>Farm Land</h4>
-            <Button className='mb-1' size={'sm'} onClick={() => harvest_farm({ account, game_id })}>Harvest Farmland</Button>
+            <div className='flex justify-between'>
+                <h4>Farm Land - 6 Plots</h4>
+                <Button className='mb-1 self-center' size={'sm'} onClick={() => harvest_farm({ account, game_id })}>Harvest Farmland</Button>
+            </div>
+
             <div className='grid grid-cols-3 gap-2'>
-                <FarmCell initialHop={null} index={0} />
-                <FarmCell initialHop={null} index={1} />
-                <FarmCell initialHop={null} index={2} />
-                <FarmCell initialHop={null} index={3} />
-                <FarmCell initialHop={null} index={4} />
-                <FarmCell initialHop={null} index={5} />
+                <FarmCell index={0} />
+                <FarmCell index={1} />
+                <FarmCell index={2} />
+                <FarmCell index={3} />
+                <FarmCell index={4} />
+                <FarmCell index={5} />
             </div>
         </>
     );

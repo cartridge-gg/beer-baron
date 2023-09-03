@@ -152,7 +152,6 @@ mod test {
 
         let mut calldata = Default::default();
         Serde::serialize(@game_id, ref calldata);
-        Serde::serialize(@array![hops::GALAXY.into(), crop, crop, crop, crop, crop], ref calldata);
 
         starknet::testing::set_block_timestamp(2000);
 

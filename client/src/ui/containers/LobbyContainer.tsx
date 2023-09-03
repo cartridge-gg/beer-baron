@@ -24,8 +24,8 @@ export const LobbyContainer = () => {
         navigate('?game=' + id, { replace: true });
     };
 
-    return <div className="fixed h-screen w-screen bg-blue-200 p-20">
-        <div>
+    return <div className="fixed h-screen w-screen bg-tavern bg-cover p-20">
+        <div className="bg-black p-8 text-white rounded-2xl">
             <h1>Beer Barron</h1>
             <h4>Barron: {account.address}</h4>
             <div className="flex flex-col w-32 space-y-2">

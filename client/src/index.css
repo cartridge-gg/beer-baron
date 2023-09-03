@@ -76,6 +76,19 @@
   }
 }
 
+body {
+  @apply font-body;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-display tracking-wide;
+}
+
 h1 {
   @apply text-4xl font-bold my-4;
 }

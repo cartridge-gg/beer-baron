@@ -15,7 +15,7 @@ mod start_beer_auction {
     use dojo::world::Context;
 
     const _69_42: u128 = 1280572973596917000000;
-    const _0_31: u128 = 5718490662849961000; // 0.31
+    const _0_31: u128 = 10718490662849961000; // 0.31
     const PER_TIME_UNIT: u128 = 2;
     const _0_0023: u128 = 42427511369531970; // 0.0023
 
@@ -26,7 +26,7 @@ mod start_beer_auction {
         let auction = TavernAuction {
             game_id,
             item_id,
-            target_price: FixedTrait::new(_69_42, false).into(),
+            target_price: FixedTrait::new_unscaled(10, false).into(),
             decay_constant: FixedTrait::new(_0_31, false),
             per_time_unit: FixedTrait::new_unscaled(PER_TIME_UNIT, false),
             start_time: get_block_timestamp(),

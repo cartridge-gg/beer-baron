@@ -5,12 +5,27 @@ import { fromFixed } from "@/utils/fixed";
 import { poseidonHashMany } from "micro-starknet";
 import { BuyHopsProps, JoinGameProps, GameIdProps, ViewPriceProps, SystemSigner, FarmProps, BrewBeerProps, BottleBeerProps, SellBeerProps } from "./types";
 
+import { toast } from 'react-toastify';
+import { Beers, Hops } from "./gameConfig";
+
+
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
     { execute, contractComponents, call }: SetupNetworkResult,
     // { GoldBalance, ItemBalance, Player }: ClientComponents
 ) {
+
+    const notify = (message: string) => toast(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+    });
 
     const create_game = async ({ account }: SystemSigner) => {
 
@@ -75,6 +90,8 @@ export function createSystemCalls(
             const tx = await execute(account, "buy_hops", [game_id, item_id, amount]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify(amount + ' x ' + Hops[item_id] + ' Hops bought!')
         } catch (e) {
             console.log(e)
         }
@@ -86,6 +103,8 @@ export function createSystemCalls(
             const tx = await execute(account, "build_farm", [game_id, area_type.length, ...area_type]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify('Farm built!')
         } catch (e) {
             console.log(e)
         }
@@ -96,6 +115,8 @@ export function createSystemCalls(
             const tx = await execute(account, "harvest_farm", [game_id]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify('Farm Harvested!')
         } catch (e) {
             console.log(e)
         }
@@ -106,16 +127,24 @@ export function createSystemCalls(
             const tx = await execute(account, "brew_beer", [game_id, beer_id]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify(Beers[beer_id + 1000] + ' is brewing in the tank!')
         } catch (e) {
             console.log(e)
         }
     }
 
     const bottle_beer = async ({ account, game_id, beer_id, batch_id }: BottleBeerProps) => {
+
+        console.log(game_id, beer_id, batch_id)
         try {
             const tx = await execute(account, "bottle_beer", [game_id, beer_id, batch_id]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
+
+            console.log(receipt)
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify(Beers[beer_id + 1000] + ' has been bottled!')
         } catch (e) {
             console.log(e)
         }
@@ -126,6 +155,8 @@ export function createSystemCalls(
             const tx = await execute(account, "sell_beer", [game_id, beer_id, amount]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
+
+            notify(Beers[beer_id + 1000] + ' has been sold!')
         } catch (e) {
             console.log(e)
         }

@@ -15,7 +15,7 @@ export const TopNavigation = () => {
         account: { account }
     } = useDojo();
 
-    let entityId = getEntityIdFromKeys([BigInt(1), BigInt(account.address)]);
+    let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address)]);
 
     const gold_balance = useComponentValue(GoldBalance, entityId);
     const player = useComponentValue(Player, entityId);

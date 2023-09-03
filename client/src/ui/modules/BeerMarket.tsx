@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { Beers } from "@/dojo/gameConfig.ts";
+import { BeerNames, Beers } from "@/dojo/gameConfig.ts";
 import { useQueryParams } from "@/dojo/useQueryParams.ts";
+import { getEntityIdFromKeys } from "@/dojo/createSystemCalls";
+import { useComponentValue } from "@dojoengine/react";
 
 const useHopPricePolling = (beerType: Beers) => {
     const { setup: { systemCalls: { view_beer_price } } } = useDojo();
@@ -24,19 +26,27 @@ const useHopPricePolling = (beerType: Beers) => {
 }
 
 const HopPriceDisplay = ({ beerType }: { beerType: Beers }) => {
-    const { setup: { systemCalls: { buy_hops } }, account: { account } } = useDojo();
+    const { setup: { systemCalls: { sell_beer }, components: { ItemBalance } }, account: { account } } = useDojo();
     const price = useHopPricePolling(beerType);
 
     const { game_id } = useQueryParams();
 
-    const item_id = beerType;
+    const beer_id = beerType;
 
     const amount = 1;
 
+    const getItemBalance = (item: string) => {
+        let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(item)]);
+        return useComponentValue(ItemBalance, entityId)?.balance || 0;
+    }
+
     return (
-        <div className="flex">
-            <strong>{Beers[beerType]}</strong>: ${price?.toFixed(2)} p/l
-            <Button size={'sm'} className="ml-2 self-center" onClick={() => buy_hops({ account, game_id, item_id, amount })}>Sell</Button>
+        <div className="flex justify-between py-2 border-t border-b">
+            <div className="self-center flex">
+                <h5 className="self-center" >{BeerNames[beerType]}:</h5>
+                <div className={`self-center px-3`}>${price?.toFixed(4)}</div>
+            </div>
+            <Button variant={'outline'} size={'sm'} className="ml-2 self-center" onClick={() => sell_beer({ account, game_id, beer_id: beer_id - 1000, amount })}>Sell</Button>
         </div>
     );
 }
@@ -45,7 +55,7 @@ const HopPriceDisplay = ({ beerType }: { beerType: Beers }) => {
 export const BeerMarket = () => {
     return (
         <>
-            <h4>Beer Market</h4>
+            <h3>Beer Market</h3>
             <HopPriceDisplay beerType={Beers.DragonHideBlaze} />
             <HopPriceDisplay beerType={Beers.MithralHaze} />
         </>
