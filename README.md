@@ -2,6 +2,8 @@
 
 ## **Beer Baron** - The Game Guide
 
+An onchain simulation masked as a beer brewing game.
+
 ### **Overview:**
 
 In the game of Beer Baron, you step into the shoes of a monk with a flair for entrepreneurship. Hailing from an unknown Realm, your primary resource is a humble sum of 1000 gold. With this capital, you must use your abacus to navigate the hop market, grow hop flowers, brew beer, and sell it to the traverns to make a profit. The game is played over a period of 2 weeks, with the player with the largest fortune at the end of the game being crowned the winner.
@@ -47,3 +49,28 @@ In the game of Beer Baron, you step into the shoes of a monk with a flair for en
 - Complete token logic
 - Clean up logic
 - Include burner wallet
+
+
+### Launch the Example in Under 30 Seconds
+
+After cloning the project, execute the following:
+
+1. **Terminal 1 - Katana**:
+
+```console
+cd contracts && katana --disable-fee --block-time 1
+```
+
+2. **Terminal 2 - Contracts**:
+
+```console
+cd contracts && sozo build && sozo migrate
+```
+
+3. **Terminal 3 - Client**:
+
+```console
+cd client && yarn && yarn dev
+```
+
+Upon completion, launch your browser and navigate to http://localhost:5173/. You'll be greeted by the running example!
