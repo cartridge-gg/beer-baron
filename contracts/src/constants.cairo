@@ -1,7 +1,7 @@
 const OFFSET: felt252 = 1000;
 const GAME_CONFIG: felt252 = 999999999999999;
 const STARTING_BALANCE: felt252 = 1000;
-const CROP_GROWTH_TIME: felt252 = 1000;
+const CROP_GROWTH_TIME: felt252 = 100;
 const CROP_YIELD: felt252 = 1000;
 
 const SEED_GROWN_OFFSET: felt252 = 100;
@@ -24,7 +24,7 @@ mod hops_grown {
 
 
 // beer
-const BREW_TIME: felt252 = 1000;
+const BREW_TIME: felt252 = 100;
 const BREW_YEILD_LITRES: felt252 = 1000;
 
 mod beers {

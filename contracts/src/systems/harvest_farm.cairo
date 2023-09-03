@@ -18,29 +18,23 @@ mod harvest_farm {
     };
 
 
-    fn execute(ctx: Context, game_id: u64, area_type: Span<u64>) {
+    fn execute(ctx: Context, game_id: u64) {
         let mut game = get!(ctx.world, (game_id), (Game));
         assert(game.status, 'game is not running');
         // TODO: assert that caller is player 
-
-        assert(
-            area_type.len() == NUMBER_OF_FARM_PLOTS.try_into().unwrap(), 'you must submit 6 areas'
-        );
 
         // MAX AREAS = NUMBER_OF_FARM_PLOTS
         let mut area_id: usize = 0;
 
         // loop through all areas
         loop {
-            if area_id >= area_type.len() {
+            if area_id >= NUMBER_OF_FARM_PLOTS.try_into().unwrap() {
                 break;
             }
 
-            let item_type = *area_type[area_id];
+            let mut farm_area = get!(ctx.world, (game_id, ctx.origin, area_id), (FarmArea));
 
-            if item_type != 0 {
-                // check if time_built
-                let mut farm_area = get!(ctx.world, (game_id, ctx.origin, area_id), (FarmArea));
+            if farm_area.area_type != 0 {
                 let time_since_build = get_block_timestamp() - farm_area.time_built;
 
                 // harvest and reset
@@ -49,14 +43,24 @@ mod harvest_farm {
                     // grown item is the hop + 10 for ids
                     let mut item_balance = get!(
                         ctx.world,
-                        (game_id, ctx.origin, item_type + SEED_GROWN_OFFSET.try_into().unwrap()),
+                        (
+                            game_id,
+                            ctx.origin,
+                            farm_area.area_type + SEED_GROWN_OFFSET.try_into().unwrap()
+                        ),
                         (ItemBalance)
                     );
                     // reset time and area
                     item_balance.balance += CROP_YIELD.try_into().unwrap();
-                    farm_area.time_built == 0;
-                    farm_area.area_type == 0;
-                    set!(ctx.world, (farm_area, item_balance));
+
+                    let updated_farm = FarmArea {
+                        game_id,
+                        player_id: ctx.origin,
+                        area_id: area_id.into(),
+                        area_type: 0,
+                        time_built: 0
+                    };
+                    set!(ctx.world, (updated_farm, item_balance));
                 }
             }
 

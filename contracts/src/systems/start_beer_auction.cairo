@@ -14,20 +14,20 @@ mod start_beer_auction {
     use cubit::f128::types::fixed::{Fixed, FixedTrait};
     use dojo::world::Context;
 
-    const target_price: u128 = 10;
+    const _69_42: u128 = 1280572973596917000000;
     const _0_31: u128 = 5718490662849961000; // 0.31
     const PER_TIME_UNIT: u128 = 2;
     const _0_0023: u128 = 42427511369531970; // 0.0023
 
     fn execute(ctx: Context, game_id: u64, item_id: u128) {
         let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert(game.status, 'game is not running');
 
         let auction = TavernAuction {
             game_id,
             item_id,
-            target_price: FixedTrait::new_unscaled(target_price, false).into(),
-            decay_constant: FixedTrait::new(_0_31, true),
+            target_price: FixedTrait::new(_69_42, false).into(),
+            decay_constant: FixedTrait::new(_0_31, false),
             per_time_unit: FixedTrait::new_unscaled(PER_TIME_UNIT, false),
             start_time: get_block_timestamp(),
             sold: 0,

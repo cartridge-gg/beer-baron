@@ -1,42 +1,42 @@
 import { useEffect, useState } from "react";
-import { AuctionPrice } from "../components/AuctionPrice.tsx"
 import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Beers } from "@/dojo/gameConfig.ts";
+import { useQueryParams } from "@/dojo/useQueryParams.ts";
 
-enum Beers {
-    DragonHideBlaze = 1001,
-    MithralHaze = 1002
-}
-
-const game_id = 1;
-
-const useHopPricePolling = (hopType: Beers) => {
+const useHopPricePolling = (beerType: Beers) => {
     const { setup: { systemCalls: { view_beer_price } } } = useDojo();
     const [price, setPrice] = useState<number | undefined>(0);
 
+    const { game_id } = useQueryParams();
+
     useEffect(() => {
         const interval = setInterval(() => {
-            view_beer_price(game_id, hopType)
+            view_beer_price({ game_id, item_id: beerType })
                 .then(price => setPrice(price))
                 .catch(error => console.error('Error fetching hop price:', error));
         }, 5000);
 
         return () => clearInterval(interval);
-    }, [hopType]);
+    }, [beerType]);
 
     return price;
 }
 
-const HopPriceDisplay = ({ hopType }: { hopType: Beers }) => {
+const HopPriceDisplay = ({ beerType }: { beerType: Beers }) => {
     const { setup: { systemCalls: { buy_hops } }, account: { account } } = useDojo();
-    const price = useHopPricePolling(hopType);
+    const price = useHopPricePolling(beerType);
 
-    console.log(price)
+    const { game_id } = useQueryParams();
+
+    const item_id = beerType;
+
+    const amount = 1;
 
     return (
         <div className="flex">
-            <strong>{Beers[hopType]}</strong>: ${price?.toFixed(2)} p/l
-            {/* <Button size={'sm'} className="ml-2 self-center" onClick={() => buy_hops(account, game_id, 1, 1)}>Sell</Button> */}
+            <strong>{Beers[beerType]}</strong>: ${price?.toFixed(2)} p/l
+            <Button size={'sm'} className="ml-2 self-center" onClick={() => buy_hops({ account, game_id, item_id, amount })}>Sell</Button>
         </div>
     );
 }
@@ -46,8 +46,8 @@ export const BeerMarket = () => {
     return (
         <>
             <h4>Beer Market</h4>
-            <HopPriceDisplay hopType={Beers.DragonHideBlaze} />
-            <HopPriceDisplay hopType={Beers.MithralHaze} />
+            <HopPriceDisplay beerType={Beers.DragonHideBlaze} />
+            <HopPriceDisplay beerType={Beers.MithralHaze} />
         </>
     )
 }

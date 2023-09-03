@@ -23,7 +23,7 @@ mod view_beer_price {
 
         // get current price
         VRGDA
-            .get_vrgda_price(
+            .get_reverse_vrgda_price(
                 FixedTrait::new((time_since_start), false), // time since start
                 FixedTrait::new(auction.sold, false) // amount sold
             )

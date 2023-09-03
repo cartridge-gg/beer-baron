@@ -4,6 +4,7 @@ use serde::Serde;
 use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers};
 
 // this could a generalised component in the future with the FarmArea
+// TODO: Can drop player_id and just use owner check
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Brew {
     #[key]
@@ -12,8 +13,11 @@ struct Brew {
     player_id: ContractAddress,
     #[key]
     batch_id: u64, // players can brew in parallel so we just use a uuid here
+    batch_key: u64, // this needs removing - it is so the client knows which batch to update
+    owner: ContractAddress,
     beer_id: u64, // crop type
     time_built: u64, // built time
+    status: u64, // 0 = not built, 1 = built, 2 = harvested
 }
 
 
@@ -22,6 +26,7 @@ struct Brew {
 struct BrewBatchTrack {
     #[key]
     game_id: u64,
+    owner: ContractAddress,
     count: u64
 }
 

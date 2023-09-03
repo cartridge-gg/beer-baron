@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "codegen": "graphql-codegen"
+    "codegen": "graphql-codegen",
+    "components": "npx @dojoengine/core ../contracts/target/dev/manifest.json src/dojo/contractComponents.ts"
   },
   "dependencies": {
     "@dojoengine/core": "^0.0.17",
@@ -30,6 +31,7 @@
     "proxy-deep": "^3.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
     "rxjs": "^7.8.1",
     "starknet": "^5.14.1",
     "tailwind-merge": "^1.14.0",

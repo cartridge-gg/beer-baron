@@ -1,42 +1,57 @@
 import { useEffect, useState } from "react";
-import { AuctionPrice } from "../components/AuctionPrice.tsx"
 import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
+import { Hops } from "@/dojo/gameConfig.ts";
+import { useQueryParams } from "@/dojo/useQueryParams";
 
-enum Hops {
-    Cintra = 1,
-    Chinook = 2,
-    Galaxy = 3,
-}
 
-const game_id = 1;
 
 const useHopPricePolling = (hopType: Hops) => {
     const { setup: { systemCalls: { view_hop_price } } } = useDojo();
     const [price, setPrice] = useState<number | undefined>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true); // Initialize loading state
+
+    const { game_id } = useQueryParams();
 
     useEffect(() => {
+        // Set loading to true when starting polling
+        setIsLoading(true);
+
         const interval = setInterval(() => {
-            view_hop_price(game_id, hopType)
-                .then(price => setPrice(price))
-                .catch(error => console.error('Error fetching hop price:', error));
+            view_hop_price({ game_id, item_id: hopType })
+                .then(price => {
+                    setPrice(price);
+                    setIsLoading(false); // Set loading to false when data is fetched successfully
+                })
+                .catch(error => {
+                    console.error('Error fetching hop price:', error);
+                    setIsLoading(false); // Set loading to false even if there's an error
+                });
         }, 5000);
 
-        return () => clearInterval(interval);
+        return () => {
+            clearInterval(interval);
+        };
     }, [hopType]);
 
-    return price;
+    return { price, isLoading };  // Return both the price and loading state
 }
 
 const HopPriceDisplay = ({ hopType }: { hopType: Hops }) => {
     const { setup: { systemCalls: { buy_hops } }, account: { account } } = useDojo();
-    const price = useHopPricePolling(hopType);
+    const { price, isLoading } = useHopPricePolling(hopType);
+
+    const { game_id } = useQueryParams();
 
     console.log(price)
 
     return (
-        <div className="flex">
-            <strong>{Hops[hopType]}</strong>: ${price?.toFixed(4)} <Button onClick={() => buy_hops(account, game_id, 1, 1)}>Buy</Button>
+        <div className="flex justify-between py-2 border-t border-b">
+            <div className="self-center flex">
+                <h5 className="self-center" >{Hops[hopType]}:</h5>
+                <div className={`self-center px-3 ${isLoading ?? 'animate-pulse'}`}>${price?.toFixed(4)}</div>
+            </div>
+            <Button size={'icon'} variant={'outline'} onClick={() => buy_hops({ account, game_id, item_id: hopType, amount: 1 })}>Buy</Button>
         </div>
     );
 }

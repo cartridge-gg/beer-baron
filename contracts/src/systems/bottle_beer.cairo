@@ -21,12 +21,14 @@ mod bottle_beer {
         GAME_CONFIG, hops, hops_grown, beers, BREW_TIME, BREW_YEILD_LITRES
     };
 
-
+    // TODO: Remove Beer ID from this, can get it from the batch
     fn execute(ctx: Context, game_id: u64, beer_id: BeerID, batch_id: u64) {
         let mut game = get!(ctx.world, (game_id), (Game));
         assert(game.status, 'game is not running');
 
-        let batch = get!(ctx.world, (game_id, ctx.origin, batch_id), (Brew));
+        let mut batch = get!(ctx.world, (game_id, ctx.origin, batch_id), (Brew));
+
+        assert(batch.status == 1, 'batch is not ready');
 
         let time_since_build = get_block_timestamp() - batch.time_built;
 
@@ -38,6 +40,11 @@ mod bottle_beer {
 
         current_inventory_of_beer.balance += BREW_YEILD_LITRES.try_into().unwrap();
 
-        set!(ctx.world, (current_inventory_of_beer));
+        // some reason batch.status == 2 does not work??
+        // todo: investigate
+        // this closes the batch
+        batch.status += 1;
+
+        set!(ctx.world, (current_inventory_of_beer, batch));
     }
 }

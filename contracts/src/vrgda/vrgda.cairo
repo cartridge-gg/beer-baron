@@ -36,9 +36,15 @@ impl ReverseLinearVRGDAImpl of ReverseLinearVRGDATrait {
     /// # Returns
     ///
     /// * A `Fixed` representing the price.
-    fn get_vrgda_price(self: @ReverseLinearVRGDA, time_since_start: Fixed, sold: Fixed) -> Fixed {
+    fn get_reverse_vrgda_price(
+        self: @ReverseLinearVRGDA, time_since_start: Fixed, sold: Fixed
+    ) -> Fixed {
         *self.target_price
-            * exp(*self.decay_constant * (time_since_start - self.get_target_sale_time(sold)))
+            * exp(
+                (*self.decay_constant * FixedTrait::new(1, true))
+                    * (time_since_start
+                        - self.get_target_sale_time(sold + FixedTrait::new(1, false)))
+            )
     }
 }
 

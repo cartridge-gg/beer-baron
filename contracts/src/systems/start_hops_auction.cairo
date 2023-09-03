@@ -22,7 +22,7 @@ mod start_hops_auction {
         // todo: check if auction already exists
         // todo: check game exists
         let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert(game.status, 'game is not running');
 
         let auction = Auction {
             game_id,

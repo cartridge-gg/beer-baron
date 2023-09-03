@@ -21,7 +21,7 @@ mod create_game {
         let count: u64 = (game_tracker.count + 1).into(); // game id increment
 
         let start_time = get_block_timestamp(); // blocknumber
-        let status = true; // game status
+        let status = false; // game status
         let number_players = 0; // number of players
 
         set!(ctx.world, (Game { game_id: count, start_time, status, number_players }));
@@ -56,10 +56,15 @@ mod join_game {
     fn execute(ctx: Context, game_id: u64, name: felt252) -> ContractAddress {
         // Check if game exists
         let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+
+        // TODO: Fix lobby system
+        // We only allow people to join when game is not running
+        // assert(game.status, 'game is not running');
 
         // increase number of players
         game.number_players += 1;
+        game.status == true;
+
         set!(ctx.world, (game));
 
         // add player to game with compound key
@@ -79,7 +84,6 @@ mod join_game {
 //
 #[system]
 mod start_game {
-    // use dojo::world::IWorldDispatcherTrait;
     use array::ArrayTrait;
     use box::BoxTrait;
     use traits::{Into, TryInto};
@@ -97,7 +101,12 @@ mod start_game {
     fn execute(ctx: Context, game_id: u64) {
         // Check if game exists
         let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+
+        let number_players = game.number_players + 1;
+
+        set!(
+            ctx.world, (Game { game_id, start_time: game.start_time, status: true, number_players })
+        );
 
         // Start hop auctions
         ctx.world.execute('start_hops_auction', array![game_id.into(), hops::CHINOOK.into()]);
@@ -111,8 +120,7 @@ mod start_game {
                 'start_beer_auction', array![game_id.into(), beers::DRAGON_HIDE_BLAZE_IPA.into()]
             );
         ctx.world.execute('start_beer_auction', array![game_id.into(), beers::MITHRIL_HAZE.into()]);
-        // change status to active
-        game.status == true;
-        set!(ctx.world, (game));
+    // change status to active
+
     }
 }

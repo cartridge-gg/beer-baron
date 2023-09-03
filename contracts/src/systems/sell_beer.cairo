@@ -14,7 +14,7 @@ mod sell_beer {
     };
     use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
 
-    use cubit::f128::types::fixed::{Fixed, FixedTrait};
+    use cubit::f128::types::fixed::{Fixed, FixedTrait, ONE};
     use dojo::world::Context;
 
     // beer id
@@ -38,7 +38,7 @@ mod sell_beer {
 
         // get current price
         let price = VRGDA
-            .get_vrgda_price(
+            .get_reverse_vrgda_price(
                 FixedTrait::new((time_since_start), false), // time since start
                 FixedTrait::new(auction.sold, false) // amount sold
             );

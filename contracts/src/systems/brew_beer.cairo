@@ -55,8 +55,11 @@ mod brew_beer {
             game_id,
             player_id: ctx.origin,
             batch_id: batch_count.count,
+            batch_key: batch_count.count,
+            owner: ctx.origin,
             beer_id: get_beer_id_from_enum(beer_id),
-            time_built: get_block_timestamp()
+            time_built: get_block_timestamp(),
+            status: 1,
         };
 
         set!(ctx.world, (brew_batch, batch_count, citra_balance, chinook_balance, galaxy_balance));

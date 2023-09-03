@@ -4,12 +4,17 @@ import { defineComponent, Type as RecsType, World } from "@latticexyz/recs";
 
 export function defineContractComponents(world: World) {
   return {
-    Moves: (() => {
-      const name = "Moves";
+    Auction: (() => {
+      const name = "Auction";
       return defineComponent(
         world,
         {
-          remaining: RecsType.Number,
+          target_price: RecsType.Number,
+          decay_constant: RecsType.Number,
+          max_sellable: RecsType.Number,
+          time_scale: RecsType.Number,
+          start_time: RecsType.Number,
+          sold: RecsType.Number,
         },
         {
           metadata: {
@@ -18,13 +23,16 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
-    Position: (() => {
-      const name = "Position";
+    TavernAuction: (() => {
+      const name = "TavernAuction";
       return defineComponent(
         world,
         {
-          x: RecsType.Number,
-          y: RecsType.Number,
+          target_price: RecsType.Number,
+          decay_constant: RecsType.Number,
+          per_time_unit: RecsType.Number,
+          start_time: RecsType.Number,
+          sold: RecsType.Number,
         },
         {
           metadata: {
@@ -33,12 +41,12 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
-    AuthStatus: (() => {
-      const name = "AuthStatus";
+    GoldBalance: (() => {
+      const name = "GoldBalance";
       return defineComponent(
         world,
         {
-          is_authorized: RecsType.Boolean,
+          balance: RecsType.Number,
         },
         {
           metadata: {
@@ -47,12 +55,117 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
-    AuthRole: (() => {
-      const name = "AuthRole";
+    ItemBalance: (() => {
+      const name = "ItemBalance";
       return defineComponent(
         world,
         {
-          id: RecsType.Number,
+          balance: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Game: (() => {
+      const name = "Game";
+      return defineComponent(
+        world,
+        {
+          start_time: RecsType.Number,
+          status: RecsType.Number,
+          number_players: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    GameTracker: (() => {
+      const name = "GameTracker";
+      return defineComponent(
+        world,
+        {
+          count: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Ownership: (() => {
+      const name = "Ownership";
+      return defineComponent(
+        world,
+        {
+          address: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Player: (() => {
+      const name = "Player";
+      return defineComponent(
+        world,
+        {
+          name: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    FarmArea: (() => {
+      const name = "FarmArea";
+      return defineComponent(
+        world,
+        {
+          area_type: RecsType.Number,
+          time_built: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    Brew: (() => {
+      const name = "Brew";
+      return defineComponent(
+        world,
+        {
+          batch_key: RecsType.Number,
+          owner: RecsType.Number,
+          beer_id: RecsType.Number,
+          time_built: RecsType.Number,
+          status: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+          },
+        }
+      );
+    })(),
+    BrewBatchTrack: (() => {
+      const name = "BrewBatchTrack";
+      return defineComponent(
+        world,
+        {
+          count: RecsType.Number,
         },
         {
           metadata: {
