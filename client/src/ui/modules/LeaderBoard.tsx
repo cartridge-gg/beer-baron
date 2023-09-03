@@ -20,7 +20,7 @@ export const LeaderBoard = () => {
                     <tr>
                         <th className="py-2 px-6 ">Name</th>
                         {/* <th className="py-2 px-6 ">Beer Brewed</th> */}
-                        <th className="py-2 px-6 ">Shekles</th>
+                        <th className="py-2 px-6 ">Gold</th>
                     </tr>
                 </thead>
                 <tbody>

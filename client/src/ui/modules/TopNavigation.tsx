@@ -23,9 +23,17 @@ export const TopNavigation = () => {
     return (<>
 
         <div className="flex justify-between">
-            <div>Game {game_id}</div>
-            <div>{shortString.decodeShortString(player?.name.toString() || '0')}</div>
-            <div>Shekles: {gold_balance?.balance}</div>
+            <h5>Game {game_id}</h5>
+            <div className="flex">
+                <img className="w-8 mr-3" src={'/images/people/monk_head.png'} alt="" />
+                <h5>{shortString.decodeShortString(player?.name.toString() || '0')}</h5>
+            </div>
+
+            <div className="flex">
+                <img className="w-8 mr-3" src={'/images/items/purse/purse.png'} alt="" />
+                <h5>Gold: {gold_balance?.balance}</h5>
+            </div>
+
             <Button size={'sm'} variant={'ghost'} onClick={clear}>Lobby</Button>
         </div>
 

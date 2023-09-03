@@ -1,19 +1,21 @@
 import { SetupNetworkResult } from "./setupNetwork";
 import { Event } from "starknet";
-import { EntityIndex, setComponent, Components, Schema } from "@latticexyz/recs";
+import { EntityIndex, setComponent, Components, Schema, getComponentValue } from "@latticexyz/recs";
+import { uuid } from "@latticexyz/utils";
 import { fromFixed } from "@/utils/fixed";
 import { poseidonHashMany } from "micro-starknet";
 import { BuyHopsProps, JoinGameProps, GameIdProps, ViewPriceProps, SystemSigner, FarmProps, BrewBeerProps, BottleBeerProps, SellBeerProps } from "./types";
 
 import { toast } from 'react-toastify';
-import { Beers, Hops } from "./gameConfig";
+import { BATCH_AMOUNT, Beers, Hops } from "./gameConfig";
+import { ClientComponents } from "./createClientComponents";
 
 
 export type SystemCalls = ReturnType<typeof createSystemCalls>;
 
 export function createSystemCalls(
     { execute, contractComponents, call }: SetupNetworkResult,
-    // { GoldBalance, ItemBalance, Player }: ClientComponents
+    { ItemBalance }: ClientComponents
 ) {
 
     const notify = (message: string) => toast(message, {
@@ -34,6 +36,7 @@ export function createSystemCalls(
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
 
+            notify('Game Created!')
         } catch (e) {
             console.log(e)
         }
@@ -46,6 +49,7 @@ export function createSystemCalls(
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
 
+            notify('Joined Game ' + game_id)
         } catch (e) {
             console.log(e)
         }
@@ -59,13 +63,13 @@ export function createSystemCalls(
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
 
+            notify('Started ' + game_id)
         } catch (e) {
             console.log(e)
         }
     };
 
     const view_hop_price = async ({ game_id, item_id }: ViewPriceProps) => {
-
         try {
             const tx: any = await call("view_hop_price", [game_id, item_id]);
             return fromFixed(tx[0])
@@ -86,6 +90,17 @@ export function createSystemCalls(
     }
 
     const buy_hops = async ({ account, game_id, item_id, amount }: BuyHopsProps) => {
+
+        const overrideId = uuid();
+        let hop_entity_id = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(item_id)])
+
+        let current_value = getComponentValue(ItemBalance, hop_entity_id);
+
+        ItemBalance.addOverride(overrideId, {
+            entity: hop_entity_id,
+            value: { balance: current_value?.balance! + amount }
+        })
+
         try {
             const tx = await execute(account, "buy_hops", [game_id, item_id, amount]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
@@ -94,6 +109,9 @@ export function createSystemCalls(
             notify(amount + ' x ' + Hops[item_id] + ' Hops bought!')
         } catch (e) {
             console.log(e)
+            ItemBalance.removeOverride(overrideId);
+        } finally {
+            ItemBalance.removeOverride(overrideId);
         }
     }
 
@@ -136,7 +154,16 @@ export function createSystemCalls(
 
     const bottle_beer = async ({ account, game_id, beer_id, batch_id }: BottleBeerProps) => {
 
-        console.log(game_id, beer_id, batch_id)
+        const overrideId = uuid();
+        let hop_entity_id = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(beer_id)])
+
+        let current_value = getComponentValue(ItemBalance, hop_entity_id);
+
+        ItemBalance.addOverride(overrideId, {
+            entity: hop_entity_id,
+            value: { balance: current_value?.balance! + BATCH_AMOUNT }
+        })
+
         try {
             const tx = await execute(account, "bottle_beer", [game_id, beer_id, batch_id]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
@@ -147,10 +174,14 @@ export function createSystemCalls(
             notify(Beers[beer_id + 1000] + ' has been bottled!')
         } catch (e) {
             console.log(e)
+            ItemBalance.removeOverride(overrideId);
+        } finally {
+            ItemBalance.removeOverride(overrideId);
         }
     }
 
     const sell_beer = async ({ account, game_id, beer_id, amount }: SellBeerProps) => {
+
         try {
             const tx = await execute(account, "sell_beer", [game_id, beer_id, amount]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })

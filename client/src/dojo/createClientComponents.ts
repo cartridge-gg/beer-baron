@@ -6,6 +6,7 @@ export type ClientComponents = ReturnType<typeof createClientComponents>;
 
 export function createClientComponents({ contractComponents }: SetupNetworkResult) {
     return {
-        ...contractComponents
+        ...contractComponents,
+        ItemBalance: overridableComponent(contractComponents.ItemBalance)
     };
 }

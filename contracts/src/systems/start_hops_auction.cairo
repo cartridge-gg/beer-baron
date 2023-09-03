@@ -14,7 +14,7 @@ mod start_hops_auction {
     use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
 
     const target_price: u128 = 10;
-    const _0_31: u128 = 5718490662849961000; // 0.31
+    const _0_31: u128 = 10718490662849961000; // 0.31
     const MAX_SELLABLE: u128 = 9000;
     const _0_0023: u128 = 42427511369531970; // 0.0023
 

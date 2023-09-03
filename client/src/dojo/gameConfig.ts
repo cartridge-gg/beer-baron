@@ -1,20 +1,24 @@
 export const BREW_TIME = 100000
 export const GROW_TIME = 100000;
+export const BATCH_AMOUNT = 1000;
 // used for internal enum in cairo
 export enum BeerID {
     DragonHideBlaze = 1,
-    MithralHaze = 2
+    MithralHaze = 2,
+    ObsidianImperialStout = 3,
 }
 
 // used for tracking balances
 export enum Beers {
     DragonHideBlaze = 1001,
-    MithralHaze = 1002
+    MithralHaze = 1002,
+    ObsidianImperialStout = 1003,
 }
 
 export const BeerNames: { [key in Beers]: string } = {
-    [Beers.DragonHideBlaze]: "Dragon Hide Blaze", // Spaces added for better readability
-    [Beers.MithralHaze]: "Mithral Haze"
+    [Beers.DragonHideBlaze]: "Dragon Hide Blaze TIPA", // Spaces added for better readability
+    [Beers.MithralHaze]: "Mithral Haze IPA",
+    [Beers.ObsidianImperialStout]: "Obsidian Imperial Stout",
 };
 
 export enum Hops {
@@ -44,6 +48,7 @@ export const FlowerImages = {
 export const BeerImages = {
     [Beers.DragonHideBlaze]: '/images/items/beers/barrel.png',
     [Beers.MithralHaze]: '/images/items/beers/barrel.png',
+    [Beers.ObsidianImperialStout]: '/images/items/beers/barrel.png',
 };
 
 
@@ -58,13 +63,18 @@ export type Recipe = {
 
 export const beerRecipes: Recipe = {
     [Beers.DragonHideBlaze]: [
-        { hop: Flowers.Cintra, quantity: 0 },
-        { hop: Flowers.Chinook, quantity: 0 },
-        { hop: Flowers.Galaxy, quantity: 1 }
+        { hop: Flowers.Cintra, quantity: 5 },
+        { hop: Flowers.Chinook, quantity: 3 },
+        { hop: Flowers.Galaxy, quantity: 2 }
     ],
     [Beers.MithralHaze]: [
-        { hop: Flowers.Galaxy, quantity: 0 },
-        { hop: Flowers.Cintra, quantity: 0 },
-        { hop: Flowers.Chinook, quantity: 0 },
-    ]
+        { hop: Flowers.Galaxy, quantity: 1 },
+        { hop: Flowers.Cintra, quantity: 6 },
+        { hop: Flowers.Chinook, quantity: 3 },
+    ],
+    [Beers.ObsidianImperialStout]: [
+        { hop: Flowers.Galaxy, quantity: 2 },
+        { hop: Flowers.Cintra, quantity: 6 },
+        { hop: Flowers.Chinook, quantity: 2 },
+    ],
 };

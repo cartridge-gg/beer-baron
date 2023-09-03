@@ -47,7 +47,7 @@ const HopPriceDisplay = ({ hopType }: { hopType: Hops }) => {
             <div className="self-center flex">
 
                 <h5 className="self-center" >{Hops[hopType]}:</h5>
-                <div className={`self-center px-3 ${isLoading ?? 'animate-pulse'}`}>${price?.toFixed(4)}</div>
+                <div className={`self-center px-3 ${isLoading ?? 'animate-pulse'}`}>{price?.toFixed(4)}</div>
             </div>
             <Button size={'sm'} variant={'outline'} onClick={() => buy_hops({ account, game_id, item_id: hopType, amount: 1 })}>Buy</Button>
         </div>

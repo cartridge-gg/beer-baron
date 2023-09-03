@@ -26,10 +26,9 @@ export const Brewing = () => {
                 <h4>Brewing</h4>
                 {Object.values(Beers).filter(value => typeof value === 'number').map(beerId => (
                     <div key={beerId} className="py-1 p-2 flex">
-                        <div className="border-4 border-white/20 p-2 w-48 rounded-xl">
+                        <div className="border-4 border-white/20 p-2 w-72 rounded-xl">
                             <h5>{(BeerNames as any)[beerId]}</h5>
 
-                            <h6 className="text-xs">Recipe</h6>
                             {beerRecipes[beerId as Beers].map(({ hop, quantity }, idx) => (
                                 <div key={idx} className="flex justify-between">
                                     {Flowers[hop]}: {quantity} <span>({getItemBalance(hop.toString())})</span>
@@ -61,7 +60,7 @@ export const Brewing = () => {
 
 
 
-const ActiveBrew = (entity_id: EntityIndex) => {
+const ActiveBrew = ({ entity_id }: any) => {
     const { game_id } = useQueryParams();
     const { setup: { systemCalls: { bottle_beer }, components: { Brew } }, account: { account } } = useDojo();
 
@@ -83,7 +82,7 @@ const ActiveBrew = (entity_id: EntityIndex) => {
 
             <div>
                 {timeRemaining && timeRemaining > 0 ? (
-                    <span className='text-xs mb-2'>Harvest: {getTimeRemaining()}</span>
+                    <span className='text-xs mb-2'>Bottle: {getTimeRemaining()}</span>
                 ) : (
                     <Button variant={'outline'} size={'sm'} onClick={() => bottle_beer({ account, game_id, beer_id: brew?.beer_id! as any, batch_id: brew?.batch_key! })}>
                         Bottle Batch

@@ -30,5 +30,6 @@ const BREW_YEILD_LITRES: felt252 = 1000;
 mod beers {
     const DRAGON_HIDE_BLAZE_IPA: felt252 = 1001;
     const MITHRIL_HAZE: felt252 = 1002;
+    const OBSIDIAN_IMPERIAL_STOUT: felt252 = 1003;
 }
 

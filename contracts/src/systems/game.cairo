@@ -120,7 +120,10 @@ mod start_game {
                 'start_beer_auction', array![game_id.into(), beers::DRAGON_HIDE_BLAZE_IPA.into()]
             );
         ctx.world.execute('start_beer_auction', array![game_id.into(), beers::MITHRIL_HAZE.into()]);
-    // change status to active
-
+        ctx
+            .world
+            .execute(
+                'start_beer_auction', array![game_id.into(), beers::OBSIDIAN_IMPERIAL_STOUT.into()]
+            );
     }
 }

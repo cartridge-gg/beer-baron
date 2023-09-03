@@ -3,8 +3,6 @@ import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { BeerNames, Beers } from "@/dojo/gameConfig.ts";
 import { useQueryParams } from "@/dojo/useQueryParams.ts";
-import { getEntityIdFromKeys } from "@/dojo/createSystemCalls";
-import { useComponentValue } from "@dojoengine/react";
 
 const useHopPricePolling = (beerType: Beers) => {
     const { setup: { systemCalls: { view_beer_price } } } = useDojo();
@@ -26,7 +24,7 @@ const useHopPricePolling = (beerType: Beers) => {
 }
 
 const HopPriceDisplay = ({ beerType }: { beerType: Beers }) => {
-    const { setup: { systemCalls: { sell_beer }, components: { ItemBalance } }, account: { account } } = useDojo();
+    const { setup: { systemCalls: { sell_beer } }, account: { account } } = useDojo();
     const price = useHopPricePolling(beerType);
 
     const { game_id } = useQueryParams();
@@ -35,16 +33,12 @@ const HopPriceDisplay = ({ beerType }: { beerType: Beers }) => {
 
     const amount = 1;
 
-    const getItemBalance = (item: string) => {
-        let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(item)]);
-        return useComponentValue(ItemBalance, entityId)?.balance || 0;
-    }
 
     return (
         <div className="flex justify-between py-2 border-t border-b">
             <div className="self-center flex">
                 <h5 className="self-center" >{BeerNames[beerType]}:</h5>
-                <div className={`self-center px-3`}>${price?.toFixed(4)}</div>
+                <div className={`self-center px-3`}>{price?.toFixed(4)}</div>
             </div>
             <Button variant={'outline'} size={'sm'} className="ml-2 self-center" onClick={() => sell_beer({ account, game_id, beer_id: beer_id - 1000, amount })}>Sell</Button>
         </div>
@@ -56,8 +50,9 @@ export const BeerMarket = () => {
     return (
         <>
             <h3>Beer Market</h3>
-            <HopPriceDisplay beerType={Beers.DragonHideBlaze} />
-            <HopPriceDisplay beerType={Beers.MithralHaze} />
+            {Object.values(Beers).filter(value => typeof value === 'number').map((beerType) => (
+                <HopPriceDisplay key={beerType} beerType={beerType as Beers} />
+            ))}
         </>
-    )
+    );
 }

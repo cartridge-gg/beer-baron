@@ -41,7 +41,8 @@ struct Recipe {
 enum BeerID {
     None: (),
     DragonHideBlazeIPA,
-    MithrilHaze
+    MithrilHaze,
+    ObsidianImperialStout
 }
 
 
@@ -49,15 +50,17 @@ fn get_beer_id_from_enum(beer_id: BeerID) -> u64 {
     match beer_id {
         BeerID::None(_) => 0,
         BeerID::DragonHideBlazeIPA(_) => 1,
-        BeerID::MithrilHaze(_) => 2
+        BeerID::MithrilHaze(_) => 2,
+        BeerID::ObsidianImperialStout(_) => 3
     }
 }
 
 fn get_recipe(beer_id: BeerID) -> Recipe {
     match beer_id {
         BeerID::None(_) => Recipe { citra: 0, chinook: 0, galaxy: 0 },
-        BeerID::DragonHideBlazeIPA(_) => Recipe { citra: 0, chinook: 0, galaxy: 1 },
-        BeerID::MithrilHaze(_) => Recipe { citra: 0, chinook: 0, galaxy: 0 }
+        BeerID::DragonHideBlazeIPA(_) => Recipe { citra: 5, chinook: 3, galaxy: 2 },
+        BeerID::MithrilHaze(_) => Recipe { citra: 1, chinook: 6, galaxy: 3 },
+        BeerID::ObsidianImperialStout(_) => Recipe { citra: 2, chinook: 6, galaxy: 2 }
     }
 }
 // this is the unique id for the beer type
@@ -65,6 +68,7 @@ fn get_beer_identifier_id(beer_id: BeerID) -> felt252 {
     match beer_id {
         BeerID::None(_) => 0,
         BeerID::DragonHideBlazeIPA(_) => beers::DRAGON_HIDE_BLAZE_IPA,
-        BeerID::MithrilHaze(_) => beers::MITHRIL_HAZE
+        BeerID::MithrilHaze(_) => beers::MITHRIL_HAZE,
+        BeerID::ObsidianImperialStout(_) => beers::OBSIDIAN_IMPERIAL_STOUT
     }
 }
