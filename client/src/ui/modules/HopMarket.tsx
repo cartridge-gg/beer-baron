@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDojo } from "@/DojoContext.tsx";
 import { Button } from "@/components/ui/button.tsx";
-import { FlowerImages, Hops } from "@/dojo/gameConfig.ts";
+import { Hops } from "@/dojo/gameConfig.ts";
 import { useQueryParams } from "@/dojo/useQueryParams";
-
-
 
 const useHopPricePolling = (hopType: Hops) => {
     const { setup: { systemCalls: { view_hop_price } } } = useDojo();

@@ -265,26 +265,6 @@ function hexToAscii(hex: string) {
     return str;
 }
 
-function asciiToHex(ascii: string) {
-    var hex = '';
-    for (var i = 0; i < ascii.length; i++) {
-        var charCode = ascii.charCodeAt(i);
-        hex += charCode.toString(16).padStart(2, '0');
-    }
-    return `0x${hex}`;
-}
-
-function getEntityIdFromEvents(events: Event[], componentName: string): number {
-    let entityId = 0;
-    const event = events.find((event) => {
-        return event.data[0] === asciiToHex(componentName);
-    });
-    if (event) {
-        entityId = parseInt(event.data[2]);
-    }
-    return entityId;
-}
-
 export function getEntityIdFromKeys(keys: bigint[]): EntityIndex {
     if (keys.length === 1) {
         return parseInt(keys[0].toString()) as EntityIndex;

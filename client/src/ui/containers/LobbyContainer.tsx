@@ -9,7 +9,7 @@ export const LobbyContainer = () => {
     const navigate = useNavigate();
     const {
         setup: {
-            systemCalls: { create_game, join_game, start_game },
+            systemCalls: { create_game },
             components: { Game },
         },
         account: { account }
