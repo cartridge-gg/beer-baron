@@ -18,7 +18,7 @@ const FarmCell = ({ index }: any) => {
     const [selectedHop, setSelectedHop] = useState(Hops.Cintra);
 
     const getColor = () => {
-        if (!farm?.time_built) return 'bg-yellow-300';
+        if (!farm?.time_built) return 'border-2 border-gray-700';
         const duration = Date.now() - (farm?.time_built * 1000);
 
         if (duration >= GROW_TIME) return 'bg-green-700 animate-pulse';
@@ -66,7 +66,7 @@ const FarmCell = ({ index }: any) => {
                     className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-fulldark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                 >
                     {Object.entries(Hops)
-                        .filter(([key, value]) => typeof value === 'number')
+                        .filter(([_key, value]) => typeof value === 'number')
                         .map(([key, value], index) => (
                             <option key={index} value={value}>
                                 {key}
