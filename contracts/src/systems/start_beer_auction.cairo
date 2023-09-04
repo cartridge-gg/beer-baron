@@ -14,7 +14,7 @@ mod start_beer_auction {
     use cubit::f128::types::fixed::{Fixed, FixedTrait};
     use dojo::world::Context;
 
-    const _0_31: u128 = 5718490662849961000; // 0.31
+    const _0_31: u128 = 1071849066284996100; // 0.031
     const PER_TIME_UNIT: u128 = 1;
     const _0_0023: u128 = 42427511369531970; // 0.0023
 
@@ -26,7 +26,7 @@ mod start_beer_auction {
             game_id,
             item_id,
             target_price: FixedTrait::new_unscaled(10, false).into(),
-            decay_constant: FixedTrait::new(_0_31, false),
+            decay_constant: FixedTrait::new(_0_31, true),
             per_time_unit: FixedTrait::new_unscaled(PER_TIME_UNIT, false),
             start_time: get_block_timestamp(),
             sold: 0,
