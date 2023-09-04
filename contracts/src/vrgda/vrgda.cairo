@@ -95,7 +95,7 @@ impl LogisticVRGDAImpl of LogisticVRGDATrait {
             * exp(
                 *self.decay_constant
                     * (time_since_start
-                        - self.get_target_sale_time(sold + FixedTrait::new(1, false)))
+                        - self.get_target_sale_time(sold + FixedTrait::new_unscaled(1, false)))
             )
     }
 }
