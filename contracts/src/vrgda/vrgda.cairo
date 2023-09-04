@@ -41,9 +41,9 @@ impl ReverseLinearVRGDAImpl of ReverseLinearVRGDATrait {
     ) -> Fixed {
         *self.target_price
             * exp(
-                (*self.decay_constant * FixedTrait::new(1, true))
+                (*self.decay_constant * FixedTrait::new_unscaled(1, true))
                     * (time_since_start
-                        - self.get_target_sale_time(sold + FixedTrait::new(1, false)))
+                        - self.get_target_sale_time(sold + FixedTrait::new_unscaled(1, false)))
             )
     }
 }
