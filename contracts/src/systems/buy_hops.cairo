@@ -28,8 +28,8 @@ mod buy_hops {
         // get current price
         let price = VRGDA
             .get_vrgda_price(
-                FixedTrait::new((time_since_start), false), // time since start
-                FixedTrait::new(auction.sold, false) // amount sold
+                FixedTrait::new(time_since_start, false), // time since start
+                FixedTrait::new_unscaled(auction.sold, false) // amount sold
             );
 
         // add to amount sold

@@ -24,8 +24,8 @@ mod view_hop_price {
         // get current price
         VRGDA
             .get_vrgda_price(
-                FixedTrait::new((time_since_start), false), // time since start
-                FixedTrait::new(auction.sold, false) // amount sold
+                FixedTrait::new(time_since_start, false), // time since start
+                FixedTrait::new_unscaled(auction.sold, false) // amount sold
             )
     }
 }

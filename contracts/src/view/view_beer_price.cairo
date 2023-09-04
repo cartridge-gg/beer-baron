@@ -12,6 +12,8 @@ mod view_beer_price {
     use beer_barron::components::balances::{GoldBalance};
     use beer_barron::vrgda::vrgda::ReverseLinearVRGDATrait;
 
+    use beer_barron::vrgda::vrgda::{to_1000_fp, from_1000_fp};
+
     fn execute(ctx: Context, game_id: u64, item_id: u128) -> Fixed {
         let mut auction = get!(ctx.world, (game_id, item_id), TavernAuction);
 
@@ -24,7 +26,7 @@ mod view_beer_price {
         // get current price
         VRGDA
             .get_reverse_vrgda_price(
-                FixedTrait::new((time_since_start), false), // time since start
+                FixedTrait::new(time_since_start, false), // time since start
                 FixedTrait::new(auction.sold, false) // amount sold
             )
     }

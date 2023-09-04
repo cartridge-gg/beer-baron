@@ -72,11 +72,12 @@ export function createSystemCalls(
     const view_hop_price = async ({ game_id, item_id }: ViewPriceProps) => {
         try {
             const tx: any = await call("view_hop_price", [game_id, item_id]);
+
+            console.log(fromFixed(tx[0]))
             return fromFixed(tx[0])
         } catch (e) {
             console.log(e)
         }
-
     }
     const view_beer_price = async ({ game_id, item_id }: ViewPriceProps) => {
 

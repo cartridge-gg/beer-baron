@@ -99,3 +99,12 @@ impl LogisticVRGDAImpl of LogisticVRGDATrait {
             )
     }
 }
+
+
+fn to_1000_fp(x: Fixed) -> Fixed {
+    x / FixedTrait::new(1000, false)
+}
+
+fn from_1000_fp(x: Fixed) -> Fixed {
+    x * FixedTrait::new(1000, false)
+}

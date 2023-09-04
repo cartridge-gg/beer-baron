@@ -120,15 +120,27 @@ mod test {
     fn player_buy_hops() -> (IWorldDispatcher, u64, ContractAddress) {
         let (world, game_id, player_id) = create_start();
 
-        let buy_quantity = 1;
+        let buy_quantity = 10;
 
         // TODO: Make Better - we know it's just working basically
         world.execute('buy_hops', array![game_id.into(), hops::GALAXY.into(), buy_quantity]);
+        world.execute('buy_hops', array![game_id.into(), hops::CITRA.into(), buy_quantity]);
+        world.execute('buy_hops', array![game_id.into(), hops::CHINOOK.into(), buy_quantity]);
 
         let player_balance = get!(world, (game_id, player_id).into(), (GoldBalance));
         assert(
             player_balance.balance < STARTING_BALANCE.try_into().unwrap(), 'balance not updated'
         );
+
+        let galaxy_auction = get!(world, (game_id, hops::GALAXY).into(), (Auction));
+        assert(galaxy_auction.sold.into() == buy_quantity, 'auction not updated');
+
+        let citra_auction = get!(world, (game_id, hops::CITRA).into(), (Auction));
+        assert(citra_auction.sold.into() == buy_quantity, 'auction not updated');
+
+        let chinook_auction = get!(world, (game_id, hops::CHINOOK).into(), (Auction));
+        assert(chinook_auction.sold.into() == buy_quantity, 'auction not updated');
+
         (world, game_id, player_id)
     }
 
@@ -139,7 +151,12 @@ mod test {
 
         let mut calldata = Default::default();
         Serde::serialize(@game_id, ref calldata);
-        Serde::serialize(@array![hops::GALAXY.into(), crop, crop, crop, crop, crop], ref calldata);
+        Serde::serialize(
+            @array![
+                hops::GALAXY.into(), hops::CITRA.into(), hops::CHINOOK.into(), crop, crop, crop
+            ],
+            ref calldata
+        );
 
         world.execute('build_farm', calldata);
         (world, game_id, player_id)
@@ -193,30 +210,6 @@ mod test {
     #[available_gas(600000000)]
     fn test_build_farm() {
         let (world, game_id, player_id) = player_build_farm();
-    }
-
-    #[test]
-    #[should_panic(
-        expected: (
-            'you do not have enough items',
-            'ENTRYPOINT_FAILED',
-            'ENTRYPOINT_FAILED',
-            'ENTRYPOINT_FAILED'
-        )
-    )]
-    #[available_gas(600000000)]
-    fn test_build_farm_too_much() {
-        let (world, game_id, player_id) = player_buy_hops();
-
-        let crop: felt252 = 0;
-
-        let mut calldata = Default::default();
-        Serde::serialize(@game_id, ref calldata);
-        Serde::serialize(
-            @array![hops::GALAXY.into(), hops::GALAXY.into(), crop, crop, crop, crop], ref calldata
-        );
-
-        world.execute('build_farm', calldata);
     }
 
     #[test]

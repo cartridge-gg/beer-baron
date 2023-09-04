@@ -14,9 +14,9 @@ mod start_hops_auction {
     use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
 
     const target_price: u128 = 10;
-    const _0_31: u128 = 10718490662849961000; // 0.31
-    const MAX_SELLABLE: u128 = 9000;
-    const _0_0023: u128 = 42427511369531970; // 0.0023
+    const _0_31: u128 = 5718490662849961000; // 0.31
+    const MAX_SELLABLE: u128 = 100000;
+    const _0_0023: u128 = 32427511369531970; // 0.0016
 
     fn execute(ctx: Context, game_id: u64, item_id: u128) {
         // todo: check if auction already exists
@@ -28,7 +28,7 @@ mod start_hops_auction {
             game_id,
             item_id,
             target_price: FixedTrait::new_unscaled(target_price, false).into(),
-            decay_constant: FixedTrait::new(_0_31, false),
+            decay_constant: FixedTrait::new(_0_31, true),
             max_sellable: FixedTrait::new_unscaled(MAX_SELLABLE, false),
             time_scale: FixedTrait::new(_0_0023, false),
             start_time: get_block_timestamp(), //update to timestamp

@@ -51,6 +51,12 @@ export const BeerImages = {
     [Beers.ObsidianImperialStout]: '/images/items/beers/barrel.png',
 };
 
+export const BeerBottled = {
+    [Beers.DragonHideBlaze]: '/images/items/beers/dragonhide_blaze.png',
+    [Beers.MithralHaze]: '/images/items/beers/mithral_haze.png',
+    [Beers.ObsidianImperialStout]: '/images/items/beers/obsidian_stout.png',
+};
+
 
 export type HopQuantity = {
     hop: Flowers;

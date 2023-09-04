@@ -14,7 +14,6 @@ mod start_beer_auction {
     use cubit::f128::types::fixed::{Fixed, FixedTrait};
     use dojo::world::Context;
 
-    const _69_42: u128 = 1280572973596917000000;
     const _0_31: u128 = 10718490662849961000; // 0.31
     const PER_TIME_UNIT: u128 = 1;
     const _0_0023: u128 = 42427511369531970; // 0.0023

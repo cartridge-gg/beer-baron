@@ -1,11 +1,11 @@
 import { useDojo } from "@/DojoContext";
 import { Button } from "@/components/ui/button";
 import { getEntityIdFromKeys } from "@/dojo/createSystemCalls";
-import { BREW_TIME, BeerImages, BeerNames, Beers, Flowers, beerRecipes } from "@/dojo/gameConfig";
+import { BREW_TIME, BeerBottled, BeerImages, BeerNames, Beers, Flowers, beerRecipes } from "@/dojo/gameConfig";
 import { useQueryParams } from "@/dojo/useQueryParams";
 import useTimeRemaining from "@/dojo/useTimeRemaining";
 import { useComponentValue, useEntityQuery } from "@dojoengine/react";
-import { EntityIndex, HasValue } from "@latticexyz/recs";
+import { HasValue } from "@latticexyz/recs";
 
 export const Brewing = () => {
     const { game_id } = useQueryParams();
@@ -27,7 +27,12 @@ export const Brewing = () => {
                 {Object.values(Beers).filter(value => typeof value === 'number').map(beerId => (
                     <div key={beerId} className="py-1 p-2 flex">
                         <div className="border-4 border-white/20 p-2 w-72 rounded-xl">
-                            <h5>{(BeerNames as any)[beerId]}</h5>
+                            <div className="flex justify-between">
+                                <img className="w-8" src={BeerBottled[beerId as number as keyof typeof BeerImages]} alt="" />
+                                <h5 className="self-center">{(BeerNames as any)[beerId]}</h5>
+                                <Button variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beerId as number - 1000 })}>Brew</Button>
+                            </div>
+
 
                             {beerRecipes[beerId as Beers].map(({ hop, quantity }, idx) => (
                                 <div key={idx} className="flex justify-between">
@@ -35,7 +40,7 @@ export const Brewing = () => {
                                 </div>
                             ))}
 
-                            <Button variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beerId as number - 1000 })}>Brew</Button>
+
                         </div>
 
                     </div>
@@ -61,10 +66,11 @@ export const Brewing = () => {
 
 
 const ActiveBrew = ({ entity_id }: any) => {
+
     const { game_id } = useQueryParams();
     const { setup: { systemCalls: { bottle_beer }, components: { Brew } }, account: { account } } = useDojo();
 
-    const brew = useComponentValue(Brew, entity_id.entity_id);
+    const brew = useComponentValue(Brew, entity_id);
 
     const { getTimeRemaining, timeRemaining } = useTimeRemaining(brew?.time_built, BREW_TIME);
 
@@ -72,13 +78,10 @@ const ActiveBrew = ({ entity_id }: any) => {
         <div className="p-2 border-4 rounded-xl border-white/20 w-72">
             <div className="flex mb-3">
                 <div className="w-8">
-                    <img className="w-8" src={BeerImages[brew?.beer_id! + 1000 as keyof typeof BeerImages]} alt="" />
+                    <img className="w-8" src={BeerBottled[brew?.beer_id! + 1000 as keyof typeof BeerImages]} alt="" />
                 </div>
-
                 <h5>{(BeerNames as any)[brew?.beer_id! + 1000]}</h5>
-
             </div>
-
 
             <div>
                 {timeRemaining && timeRemaining > 0 ? (
@@ -89,8 +92,6 @@ const ActiveBrew = ({ entity_id }: any) => {
                     </Button>
                 )}
             </div>
-
-
         </div>
     )
 }
