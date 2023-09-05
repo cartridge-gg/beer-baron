@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { HasValue } from "@latticexyz/recs";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
+import { num } from "starknet";
 
 export const LobbyContainer = () => {
     const navigate = useNavigate();
@@ -17,15 +18,13 @@ export const LobbyContainer = () => {
 
     // const name = 'loaf';
 
-    let lobby_games = useEntityQuery([HasValue(Game, { status: 0 })]);
+    let lobby_games = useEntityQuery([HasValue(Game, { status: 2 })]);
 
-    let active_games = useEntityQuery([HasValue(Game, { status: 1 })]);
+    let active_games = useEntityQuery([HasValue(Game, { status: 3 })]);
 
     const setGameQueryParam = (id: string) => {
         navigate('?game=' + id, { replace: true });
     };
-
-
 
     return <div className="fixed h-screen w-screen bg-tavern bg-cover p-20">
         <div className="bg-black p-8 text-white rounded-2xl">
@@ -68,7 +67,7 @@ export const GameCard = ({ game_id }: any) => {
     const {
         setup: {
             systemCalls: { join_game, start_game },
-            components: { Game },
+            components: { Game, Ownership },
         },
         account: { account }
     } = useDojo();
@@ -81,6 +80,8 @@ export const GameCard = ({ game_id }: any) => {
 
     const game = useComponentValue(Game, game_id);
 
+    const ownership = useComponentValue(Ownership, game_id);
+
     const localStartTime = () => {
         return new Date(game?.start_time! * 1000).toLocaleString();
     }
@@ -89,6 +90,7 @@ export const GameCard = ({ game_id }: any) => {
         <h3>Game - {game_id}</h3>
         <h6>Players: {game?.number_players}</h6>
         <h6>Creation Time: {localStartTime()}</h6>
+        <h6>Owner: {num.toHex(ownership?.owner || '')}</h6>
         <div className="flex space-x-2 py-1">
             <Button disabled={!name} onClick={() => {
                 join_game({ account, game_id, name })

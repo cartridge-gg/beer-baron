@@ -22,4 +22,7 @@ impl ImplItemBalance of ItemBalanceTrait {
     fn sub(ref self: ItemBalance, amount: u128) {
         self.balance -= amount
     }
+    fn assert_balance(ref self: ItemBalance, amount: u128) {
+        assert(self.balance >= amount, 'Insufficient balance')
+    }
 }

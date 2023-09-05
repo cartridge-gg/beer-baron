@@ -8,7 +8,7 @@ mod harvest_farm {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker, GameTrait};
+    use beer_barron::components::game::{Game, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
@@ -21,8 +21,6 @@ mod harvest_farm {
         // assert that the game is active
         let game = get!(ctx.world, (game_id), (Game));
         game.active();
-
-        // TODO: assert that caller is player 
 
         // MAX AREAS = NUMBER_OF_FARM_PLOTS
         let mut area_id: usize = 0;

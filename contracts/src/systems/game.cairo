@@ -5,10 +5,9 @@ mod create_game {
     use traits::{Into, TryInto};
     use dojo::world::Context;
     use option::OptionTrait;
-    use starknet::{ContractAddress, get_block_timestamp};
+    use starknet::{get_block_timestamp};
 
-    use beer_barron::components::game::{Game, GameTracker};
-
+    use beer_barron::components::game::{Game, GameTracker, GameStatus, GameTrait, Ownership};
     use beer_barron::constants::GAME_CONFIG;
 
 
@@ -21,17 +20,21 @@ mod create_game {
         let count: u64 = (game_tracker.count + 1).into(); // game id increment
 
         let start_time = get_block_timestamp(); // blocknumber
-        let status = false; // game status
+        let status = GameStatus::Lobby; // game status
         let number_players = 0; // number of players
 
+        // set game
         set!(ctx.world, (Game { game_id: count, start_time, status, number_players }));
 
+        // set game tracker
         set!(
             ctx.world,
             (GameTracker { entity_id: GAME_CONFIG.try_into().unwrap(), count: count.into() })
         );
 
-        // Emit World Event
+        // set ownership
+        set!(ctx.world, (Ownership { entity_id: count, owner: ctx.origin.into() }));
+
         count
     }
 }
@@ -45,7 +48,7 @@ mod join_game {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::balances::{ItemBalance};
 
@@ -56,16 +59,12 @@ mod join_game {
     // adds player to the game
     // TODO: Add Lords Deposit
     fn execute(ctx: Context, game_id: u64, name: felt252) -> ContractAddress {
-        // Check if game exists
+        // Assert game in lobby
         let mut game = get!(ctx.world, (game_id), (Game));
-
-        // TODO: Fix lobby system
-        // We only allow people to join when game is not running
-        // assert(game.status, 'game is not running');
+        game.lobby();
 
         // increase number of players
         game.number_players += 1;
-
         set!(ctx.world, (game));
 
         // add player to game with compound key
@@ -98,7 +97,7 @@ mod start_game {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait, GameStatus};
     use beer_barron::components::player::{Player};
 
     use beer_barron::constants::{GAME_CONFIG, hops, beers};
@@ -106,13 +105,17 @@ mod start_game {
     // adds player to the game
     // TODO: Add Lords Deposit
     fn execute(ctx: Context, game_id: u64) {
-        // Check if game exists
+        // Check if game exists and in lobby stage
         let mut game = get!(ctx.world, (game_id), (Game));
+        game.lobby();
 
         let number_players = game.number_players + 1;
 
         set!(
-            ctx.world, (Game { game_id, start_time: game.start_time, status: true, number_players })
+            ctx.world,
+            (Game {
+                game_id, start_time: game.start_time, status: GameStatus::Started, number_players
+            })
         );
 
         // Start hop auctions

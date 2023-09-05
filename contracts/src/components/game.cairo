@@ -3,14 +3,26 @@ struct Game {
     #[key]
     game_id: u64,
     start_time: u64,
-    status: bool,
+    status: u64,
     number_players: u32,
+}
+
+mod GameStatus {
+    const Created: u64 = 1;
+    const Lobby: u64 = 2;
+    const Started: u64 = 3;
 }
 
 #[generate_trait]
 impl ImplGame of GameTrait {
     fn active(self: Game) {
-        assert(self.status, 'GAME: Not active');
+        assert(self.status == GameStatus::Started, 'GAME: Not active');
+    }
+    fn lobby(self: Game) {
+        assert(self.status == GameStatus::Lobby, 'GAME: Not in lobby');
+    }
+    fn created(self: Game) {
+        assert(self.status == GameStatus::Created, 'GAME: Not created');
     }
 }
 
@@ -28,7 +40,5 @@ struct GameTracker {
 struct Ownership {
     #[key]
     entity_id: u64, // FIXED
-    #[key]
-    game_id: u32, // increment
-    address: felt252
+    owner: felt252
 }

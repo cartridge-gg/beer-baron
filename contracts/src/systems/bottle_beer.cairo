@@ -9,17 +9,13 @@ mod bottle_beer {
     use debug::PrintTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker, GameTrait};
-    use beer_barron::components::player::{Player};
-    use beer_barron::components::player::{FarmArea};
-    use beer_barron::components::balances::{ItemBalance};
+    use beer_barron::components::game::{Game, GameTrait};
+    use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
 
     use beer_barron::components::beer::{
         Brew, BrewTrait, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id, BrewStatus
     };
-    use beer_barron::constants::{
-        GAME_CONFIG, hops, hops_grown, beers, BREW_TIME, BREW_YEILD_LITRES
-    };
+    use beer_barron::constants::BREW_YEILD_LITRES;
 
     // TODO: Remove Beer ID from this, can get it from the batch
     fn execute(ctx: Context, game_id: u64, beer_id: BeerID, batch_id: u64) {
@@ -39,7 +35,7 @@ mod bottle_beer {
             ctx.world, (game_id, ctx.origin, get_beer_identifier_id(beer_id)), (ItemBalance)
         );
 
-        inventory.balance += BREW_YEILD_LITRES.try_into().unwrap();
+        inventory.add(BREW_YEILD_LITRES.try_into().unwrap());
 
         set!(ctx.world, (inventory, batch));
     }

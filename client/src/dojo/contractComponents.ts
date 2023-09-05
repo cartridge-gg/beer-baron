@@ -61,7 +61,7 @@ export function defineContractComponents(world: World) {
         world,
         {
           start_time: RecsType.Number,
-          status: RecsType.Boolean,
+          status: RecsType.Number,
           number_players: RecsType.Number,
         },
         {
@@ -90,7 +90,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          address: RecsType.Number,
+          owner: RecsType.Number,
         },
         {
           metadata: {
