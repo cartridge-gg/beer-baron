@@ -1,5 +1,6 @@
 const OFFSET: felt252 = 1000;
 const GAME_CONFIG: felt252 = 999999999999999;
+const GOLD_ID: felt252 = 999999;
 const STARTING_BALANCE: felt252 = 1000;
 const CROP_GROWTH_TIME: felt252 = 100;
 const CROP_YIELD: felt252 = 1000;

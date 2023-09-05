@@ -17,7 +17,7 @@ mod test {
     use beer_barron::components::auction::{
         Auction, AuctionTrait, auction, TavernAuction, tavern_auction
     };
-    use beer_barron::components::balances::{gold_balance, GoldBalance, ItemBalance, item_balance};
+    use beer_barron::components::balances::{ItemBalance, item_balance};
     use beer_barron::components::game::{
         Game, GameTracker, Ownership, game, game_tracker, ownership
     };
@@ -38,12 +38,11 @@ mod test {
     use beer_barron::systems::sell_beer::{sell_beer};
 
     // consts
-    use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE, beers};
+    use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE, beers, GOLD_ID};
 
     fn setup() -> IWorldDispatcher {
         // components
         let mut components = array![
-            gold_balance::TEST_CLASS_HASH,
             item_balance::TEST_CLASS_HASH,
             auction::TEST_CLASS_HASH,
             game::TEST_CLASS_HASH,
@@ -127,7 +126,7 @@ mod test {
         world.execute('buy_hops', array![game_id.into(), hops::CITRA.into(), buy_quantity]);
         world.execute('buy_hops', array![game_id.into(), hops::CHINOOK.into(), buy_quantity]);
 
-        let player_balance = get!(world, (game_id, player_id).into(), (GoldBalance));
+        let player_balance = get!(world, (game_id, player_id, GOLD_ID).into(), (ItemBalance));
         assert(
             player_balance.balance < STARTING_BALANCE.try_into().unwrap(), 'balance not updated'
         );
@@ -190,6 +189,10 @@ mod test {
 
         // game_id, beer_id, batch_id - hardcoded
         world.execute('bottle_beer', array![game_id.into(), 1, 1]);
+
+        let batch = get!(world, (game_id, player_id, 1).into(), (Brew));
+
+        assert(batch.status == 2, 'batch not updated');
 
         (world, game_id, player_id)
     }

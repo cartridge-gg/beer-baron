@@ -16,7 +16,7 @@ mod brew_beer {
 
     use beer_barron::components::beer::{
         Brew, BrewBatchTrack, Recipe, BeerID, get_beer_id_from_enum, get_recipe,
-        get_beer_identifier_id
+        get_beer_identifier_id, BrewStatus
     };
 
     use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers};
@@ -59,7 +59,7 @@ mod brew_beer {
             owner: ctx.origin,
             beer_id: get_beer_id_from_enum(beer_id),
             time_built: get_block_timestamp(),
-            status: 1,
+            status: BrewStatus::brewing,
         };
 
         set!(ctx.world, (brew_batch, batch_count, citra_balance, chinook_balance, galaxy_balance));

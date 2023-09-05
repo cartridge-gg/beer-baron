@@ -47,9 +47,11 @@ mod join_game {
 
     use beer_barron::components::game::{Game, GameTracker};
     use beer_barron::components::player::{Player};
-    use beer_barron::components::balances::{GoldBalance};
+    use beer_barron::components::balances::{ItemBalance};
 
     use beer_barron::constants::{GAME_CONFIG, STARTING_BALANCE};
+
+    use beer_barron::constants::{GOLD_ID};
 
     // adds player to the game
     // TODO: Add Lords Deposit
@@ -63,7 +65,6 @@ mod join_game {
 
         // increase number of players
         game.number_players += 1;
-        game.status == true;
 
         set!(ctx.world, (game));
 
@@ -71,9 +72,15 @@ mod join_game {
         let player_id = ctx.origin;
         set!(ctx.world, (Player { game_id, player_id, name }));
 
-        // Set player balance
-        let balance: u128 = STARTING_BALANCE.try_into().unwrap();
-        set!(ctx.world, (GoldBalance { game_id, player_id, balance }));
+        set!(
+            ctx.world,
+            (ItemBalance {
+                game_id: game_id,
+                player_id: player_id,
+                item_id: GOLD_ID.try_into().unwrap(),
+                balance: STARTING_BALANCE.try_into().unwrap()
+            })
+        );
 
         ctx.origin
     }

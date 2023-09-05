@@ -4,20 +4,21 @@ import { getEntityIdFromKeys } from "@/dojo/createSystemCalls";
 import { useComponentValue } from "@dojoengine/react";
 import { useQueryParams } from "@/dojo/useQueryParams";
 import { shortString } from "starknet";
+import { GOLD_ID } from "@/dojo/gameConfig";
 
 export const TopNavigation = () => {
     const { clear, game_id } = useQueryParams();
 
     const {
         setup: {
-            components: { GoldBalance, Player },
+            components: { ItemBalance, Player },
         },
         account: { account }
     } = useDojo();
 
-    let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address)]);
+    let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
 
-    const gold_balance = useComponentValue(GoldBalance, entityId);
+    const gold_balance = useComponentValue(ItemBalance, entityId);
     const player = useComponentValue(Player, entityId);
 
     return (<>

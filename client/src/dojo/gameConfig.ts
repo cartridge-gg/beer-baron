@@ -1,6 +1,8 @@
 export const BREW_TIME = 100000
 export const GROW_TIME = 100000;
 export const BATCH_AMOUNT = 1000;
+
+export const GOLD_ID = 999999;
 // used for internal enum in cairo
 export enum BeerID {
     DragonHideBlaze = 1,

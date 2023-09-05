@@ -1,7 +1,8 @@
-use starknet::ContractAddress;
+use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 use serde::Serde;
-
-use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers};
+use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers, BREW_TIME};
+use traits::{Into, TryInto};
+use option::OptionTrait;
 
 // this could a generalised component in the future with the FarmArea
 // TODO: Can drop player_id and just use owner check
@@ -18,6 +19,23 @@ struct Brew {
     beer_id: u64, // crop type
     time_built: u64, // built time
     status: u64, // 0 = not built, 1 = built, 2 = harvested
+}
+
+mod BrewStatus {
+    const not_started: u64 = 0;
+    const brewing: u64 = 1;
+    const bottled: u64 = 2;
+}
+
+#[generate_trait]
+impl ImplBrew of BrewTrait {
+    fn assert_built(self: Brew) {
+        assert(self.status == BrewStatus::brewing, 'BREW: not ready');
+    }
+    fn assert_brewed(self: Brew) {
+        let time_since_build = get_block_timestamp() - self.time_built;
+        assert(time_since_build > BREW_TIME.try_into().unwrap(), 'beer is not ready');
+    }
 }
 
 

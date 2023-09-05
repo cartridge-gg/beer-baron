@@ -6,7 +6,6 @@ mod start_beer_auction {
     use starknet::{ContractAddress, get_block_timestamp};
 
     use beer_barron::components::auction::{TavernAuction, TavernAuctionTrait};
-    use beer_barron::components::balances::{GoldBalance};
     use beer_barron::components::game::{Game};
 
     use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA};

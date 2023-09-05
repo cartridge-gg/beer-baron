@@ -6,7 +6,6 @@ mod start_hops_auction {
     use starknet::{ContractAddress, get_block_timestamp};
 
     use beer_barron::components::auction::{Auction, AuctionTrait};
-    use beer_barron::components::balances::{GoldBalance};
     use beer_barron::components::game::{Game};
 
     use cubit::f128::types::fixed::{Fixed, FixedTrait};

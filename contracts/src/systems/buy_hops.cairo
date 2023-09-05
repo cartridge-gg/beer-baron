@@ -6,14 +6,13 @@ mod buy_hops {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp};
 
-    use cubit::f128::types::fixed::{Fixed, FixedTrait};
-
     use dojo::world::Context;
-    use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 
     use beer_barron::components::game::{Game, GameTrait};
     use beer_barron::components::auction::{Auction, AuctionTrait};
-    use beer_barron::components::balances::{GoldBalance, ItemBalance};
+    use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
+
+    use beer_barron::constants::GOLD_ID;
 
     fn execute(ctx: Context, game_id: u64, item_id: u128, amount: u128) {
         // assert that the game is active
@@ -21,20 +20,20 @@ mod buy_hops {
         game.active();
 
         let mut auction = get!(ctx.world, (game_id, item_id), Auction);
-        let mut player_gold_balance = get!(ctx.world, (game_id, ctx.origin), GoldBalance);
-        let mut player_item_balance = get!(ctx.world, (game_id, ctx.origin, item_id), ItemBalance);
-
-        // get current price
-        let price = auction.get_price();
+        let mut gold_balance = get!(ctx.world, (game_id, ctx.origin, GOLD_ID), ItemBalance);
+        let mut item_balance = get!(ctx.world, (game_id, ctx.origin, item_id), ItemBalance);
 
         // add to amount sold
         auction.sold += amount;
 
         // TODO: check this
-        player_gold_balance.balance -= price.try_into().unwrap() * amount;
+        // subtract from gold
+        // TODO: overflow check
+        gold_balance.sub(auction.get_price().try_into().unwrap() * amount);
 
-        player_item_balance.balance += amount;
+        // add to item balance
+        item_balance.add(amount);
 
-        set!(ctx.world, (auction, player_gold_balance, player_item_balance));
+        set!(ctx.world, (auction, gold_balance, item_balance));
     }
 }

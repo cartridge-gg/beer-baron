@@ -15,7 +15,7 @@ mod bottle_beer {
     use beer_barron::components::balances::{ItemBalance};
 
     use beer_barron::components::beer::{
-        Brew, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id
+        Brew, BrewTrait, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id, BrewStatus
     };
     use beer_barron::constants::{
         GAME_CONFIG, hops, hops_grown, beers, BREW_TIME, BREW_YEILD_LITRES
@@ -27,23 +27,20 @@ mod bottle_beer {
         let game = get!(ctx.world, (game_id), (Game));
         game.active();
 
+        // assert batch is built and brewed
         let mut batch = get!(ctx.world, (game_id, ctx.origin, batch_id), (Brew));
-        assert(batch.status == 1, 'batch is not ready');
+        batch.assert_built();
+        batch.assert_brewed();
 
-        let time_since_build = get_block_timestamp() - batch.time_built;
-        assert(time_since_build > BREW_TIME.try_into().unwrap(), 'beer is not ready');
+        // bottle batch
+        batch.status = BrewStatus::bottled;
 
-        let mut current_inventory_of_beer = get!(
+        let mut inventory = get!(
             ctx.world, (game_id, ctx.origin, get_beer_identifier_id(beer_id)), (ItemBalance)
         );
 
-        current_inventory_of_beer.balance += BREW_YEILD_LITRES.try_into().unwrap();
+        inventory.balance += BREW_YEILD_LITRES.try_into().unwrap();
 
-        // some reason batch.status == 2 does not work??
-        // todo: investigate
-        // this closes the batch
-        batch.status += 1;
-
-        set!(ctx.world, (current_inventory_of_beer, batch));
+        set!(ctx.world, (inventory, batch));
     }
 }

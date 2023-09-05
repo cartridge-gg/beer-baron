@@ -41,20 +41,6 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
-    GoldBalance: (() => {
-      const name = "GoldBalance";
-      return defineComponent(
-        world,
-        {
-          balance: RecsType.Number,
-        },
-        {
-          metadata: {
-            name: name,
-          },
-        }
-      );
-    })(),
     ItemBalance: (() => {
       const name = "ItemBalance";
       return defineComponent(
@@ -75,7 +61,7 @@ export function defineContractComponents(world: World) {
         world,
         {
           start_time: RecsType.Number,
-          status: RecsType.Number,
+          status: RecsType.Boolean,
           number_players: RecsType.Number,
         },
         {
@@ -165,6 +151,7 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
+          owner: RecsType.Number,
           count: RecsType.Number,
         },
         {

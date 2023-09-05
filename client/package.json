@@ -12,7 +12,7 @@
     "components": "npx @dojoengine/core ../contracts/target/dev/manifest.json src/dojo/contractComponents.ts"
   },
   "dependencies": {
-    "@dojoengine/core": "^0.0.17",
+    "@dojoengine/core": "^0.0.18",
     "@dojoengine/create-burner": "^0.0.15",
     "@dojoengine/react": "^0.0.3",
     "@latticexyz/recs": "^1.43.0",
