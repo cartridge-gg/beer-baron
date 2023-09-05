@@ -14,7 +14,7 @@ mod harvest_farm {
     use beer_barron::components::balances::{ItemBalance};
 
     use beer_barron::constants::{
-        GAME_CONFIG, hops, CROP_GROWTH_TIME, CROP_YIELD, SEED_GROWN_OFFSET, NUMBER_OF_FARM_PLOTS
+        GAME_CONFIG, CROP_GROWTH_TIME, CROP_YIELD, SEED_GROWN_OFFSET, NUMBER_OF_FARM_PLOTS
     };
 
     fn execute(ctx: Context, game_id: u64) {

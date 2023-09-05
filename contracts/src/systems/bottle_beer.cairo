@@ -11,14 +11,14 @@ mod bottle_beer {
 
     use beer_barron::components::game::{Game, GameTrait};
     use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
-
     use beer_barron::components::beer::{
-        Brew, BrewTrait, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id, BrewStatus
+        Brew, BrewTrait, BrewBatchTrack, Recipe, BeerID, BrewStatus
     };
+
     use beer_barron::constants::BREW_YEILD_LITRES;
 
     // TODO: Remove Beer ID from this, can get it from the batch
-    fn execute(ctx: Context, game_id: u64, beer_id: BeerID, batch_id: u64) {
+    fn execute(ctx: Context, game_id: u64, batch_id: u64) {
         // assert that the game is active
         let game = get!(ctx.world, (game_id), (Game));
         game.active();
@@ -31,10 +31,8 @@ mod bottle_beer {
         // bottle batch
         batch.status = BrewStatus::bottled;
 
-        let mut inventory = get!(
-            ctx.world, (game_id, ctx.origin, get_beer_identifier_id(beer_id)), (ItemBalance)
-        );
-
+        // increase inventory
+        let mut inventory = get!(ctx.world, (game_id, ctx.origin, batch.beer_id), (ItemBalance));
         inventory.add(BREW_YEILD_LITRES.try_into().unwrap());
 
         set!(ctx.world, (inventory, batch));

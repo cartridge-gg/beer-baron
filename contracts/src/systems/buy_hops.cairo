@@ -12,7 +12,7 @@ mod buy_hops {
     use beer_barron::components::auction::{Auction, AuctionTrait};
     use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
 
-    use beer_barron::constants::GOLD_ID;
+    use beer_barron::constants::{CONFIG::{ITEM_IDS::{GOLD_ID}}};
 
     fn execute(ctx: Context, game_id: u64, item_id: u128, amount: u128) {
         // assert that the game is active

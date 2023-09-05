@@ -13,7 +13,7 @@ mod build_farm {
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
 
-    use beer_barron::constants::{GAME_CONFIG, hops, NUMBER_OF_FARM_PLOTS};
+    use beer_barron::constants::{GAME_CONFIG, NUMBER_OF_FARM_PLOTS};
 
     fn execute(ctx: Context, game_id: u64, area_type: Span<u64>) {
         // assert that the game is active

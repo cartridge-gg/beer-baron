@@ -52,9 +52,7 @@ mod join_game {
     use beer_barron::components::player::{Player};
     use beer_barron::components::balances::{ItemBalance};
 
-    use beer_barron::constants::{GAME_CONFIG, STARTING_BALANCE};
-
-    use beer_barron::constants::{GOLD_ID};
+    use beer_barron::constants::{GAME_CONFIG, STARTING_BALANCE, CONFIG::{ITEM_IDS::{GOLD_ID}}};
 
     // adds player to the game
     // TODO: Add Lords Deposit
@@ -100,7 +98,7 @@ mod start_game {
     use beer_barron::components::game::{Game, GameTracker, GameTrait, GameStatus};
     use beer_barron::components::player::{Player};
 
-    use beer_barron::constants::{GAME_CONFIG, hops, beers};
+    use beer_barron::constants::{GAME_CONFIG, CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
 
     // adds player to the game
     // TODO: Add Lords Deposit
@@ -119,21 +117,21 @@ mod start_game {
         );
 
         // Start hop auctions
-        ctx.world.execute('start_hops_auction', array![game_id.into(), hops::CHINOOK.into()]);
-        ctx.world.execute('start_hops_auction', array![game_id.into(), hops::CITRA.into()]);
-        ctx.world.execute('start_hops_auction', array![game_id.into(), hops::GALAXY.into()]);
+        ctx.world.execute('start_hops_auction', array![game_id.into(), HOP_SEEDS::CHINOOK.into()]);
+        ctx.world.execute('start_hops_auction', array![game_id.into(), HOP_SEEDS::CITRA.into()]);
+        ctx.world.execute('start_hops_auction', array![game_id.into(), HOP_SEEDS::GALAXY.into()]);
 
         // start beer auctions
         ctx
             .world
             .execute(
-                'start_beer_auction', array![game_id.into(), beers::DRAGON_HIDE_BLAZE_IPA.into()]
+                'start_beer_auction', array![game_id.into(), BEERS::DRAGON_HIDE_BLAZE_IPA.into()]
             );
-        ctx.world.execute('start_beer_auction', array![game_id.into(), beers::MITHRIL_HAZE.into()]);
+        ctx.world.execute('start_beer_auction', array![game_id.into(), BEERS::MITHRIL_HAZE.into()]);
         ctx
             .world
             .execute(
-                'start_beer_auction', array![game_id.into(), beers::OBSIDIAN_IMPERIAL_STOUT.into()]
+                'start_beer_auction', array![game_id.into(), BEERS::OBSIDIAN_IMPERIAL_STOUT.into()]
             );
     }
 }

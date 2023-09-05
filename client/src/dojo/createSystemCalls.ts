@@ -166,7 +166,7 @@ export function createSystemCalls(
         })
 
         try {
-            const tx = await execute(account, "bottle_beer", [game_id, beer_id, batch_id]);
+            const tx = await execute(account, "bottle_beer", [game_id, batch_id]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
 
             console.log(receipt)

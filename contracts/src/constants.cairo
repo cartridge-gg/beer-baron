@@ -10,29 +10,30 @@ const SEED_GROWN_OFFSET: felt252 = 100;
 // this should be moved to game setup
 const NUMBER_OF_FARM_PLOTS: felt252 = 6;
 
-mod hops {
-    const CITRA: felt252 = 1;
-    const CHINOOK: felt252 = 2;
-    const GALAXY: felt252 = 3;
-}
-
-// hops + 10 for ids
-mod hops_grown {
-    const CITRA: felt252 = 101;
-    const CHINOOK: felt252 = 102;
-    const GALAXY: felt252 = 103;
-}
-
-
 // beer
 const BREW_TIME: felt252 = 100;
 const BREW_YEILD_LITRES: felt252 = 1000;
 
-mod beers {
-    const DRAGON_HIDE_BLAZE_IPA: felt252 = 1001;
-    const MITHRIL_HAZE: felt252 = 1002;
-    const OBSIDIAN_IMPERIAL_STOUT: felt252 = 1003;
-}
 // markets
 
-
+mod CONFIG {
+    // to use in the ItemBalances - we offset the values so we can fit more in the future
+    mod ITEM_IDS {
+        const GOLD_ID: felt252 = 999999;
+        mod HOP_SEEDS {
+            const CITRA: felt252 = 1;
+            const CHINOOK: felt252 = 2;
+            const GALAXY: felt252 = 3;
+        }
+        mod HOP_FLOWERS {
+            const CITRA: felt252 = 101;
+            const CHINOOK: felt252 = 102;
+            const GALAXY: felt252 = 103;
+        }
+        mod BEERS {
+            const DRAGON_HIDE_BLAZE_IPA: felt252 = 1001;
+            const MITHRIL_HAZE: felt252 = 1002;
+            const OBSIDIAN_IMPERIAL_STOUT: felt252 = 1003;
+        }
+    }
+}

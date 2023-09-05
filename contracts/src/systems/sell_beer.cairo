@@ -6,18 +6,14 @@ mod sell_beer {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp};
 
+    use dojo::world::Context;
+
     use beer_barron::components::auction::{TavernAuction, TavernAuctionTrait};
     use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
     use beer_barron::components::game::{Game, GameTrait};
-    use beer_barron::components::beer::{
-        Brew, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id
-    };
-    use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
+    use beer_barron::components::beer::{BeerID, get_beer_id_from_enum};
 
-    use cubit::f128::types::fixed::{Fixed, FixedTrait, ONE};
-    use dojo::world::Context;
-
-    use beer_barron::constants::GOLD_ID;
+    use beer_barron::constants::{CONFIG::{ITEM_IDS::{GOLD_ID}}};
 
     // beer id
     // amount = litres of beer
@@ -27,11 +23,11 @@ mod sell_beer {
         game.active();
 
         let mut auction = get!(
-            ctx.world, (game_id, get_beer_identifier_id(beer_id)).into(), (TavernAuction)
+            ctx.world, (game_id, get_beer_id_from_enum(beer_id)).into(), (TavernAuction)
         );
         let mut gold_balance = get!(ctx.world, (game_id, ctx.origin, GOLD_ID), ItemBalance);
         let mut item_balance = get!(
-            ctx.world, (game_id, ctx.origin, get_beer_identifier_id(beer_id)), ItemBalance
+            ctx.world, (game_id, ctx.origin, get_beer_id_from_enum(beer_id)), ItemBalance
         );
 
         auction.sold += amount;

@@ -38,7 +38,9 @@ mod test {
     use beer_barron::systems::sell_beer::{sell_beer};
 
     // consts
-    use beer_barron::constants::{GAME_CONFIG, hops, STARTING_BALANCE, beers, GOLD_ID};
+    use beer_barron::constants::{
+        GAME_CONFIG, STARTING_BALANCE, GOLD_ID, CONFIG::{ITEM_IDS::{HOP_SEEDS, HOP_FLOWERS, BEERS}}
+    };
 
     fn setup() -> IWorldDispatcher {
         // components
@@ -96,19 +98,19 @@ mod test {
         world.execute('start_game', array![game_id.into()]);
 
         // hop auctions
-        let auction_GALAXY = get!(world, (game_id, hops::GALAXY).into(), (Auction));
-        let auction_CHINOOK = get!(world, (game_id, hops::CHINOOK).into(), (Auction));
-        let auction_CITRA = get!(world, (game_id, hops::CITRA).into(), (Auction));
+        let auction_GALAXY = get!(world, (game_id, HOP_SEEDS::GALAXY).into(), (Auction));
+        let auction_CHINOOK = get!(world, (game_id, HOP_SEEDS::CHINOOK).into(), (Auction));
+        let auction_CITRA = get!(world, (game_id, HOP_SEEDS::CITRA).into(), (Auction));
         assert(auction_GALAXY.start_time > 0, 'auction not started');
         assert(auction_CHINOOK.start_time > 0, 'auction not started');
         assert(auction_CITRA.start_time > 0, 'auction not started');
 
         // beer auctions
         let dragonhide_ipa_market = get!(
-            world, (game_id, beers::DRAGON_HIDE_BLAZE_IPA).into(), (TavernAuction)
+            world, (game_id, BEERS::DRAGON_HIDE_BLAZE_IPA).into(), (TavernAuction)
         );
         let mithril_haze_market = get!(
-            world, (game_id, beers::MITHRIL_HAZE).into(), (TavernAuction)
+            world, (game_id, BEERS::MITHRIL_HAZE).into(), (TavernAuction)
         );
         assert(dragonhide_ipa_market.start_time > 0, 'auction not started');
         assert(mithril_haze_market.start_time > 0, 'auction not started');
@@ -122,22 +124,22 @@ mod test {
         let buy_quantity = 10;
 
         // TODO: Make Better - we know it's just working basically
-        world.execute('buy_hops', array![game_id.into(), hops::GALAXY.into(), buy_quantity]);
-        world.execute('buy_hops', array![game_id.into(), hops::CITRA.into(), buy_quantity]);
-        world.execute('buy_hops', array![game_id.into(), hops::CHINOOK.into(), buy_quantity]);
+        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::GALAXY.into(), buy_quantity]);
+        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::CITRA.into(), buy_quantity]);
+        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::CHINOOK.into(), buy_quantity]);
 
         let player_balance = get!(world, (game_id, player_id, GOLD_ID).into(), (ItemBalance));
         assert(
             player_balance.balance < STARTING_BALANCE.try_into().unwrap(), 'balance not updated'
         );
 
-        let galaxy_auction = get!(world, (game_id, hops::GALAXY).into(), (Auction));
+        let galaxy_auction = get!(world, (game_id, HOP_SEEDS::GALAXY).into(), (Auction));
         assert(galaxy_auction.sold.into() == buy_quantity, 'auction not updated');
 
-        let citra_auction = get!(world, (game_id, hops::CITRA).into(), (Auction));
+        let citra_auction = get!(world, (game_id, HOP_SEEDS::CITRA).into(), (Auction));
         assert(citra_auction.sold.into() == buy_quantity, 'auction not updated');
 
-        let chinook_auction = get!(world, (game_id, hops::CHINOOK).into(), (Auction));
+        let chinook_auction = get!(world, (game_id, HOP_SEEDS::CHINOOK).into(), (Auction));
         assert(chinook_auction.sold.into() == buy_quantity, 'auction not updated');
 
         (world, game_id, player_id)
@@ -152,7 +154,12 @@ mod test {
         Serde::serialize(@game_id, ref calldata);
         Serde::serialize(
             @array![
-                hops::GALAXY.into(), hops::CITRA.into(), hops::CHINOOK.into(), crop, crop, crop
+                HOP_SEEDS::GALAXY.into(),
+                HOP_SEEDS::CITRA.into(),
+                HOP_SEEDS::CHINOOK.into(),
+                crop,
+                crop,
+                crop
             ],
             ref calldata
         );
@@ -188,7 +195,7 @@ mod test {
         starknet::testing::set_block_timestamp(4000);
 
         // game_id, beer_id, batch_id - hardcoded
-        world.execute('bottle_beer', array![game_id.into(), 1, 1]);
+        world.execute('bottle_beer', array![game_id.into(), 1]);
 
         let batch = get!(world, (game_id, player_id, 1).into(), (Brew));
 

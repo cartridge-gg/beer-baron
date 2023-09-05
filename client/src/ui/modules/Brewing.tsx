@@ -78,9 +78,9 @@ const ActiveBrew = ({ entity_id }: any) => {
         <div className="p-2 border-4 rounded-xl border-white/20 w-72">
             <div className="flex mb-3">
                 <div className="w-8">
-                    <img className="w-8" src={BeerBottled[brew?.beer_id! + 1000 as keyof typeof BeerImages]} alt="" />
+                    <img className="w-8" src={BeerBottled[brew?.beer_id! as keyof typeof BeerImages]} alt="" />
                 </div>
-                <h5>{(BeerNames as any)[brew?.beer_id! + 1000]}</h5>
+                <h5>{(BeerNames as any)[brew?.beer_id!]}</h5>
             </div>
 
             <div>

@@ -1,6 +1,6 @@
 use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 use serde::Serde;
-use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers, BREW_TIME};
+use beer_barron::constants::{GAME_CONFIG, BREW_TIME, CONFIG::{ITEM_IDS::{BEERS}}};
 use traits::{Into, TryInto};
 use option::OptionTrait;
 
@@ -55,6 +55,9 @@ struct Recipe {
     galaxy: u64,
 }
 
+
+// We use a helper ENUM here so we can match on the beer_id in the inputs
+
 #[derive(Drop, Copy, PartialEq, Serde)]
 enum BeerID {
     None: (),
@@ -67,9 +70,9 @@ enum BeerID {
 fn get_beer_id_from_enum(beer_id: BeerID) -> u64 {
     match beer_id {
         BeerID::None(_) => 0,
-        BeerID::DragonHideBlazeIPA(_) => 1,
-        BeerID::MithrilHaze(_) => 2,
-        BeerID::ObsidianImperialStout(_) => 3
+        BeerID::DragonHideBlazeIPA(_) => BEERS::DRAGON_HIDE_BLAZE_IPA.try_into().unwrap(),
+        BeerID::MithrilHaze(_) => BEERS::MITHRIL_HAZE.try_into().unwrap(),
+        BeerID::ObsidianImperialStout(_) => BEERS::OBSIDIAN_IMPERIAL_STOUT.try_into().unwrap()
     }
 }
 
@@ -79,14 +82,5 @@ fn get_recipe(beer_id: BeerID) -> Recipe {
         BeerID::DragonHideBlazeIPA(_) => Recipe { citra: 5, chinook: 3, galaxy: 2 },
         BeerID::MithrilHaze(_) => Recipe { citra: 1, chinook: 6, galaxy: 3 },
         BeerID::ObsidianImperialStout(_) => Recipe { citra: 2, chinook: 6, galaxy: 2 }
-    }
-}
-// this is the unique id for the beer type
-fn get_beer_identifier_id(beer_id: BeerID) -> felt252 {
-    match beer_id {
-        BeerID::None(_) => 0,
-        BeerID::DragonHideBlazeIPA(_) => beers::DRAGON_HIDE_BLAZE_IPA,
-        BeerID::MithrilHaze(_) => beers::MITHRIL_HAZE,
-        BeerID::ObsidianImperialStout(_) => beers::OBSIDIAN_IMPERIAL_STOUT
     }
 }
