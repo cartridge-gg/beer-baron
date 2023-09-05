@@ -9,7 +9,7 @@ mod brew_beer {
     use debug::PrintTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
@@ -21,10 +21,10 @@ mod brew_beer {
 
     use beer_barron::constants::{GAME_CONFIG, hops, hops_grown, beers};
 
-
     fn execute(ctx: Context, game_id: u64, beer_id: BeerID) {
-        let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
 
         let beer_recipe = get_recipe(beer_id);
 

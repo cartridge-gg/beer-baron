@@ -7,6 +7,13 @@ struct Game {
     number_players: u32,
 }
 
+#[generate_trait]
+impl ImplGame of GameTrait {
+    fn active(self: Game) {
+        assert(self.status, 'GAME: Not active');
+    }
+}
+
 // Config Components ---------------------------------------------------------------------
 
 // This will track the number of games played

@@ -8,7 +8,7 @@ mod harvest_farm {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
@@ -17,10 +17,11 @@ mod harvest_farm {
         GAME_CONFIG, hops, CROP_GROWTH_TIME, CROP_YIELD, SEED_GROWN_OFFSET, NUMBER_OF_FARM_PLOTS
     };
 
-
     fn execute(ctx: Context, game_id: u64) {
-        let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
+
         // TODO: assert that caller is player 
 
         // MAX AREAS = NUMBER_OF_FARM_PLOTS

@@ -9,7 +9,7 @@ mod bottle_beer {
     use debug::PrintTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
@@ -23,15 +23,14 @@ mod bottle_beer {
 
     // TODO: Remove Beer ID from this, can get it from the batch
     fn execute(ctx: Context, game_id: u64, beer_id: BeerID, batch_id: u64) {
-        let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
 
         let mut batch = get!(ctx.world, (game_id, ctx.origin, batch_id), (Brew));
-
         assert(batch.status == 1, 'batch is not ready');
 
         let time_since_build = get_block_timestamp() - batch.time_built;
-
         assert(time_since_build > BREW_TIME.try_into().unwrap(), 'beer is not ready');
 
         let mut current_inventory_of_beer = get!(

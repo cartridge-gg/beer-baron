@@ -8,18 +8,17 @@ mod build_farm {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait};
     use beer_barron::components::player::{Player};
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
 
     use beer_barron::constants::{GAME_CONFIG, hops, NUMBER_OF_FARM_PLOTS};
 
-
     fn execute(ctx: Context, game_id: u64, area_type: Span<u64>) {
-        let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
-        // TODO: assert that caller is player 
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
 
         assert(
             area_type.len() == NUMBER_OF_FARM_PLOTS.try_into().unwrap(), 'you must submit 6 areas'

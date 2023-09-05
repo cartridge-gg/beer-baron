@@ -1,8 +1,8 @@
-use starknet::ContractAddress;
-use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
 use cubit::f128::types::fixed::{Fixed, FixedTrait};
-
-use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA};
+use starknet::{ContractAddress, get_block_timestamp};
+use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
+use core::traits::{Into};
+use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
 
 #[derive(Component, Copy, Drop, Serde, SerdeLen)]
 struct Auction {
@@ -22,20 +22,24 @@ struct Auction {
 #[generate_trait]
 impl ImplAuction of AuctionTrait {
     fn to_LogisticVRGDA(self: Auction) -> LogisticVRGDA {
-        let target_price = self.target_price;
-        let decay_constant = self.decay_constant;
-        let max_sellable = self.max_sellable;
-        let time_scale = self.time_scale;
-
-        LogisticVRGDA { target_price, decay_constant, max_sellable, time_scale }
+        LogisticVRGDA {
+            target_price: self.target_price,
+            decay_constant: self.decay_constant,
+            max_sellable: self.max_sellable,
+            time_scale: self.time_scale
+        }
     }
-}
+    fn get_price(self: Auction) -> Fixed {
+        // time since auction start
 
-
-impl SerdeLenFixed of dojo::serde::SerdeLen<Fixed> {
-    #[inline(always)]
-    fn len() -> usize {
-        2
+        let time_since_start: u128 = get_block_timestamp().into() - self.start_time.into();
+        // get current price
+        self
+            .to_LogisticVRGDA()
+            .get_vrgda_price(
+                FixedTrait::new_unscaled(time_since_start / 60, false), // time since start
+                FixedTrait::new_unscaled(self.sold, false) // amount sold
+            )
     }
 }
 
@@ -56,10 +60,30 @@ struct TavernAuction {
 #[generate_trait]
 impl ImplTavernAuction of TavernAuctionTrait {
     fn to_ReverseLinearVRGDA(self: TavernAuction) -> ReverseLinearVRGDA {
-        let target_price = self.target_price;
-        let decay_constant = self.decay_constant;
-        let per_time_unit = self.per_time_unit;
+        ReverseLinearVRGDA {
+            target_price: self.target_price,
+            decay_constant: self.decay_constant,
+            per_time_unit: self.per_time_unit
+        }
+    }
+    fn get_price(self: TavernAuction) -> Fixed {
+        // time since auction start
+        let time_since_start: u128 = get_block_timestamp().into() - self.start_time.into();
 
-        ReverseLinearVRGDA { target_price, decay_constant, per_time_unit }
+        // get current price
+        self
+            .to_ReverseLinearVRGDA()
+            .get_reverse_vrgda_price(
+                FixedTrait::new_unscaled(time_since_start / 60, false), // time since start
+                FixedTrait::new_unscaled(self.sold, false) // amount sold
+            )
+    }
+}
+
+
+impl SerdeLenFixed of dojo::serde::SerdeLen<Fixed> {
+    #[inline(always)]
+    fn len() -> usize {
+        2
     }
 }

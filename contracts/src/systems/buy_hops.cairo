@@ -11,26 +11,21 @@ mod buy_hops {
     use dojo::world::Context;
     use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 
+    use beer_barron::components::game::{Game, GameTrait};
     use beer_barron::components::auction::{Auction, AuctionTrait};
     use beer_barron::components::balances::{GoldBalance, ItemBalance};
 
     fn execute(ctx: Context, game_id: u64, item_id: u128, amount: u128) {
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
+
         let mut auction = get!(ctx.world, (game_id, item_id), Auction);
         let mut player_gold_balance = get!(ctx.world, (game_id, ctx.origin), GoldBalance);
         let mut player_item_balance = get!(ctx.world, (game_id, ctx.origin, item_id), ItemBalance);
 
-        // convert auction to VRGDA
-        let VRGDA = auction.to_LogisticVRGDA();
-
-        // time since auction start
-        let time_since_start: u128 = get_block_timestamp().into() - auction.start_time.into();
-
         // get current price
-        let price = VRGDA
-            .get_vrgda_price(
-                FixedTrait::new_unscaled(time_since_start / 60, false), // time since start
-                FixedTrait::new_unscaled(auction.sold, false) // amount sold
-            );
+        let price = auction.get_price();
 
         // add to amount sold
         auction.sold += amount;

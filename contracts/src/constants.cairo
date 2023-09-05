@@ -32,4 +32,6 @@ mod beers {
     const MITHRIL_HAZE: felt252 = 1002;
     const OBSIDIAN_IMPERIAL_STOUT: felt252 = 1003;
 }
+// markets
+
 

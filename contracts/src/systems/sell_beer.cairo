@@ -8,7 +8,7 @@ mod sell_beer {
 
     use beer_barron::components::auction::{TavernAuction, TavernAuctionTrait};
     use beer_barron::components::balances::{GoldBalance, ItemBalance};
-    use beer_barron::components::game::{Game};
+    use beer_barron::components::game::{Game, GameTrait};
     use beer_barron::components::beer::{
         Brew, BrewBatchTrack, Recipe, BeerID, get_beer_identifier_id
     };
@@ -20,8 +20,9 @@ mod sell_beer {
     // beer id
     // amount = litres of beer
     fn execute(ctx: Context, game_id: u64, beer_id: BeerID, amount: u128) {
-        let mut game = get!(ctx.world, (game_id), (Game));
-        assert(game.status, 'game is not running');
+        // assert that the game is active
+        let game = get!(ctx.world, (game_id), (Game));
+        game.active();
 
         let mut auction = get!(
             ctx.world, (game_id, get_beer_identifier_id(beer_id)).into(), (TavernAuction)
@@ -31,17 +32,8 @@ mod sell_beer {
             ctx.world, (game_id, ctx.origin, get_beer_identifier_id(beer_id)), ItemBalance
         );
 
-        let VRGDA = auction.to_ReverseLinearVRGDA();
-
         // get current price
-        let time_since_start: u128 = get_block_timestamp().into() - auction.start_time.into();
-
-        // get current price
-        let price = VRGDA
-            .get_reverse_vrgda_price(
-                FixedTrait::new_unscaled((time_since_start / 60), false), // time since start
-                FixedTrait::new_unscaled(auction.sold, false) // amount sold
-            );
+        let price = auction.get_price();
 
         auction.sold += amount;
 
