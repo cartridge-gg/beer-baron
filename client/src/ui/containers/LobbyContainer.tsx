@@ -16,7 +16,10 @@ export const LobbyContainer = () => {
         account: { account }
     } = useDojo();
 
-    // const name = 'loaf';
+    const max_players = 10;
+    const game_length = 6000;
+    const password = 1234;
+    const entry_fee = 0;
 
     let lobby_games = useEntityQuery([HasValue(Game, { status: 2 })]);
 
@@ -31,7 +34,7 @@ export const LobbyContainer = () => {
             <h1>Beer Barron</h1>
             <h4>Barron: {account.address}</h4>
             <div className="flex flex-col w-32 space-y-2">
-                <Button onClick={() => create_game({ account })}>Create Game</Button>
+                <Button onClick={() => create_game({ account, max_players, game_length, password, entry_fee })}>Create Game</Button>
             </div>
             <div className="mt-8">
                 <h5>Lobby</h5>

@@ -4,7 +4,7 @@ import { EntityIndex, setComponent, Components, Schema, getComponentValue } from
 import { uuid } from "@latticexyz/utils";
 import { fromFixed } from "@/utils/fixed";
 import { poseidonHashMany } from "micro-starknet";
-import { BuyHopsProps, JoinGameProps, GameIdProps, ViewPriceProps, SystemSigner, FarmProps, BrewBeerProps, BottleBeerProps, SellBeerProps } from "./types";
+import { BuyHopsProps, JoinGameProps, GameIdProps, ViewPriceProps, FarmProps, BrewBeerProps, BottleBeerProps, SellBeerProps, CreateGameProps } from "./types";
 
 import { toast } from 'react-toastify';
 import { BATCH_AMOUNT, Beers, Hops } from "./gameConfig";
@@ -29,10 +29,10 @@ export function createSystemCalls(
         theme: "dark",
     });
 
-    const create_game = async ({ account }: SystemSigner) => {
+    const create_game = async ({ account, max_players, game_length, password, entry_fee }: CreateGameProps) => {
 
         try {
-            const tx = await execute(account, "create_game", []);
+            const tx = await execute(account, "create_game", [max_players, game_length, password, entry_fee]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
 
@@ -257,7 +257,7 @@ export function setComponentFromEvent(components: Components, eventData: string[
 
 }
 
-function hexToAscii(hex: string) {
+export function hexToAscii(hex: string) {
     var str = '';
     for (var n = 2; n < hex.length; n += 2) {
         str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));

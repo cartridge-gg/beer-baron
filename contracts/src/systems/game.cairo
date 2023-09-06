@@ -7,24 +7,31 @@ mod create_game {
     use option::OptionTrait;
     use starknet::{get_block_timestamp};
 
-    use beer_barron::components::game::{Game, GameTracker, GameStatus, GameTrait, Ownership};
+    use beer_barron::components::game::{
+        Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig
+    };
     use beer_barron::constants::GAME_CONFIG;
 
 
-    // Creates a new game
-    // increments game id
-    // sets game tracker
-    fn execute(ctx: Context) -> u64 {
+    fn execute(ctx: Context, config: GameConfig) -> u64 {
+        // game id increment
         let mut game_tracker = get!(ctx.world, (GAME_CONFIG), (GameTracker));
+        let count: u64 = (game_tracker.count + 1).into();
 
-        let count: u64 = (game_tracker.count + 1).into(); // game id increment
-
-        let start_time = get_block_timestamp(); // blocknumber
-        let status = GameStatus::Lobby; // game status
-        let number_players = 0; // number of players
+        // set config
+        let mut game = Game {
+            game_id: count,
+            start_time: 0,
+            status: GameStatus::Lobby,
+            number_players: 0,
+            max_players: config.max_players,
+            game_length: config.game_length,
+            password: config.password,
+            entry_fee: config.entry_fee,
+        };
 
         // set game
-        set!(ctx.world, (Game { game_id: count, start_time, status, number_players }));
+        set!(ctx.world, (game));
 
         // set game tracker
         set!(
@@ -95,7 +102,7 @@ mod start_game {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker, GameTrait, GameStatus};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait, GameStatus, Ownership};
     use beer_barron::components::player::{Player};
 
     use beer_barron::constants::{GAME_CONFIG, CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
@@ -107,14 +114,14 @@ mod start_game {
         let mut game = get!(ctx.world, (game_id), (Game));
         game.lobby();
 
-        let number_players = game.number_players + 1;
+        game.number_players += 1; // increase number of players
+        game.start_time = get_block_timestamp(); // set start time
+        game.status = GameStatus::Started; // set game status
 
-        set!(
-            ctx.world,
-            (Game {
-                game_id, start_time: game.start_time, status: GameStatus::Started, number_players
-            })
-        );
+        let mut game_owner = get!(ctx.world, (game_id), (Ownership));
+        assert(game_owner.owner == ctx.origin.into(), 'owner can only start');
+
+        set!(ctx.world, (game));
 
         // Start hop auctions
         ctx.world.execute('start_hops_auction', array![game_id.into(), HOP_SEEDS::CHINOOK.into()]);

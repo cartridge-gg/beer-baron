@@ -5,6 +5,13 @@ export interface SystemSigner {
     account: Account
 }
 
+export interface CreateGameProps extends SystemSigner {
+    max_players: num.BigNumberish
+    game_length: num.BigNumberish
+    password: num.BigNumberish
+    entry_fee: num.BigNumberish
+}
+
 export interface JoinGameProps extends SystemSigner {
     game_id: num.BigNumberish
     name: num.BigNumberish

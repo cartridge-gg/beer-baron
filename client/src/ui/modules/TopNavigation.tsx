@@ -5,6 +5,7 @@ import { useComponentValue } from "@dojoengine/react";
 import { useQueryParams } from "@/dojo/useQueryParams";
 import { shortString } from "starknet";
 import { GOLD_ID } from "@/dojo/gameConfig";
+import { useSync } from "@/hooks/useSync";
 
 export const TopNavigation = () => {
     const { clear, game_id } = useQueryParams();
@@ -20,6 +21,9 @@ export const TopNavigation = () => {
 
     const gold_balance = useComponentValue(ItemBalance, entityId);
     const player = useComponentValue(Player, entityId);
+
+    useSync(ItemBalance, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)])
+    useSync(Player, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)])
 
     return (<>
 

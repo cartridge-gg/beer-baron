@@ -34,8 +34,8 @@ export async function setupNetwork() {
         },
 
         // Entity query function.
-        entity: async (component: string, query: Query) => {
-            return provider.entity(component, query);
+        entity: async (component: string, query: Query, offset: number, length: number) => {
+            return provider.entity(component, query, offset, length);
         },
 
         // Entities query function.

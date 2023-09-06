@@ -19,7 +19,7 @@ mod test {
     };
     use beer_barron::components::balances::{ItemBalance, item_balance};
     use beer_barron::components::game::{
-        Game, GameTracker, Ownership, game, game_tracker, ownership
+        Game, GameTracker, Ownership, game, game_tracker, ownership, GameConfig
     };
     use beer_barron::components::beer::{Brew, BrewBatchTrack, BeerID, brew, brew_batch_track};
 
@@ -80,15 +80,19 @@ mod test {
     fn create_start() -> (IWorldDispatcher, u64, ContractAddress) {
         let mut world = setup();
 
-        let game_id = 1;
-        let item_id = 1;
-        let amount = 1;
-        let name = 123;
-        let mut res = world.execute('create_game', array![]);
+        // config
+        let max_players = 1;
+        let game_length = 900;
+        let password = 0;
+        let entry_fee = 0;
+
+        let mut res = world
+            .execute('create_game', array![max_players, game_length, password, entry_fee]);
         assert(res.len() > 0, 'did not spawn');
 
         let game_id = serde::Serde::<u64>::deserialize(ref res).expect('create des failed');
 
+        let name = 123;
         let mut join_game = world.execute('join_game', array![game_id.into(), name]);
         let player_id = serde::Serde::<ContractAddress>::deserialize(ref join_game)
             .expect('id des failed');

@@ -4,6 +4,7 @@ import { getEntityIdFromKeys } from '@/dojo/createSystemCalls';
 import { FlowerImages, GROW_TIME, Hops } from '@/dojo/gameConfig';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
+import { useSync } from '@/hooks/useSync';
 import { useComponentValue } from '@dojoengine/react';
 import { useState } from 'react';
 
@@ -12,6 +13,8 @@ const FarmCell = ({ index }: any) => {
     const { setup: { systemCalls: { build_farm, harvest_farm }, components: { FarmArea } }, account: { account } } = useDojo();
 
     let entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(index)]);
+
+    useSync(FarmArea, [BigInt(game_id), BigInt(account.address), BigInt(index)])
 
     const farm = useComponentValue(FarmArea, entityId);
 

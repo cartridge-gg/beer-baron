@@ -51,6 +51,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 1
           },
         }
       );
@@ -63,10 +64,15 @@ export function defineContractComponents(world: World) {
           start_time: RecsType.Number,
           status: RecsType.Number,
           number_players: RecsType.Number,
+          max_players: RecsType.Number,
+          game_length: RecsType.Number,
+          password: RecsType.Number,
+          entry_fee: RecsType.Number,
         },
         {
           metadata: {
             name: name,
+            length: 7
           },
         }
       );
@@ -81,6 +87,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 1
           },
         }
       );
@@ -95,6 +102,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 1
           },
         }
       );
@@ -109,6 +117,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 1
           },
         }
       );
@@ -124,6 +133,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 2
           },
         }
       );
@@ -142,6 +152,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            length: 5
           },
         }
       );
@@ -157,6 +168,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+            lenght: 2
           },
         }
       );
