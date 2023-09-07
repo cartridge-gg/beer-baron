@@ -26,10 +26,12 @@ mod start_hops_auction {
         let auction = Auction {
             game_id,
             item_id,
-            target_price: FixedTrait::new_unscaled(target_price, false).into(),
-            decay_constant: FixedTrait::new(_0_31, true),
-            max_sellable: FixedTrait::new_unscaled(MAX_SELLABLE, false),
-            time_scale: FixedTrait::new(_0_0023, false),
+            target_price: target_price,
+            decay_constant_mag: _0_31,
+            decay_constant_sign: true,
+            max_sellable: MAX_SELLABLE,
+            time_scale_mag: _0_0023,
+            time_scale_sign: false,
             start_time: get_block_timestamp(), //update to timestamp
             sold: 0,
         };

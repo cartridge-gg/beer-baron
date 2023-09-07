@@ -45,7 +45,7 @@ export function createSystemCalls(
     const join_game = async ({ account, game_id, name }: JoinGameProps) => {
 
         try {
-            const tx = await execute(account, "join_game", [game_id, name]);
+            const tx = await execute(account, "join_game", [game_id, name, 1234]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 })
             setComponentsFromEvents(contractComponents, getEvents(receipt));
 

@@ -5,7 +5,6 @@ mod view_hop_price {
     use beer_barron::components::auction::{Auction, AuctionTrait};
 
     fn execute(ctx: Context, game_id: u64, item_id: u128) -> Fixed {
-        let mut auction = get!(ctx.world, (game_id, item_id), Auction);
-        auction.get_price()
+        get!(ctx.world, (game_id, item_id), Auction).get_price()
     }
 }

@@ -7,7 +7,7 @@ struct Game {
     number_players: u32,
     max_players: u32,
     game_length: u32, // seconds
-    password: u32, // 0 for no password
+    password: felt252, // 0 for no password
     entry_fee: u32,
 }
 
@@ -22,7 +22,7 @@ mod GameStatus {
 struct GameConfig {
     max_players: u32,
     game_length: u32, // seconds
-    password: u32, // 0 for no password
+    password: felt252, // 0 for no password
     entry_fee: u32, // 0 for no entry fee
 }
 
@@ -37,6 +37,9 @@ impl ImplGame of GameTrait {
     }
     fn created(self: Game) {
         assert(self.status == GameStatus::Created, 'GAME: Not created');
+    }
+    fn check_password(self: Game, password: felt252) {
+        assert(self.password == password, 'GAME: Incorrect password');
     }
 }
 

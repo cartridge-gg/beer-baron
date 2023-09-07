@@ -22,9 +22,8 @@ mod test {
         Game, GameTracker, Ownership, game, game_tracker, ownership, GameConfig
     };
     use beer_barron::components::beer::{Brew, BrewBatchTrack, BeerID, brew, brew_batch_track};
-
     use beer_barron::components::player::{Player, FarmArea, player, farm_area};
-
+    use beer_barron::components::trading::{Trade, trade};
 
     // systems
     use beer_barron::systems::buy_hops::{buy_hops};
@@ -36,10 +35,11 @@ mod test {
     use beer_barron::systems::bottle_beer::{bottle_beer};
     use beer_barron::systems::start_beer_auction::{start_beer_auction};
     use beer_barron::systems::sell_beer::{sell_beer};
+    use beer_barron::systems::trade::{accept_trade, create_trade};
 
     // consts
     use beer_barron::constants::{
-        GAME_CONFIG, STARTING_BALANCE, GOLD_ID, CONFIG::{ITEM_IDS::{HOP_SEEDS, HOP_FLOWERS, BEERS}}
+        CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{HOP_SEEDS, HOP_FLOWERS, BEERS, GOLD_ID}}
     };
 
     fn setup() -> IWorldDispatcher {
@@ -54,7 +54,8 @@ mod test {
             farm_area::TEST_CLASS_HASH,
             brew::TEST_CLASS_HASH,
             brew_batch_track::TEST_CLASS_HASH,
-            tavern_auction::TEST_CLASS_HASH
+            tavern_auction::TEST_CLASS_HASH,
+            trade::TEST_CLASS_HASH
         ];
 
         // // systems
@@ -69,7 +70,9 @@ mod test {
             harvest_farm::TEST_CLASS_HASH,
             bottle_beer::TEST_CLASS_HASH,
             start_beer_auction::TEST_CLASS_HASH,
-            sell_beer::TEST_CLASS_HASH
+            sell_beer::TEST_CLASS_HASH,
+            create_trade::TEST_CLASS_HASH,
+            accept_trade::TEST_CLASS_HASH
         ];
 
         // deploy executor, world and register components/systems
@@ -93,7 +96,7 @@ mod test {
         let game_id = serde::Serde::<u64>::deserialize(ref res).expect('create des failed');
 
         let name = 123;
-        let mut join_game = world.execute('join_game', array![game_id.into(), name]);
+        let mut join_game = world.execute('join_game', array![game_id.into(), name, password]);
         let player_id = serde::Serde::<ContractAddress>::deserialize(ref join_game)
             .expect('id des failed');
 
@@ -133,9 +136,7 @@ mod test {
         world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::CHINOOK.into(), buy_quantity]);
 
         let player_balance = get!(world, (game_id, player_id, GOLD_ID).into(), (ItemBalance));
-        assert(
-            player_balance.balance < STARTING_BALANCE.try_into().unwrap(), 'balance not updated'
-        );
+        assert(player_balance.balance < GOLD.try_into().unwrap(), 'balance not updated');
 
         let galaxy_auction = get!(world, (game_id, HOP_SEEDS::GALAXY).into(), (Auction));
         assert(galaxy_auction.sold.into() == buy_quantity, 'auction not updated');
@@ -250,6 +251,25 @@ mod test {
         let (world, game_id, player_id) = player_bottle_beer();
 
         world.execute('sell_beer', array![game_id.into(), 1, 1]);
+    }
+
+    #[test]
+    #[available_gas(600000000)]
+    fn test_create_hop_flower_trade() {
+        let (world, game_id, player_id) = player_harvest_farm();
+
+        let item_id = HOP_FLOWERS::GALAXY;
+        let quantity = 1;
+        let price = 1;
+
+        world
+            .execute(
+                'create_trade',
+                array![game_id.into(), item_id.into(), quantity.into(), price.into()]
+            );
+
+        let trade_id = 1;
+        world.execute('accept_trade', array![game_id.into(), trade_id.into()]);
     }
 }
 

@@ -5,6 +5,7 @@ import { HasValue } from "@latticexyz/recs";
 import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { num } from "starknet";
+import { Input } from "@/components/ui/input";
 
 export const LobbyContainer = () => {
     const navigate = useNavigate();
@@ -16,17 +17,33 @@ export const LobbyContainer = () => {
         account: { account }
     } = useDojo();
 
-    const max_players = 10;
-    const game_length = 6000;
-    const password = 1234;
-    const entry_fee = 0;
-
     let lobby_games = useEntityQuery([HasValue(Game, { status: 2 })]);
-
     let active_games = useEntityQuery([HasValue(Game, { status: 3 })]);
 
     const setGameQueryParam = (id: string) => {
         navigate('?game=' + id, { replace: true });
+    };
+
+    const [formData, setFormData] = useState({
+        max_players: 10,
+        game_length: 6000,
+        password: '1234',
+        entry_fee: 0
+    });
+
+    // Event handler for form changes
+    const handleInputChange = (event: any) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    // Event handler for form submission
+    const handleSubmit = (event: any) => {
+        event.preventDefault();
+        create_game({ account, ...formData });
     };
 
     return <div className="fixed h-screen w-screen bg-tavern bg-cover p-20">
@@ -34,7 +51,28 @@ export const LobbyContainer = () => {
             <h1>Beer Barron</h1>
             <h4>Barron: {account.address}</h4>
             <div className="flex flex-col w-32 space-y-2">
-                <Button onClick={() => create_game({ account, max_players, game_length, password, entry_fee })}>Create Game</Button>
+                <form className="" onSubmit={handleSubmit}>
+                    <label>
+                        Max Players:
+                        <Input type="number" placeholder="Email" name="max_players" value={formData.max_players} onChange={handleInputChange} />
+                    </label>
+                    <label>
+                        Game Length:
+                        <Input type="number" name="game_length" value={formData.game_length} onChange={handleInputChange} />
+
+                    </label>
+                    <label>
+                        Password:
+                        <Input type="text" name="password" value={formData.password} onChange={handleInputChange} />
+
+                    </label>
+                    <label>
+                        Entry Fee:
+                        <Input type="number" name="entry_fee" value={formData.entry_fee} onChange={handleInputChange} />
+
+                    </label>
+                    <Button type="submit">Create Game</Button>
+                </form>
             </div>
             <div className="mt-8">
                 <h5>Lobby</h5>

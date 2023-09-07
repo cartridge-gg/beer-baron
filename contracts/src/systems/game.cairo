@@ -10,7 +10,7 @@ mod create_game {
     use beer_barron::components::game::{
         Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig
     };
-    use beer_barron::constants::GAME_CONFIG;
+    use beer_barron::constants::CONFIG::{SYSTEM_IDS::{GAME_CONFIG}};
 
 
     fn execute(ctx: Context, config: GameConfig) -> u64 {
@@ -59,14 +59,15 @@ mod join_game {
     use beer_barron::components::player::{Player};
     use beer_barron::components::balances::{ItemBalance};
 
-    use beer_barron::constants::{GAME_CONFIG, STARTING_BALANCE, CONFIG::{ITEM_IDS::{GOLD_ID}}};
+    use beer_barron::constants::{CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID}}};
 
     // adds player to the game
     // TODO: Add Lords Deposit
-    fn execute(ctx: Context, game_id: u64, name: felt252) -> ContractAddress {
-        // Assert game in lobby
+    fn execute(ctx: Context, game_id: u64, name: felt252, password: felt252) -> ContractAddress {
+        // Assert game in lobby + password correct
         let mut game = get!(ctx.world, (game_id), (Game));
         game.lobby();
+        game.check_password(password);
 
         // increase number of players
         game.number_players += 1;
@@ -82,7 +83,7 @@ mod join_game {
                 game_id: game_id,
                 player_id: player_id,
                 item_id: GOLD_ID.try_into().unwrap(),
-                balance: STARTING_BALANCE.try_into().unwrap()
+                balance: GOLD.try_into().unwrap()
             })
         );
 
@@ -105,7 +106,7 @@ mod start_game {
     use beer_barron::components::game::{Game, GameTracker, GameTrait, GameStatus, Ownership};
     use beer_barron::components::player::{Player};
 
-    use beer_barron::constants::{GAME_CONFIG, CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
+    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
 
     // adds player to the game
     // TODO: Add Lords Deposit

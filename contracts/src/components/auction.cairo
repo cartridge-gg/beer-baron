@@ -10,10 +10,12 @@ struct Auction {
     game_id: u64,
     #[key]
     item_id: u128,
-    target_price: Fixed,
-    decay_constant: Fixed,
-    max_sellable: Fixed,
-    time_scale: Fixed,
+    target_price: u128,
+    decay_constant_mag: u128,
+    decay_constant_sign: bool,
+    max_sellable: u128,
+    time_scale_mag: u128,
+    time_scale_sign: bool,
     start_time: u64,
     sold: u128,
 }
@@ -23,10 +25,10 @@ struct Auction {
 impl ImplAuction of AuctionTrait {
     fn to_LogisticVRGDA(self: Auction) -> LogisticVRGDA {
         LogisticVRGDA {
-            target_price: self.target_price,
-            decay_constant: self.decay_constant,
-            max_sellable: self.max_sellable,
-            time_scale: self.time_scale
+            target_price: FixedTrait::new_unscaled(self.target_price, false),
+            decay_constant: FixedTrait::new(self.decay_constant_mag, self.decay_constant_sign),
+            max_sellable: FixedTrait::new_unscaled(self.max_sellable, false),
+            time_scale: FixedTrait::new(self.time_scale_mag, self.time_scale_sign)
         }
     }
     fn get_price(self: Auction) -> Fixed {
@@ -50,9 +52,10 @@ struct TavernAuction {
     game_id: u64,
     #[key]
     item_id: u128,
-    target_price: Fixed,
-    decay_constant: Fixed,
-    per_time_unit: Fixed,
+    target_price: u128,
+    decay_constant_mag: u128,
+    decay_constant_sign: bool,
+    per_time_unit: u128,
     start_time: u64,
     sold: u128,
 }
@@ -61,9 +64,9 @@ struct TavernAuction {
 impl ImplTavernAuction of TavernAuctionTrait {
     fn to_ReverseLinearVRGDA(self: TavernAuction) -> ReverseLinearVRGDA {
         ReverseLinearVRGDA {
-            target_price: self.target_price,
-            decay_constant: self.decay_constant,
-            per_time_unit: self.per_time_unit
+            target_price: FixedTrait::new_unscaled(self.target_price, false),
+            decay_constant: FixedTrait::new(self.decay_constant_mag, self.decay_constant_sign),
+            per_time_unit: FixedTrait::new_unscaled(self.per_time_unit, false)
         }
     }
     fn get_price(self: TavernAuction) -> Fixed {

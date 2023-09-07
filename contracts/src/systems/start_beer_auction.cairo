@@ -15,7 +15,6 @@ mod start_beer_auction {
 
     const _0_31: u128 = 1071849066284996100; // 0.031
     const PER_TIME_UNIT: u128 = 1;
-    const _0_0023: u128 = 42427511369531970; // 0.0023
 
     fn execute(ctx: Context, game_id: u64, item_id: u128) {
         let mut game = get!(ctx.world, (game_id), (Game));
@@ -24,9 +23,10 @@ mod start_beer_auction {
         let auction = TavernAuction {
             game_id,
             item_id,
-            target_price: FixedTrait::new_unscaled(10, false).into(),
-            decay_constant: FixedTrait::new(_0_31, true),
-            per_time_unit: FixedTrait::new_unscaled(PER_TIME_UNIT, false),
+            target_price: 10,
+            decay_constant_mag: _0_31,
+            decay_constant_sign: true,
+            per_time_unit: PER_TIME_UNIT,
             start_time: get_block_timestamp(),
             sold: 0,
         };

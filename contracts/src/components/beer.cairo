@@ -1,6 +1,6 @@
 use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 use serde::Serde;
-use beer_barron::constants::{GAME_CONFIG, BREW_TIME, CONFIG::{ITEM_IDS::{BEERS}}};
+use beer_barron::constants::{CONFIG::{BREWING::{BREW_TIME}, ITEM_IDS::{BEERS}}};
 use traits::{Into, TryInto};
 use option::OptionTrait;
 
@@ -30,11 +30,11 @@ mod BrewStatus {
 #[generate_trait]
 impl ImplBrew of BrewTrait {
     fn assert_built(self: Brew) {
-        assert(self.status == BrewStatus::brewing, 'BREW: not ready');
+        assert(self.status == BrewStatus::brewing, 'BREW: not brewing');
     }
     fn assert_brewed(self: Brew) {
         let time_since_build = get_block_timestamp() - self.time_built;
-        assert(time_since_build > BREW_TIME.try_into().unwrap(), 'beer is not ready');
+        assert(time_since_build > BREW_TIME.try_into().unwrap(), 'BREW: not ready');
     }
 }
 

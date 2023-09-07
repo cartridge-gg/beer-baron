@@ -13,15 +13,15 @@ export function useSync<S extends Schema>(
     component: Component<S, Metadata, undefined>,
     keys: any[]
 ) {
-    const { setup: { network: { entity: getEntity } } } = useDojo();
+    const { setup: { network: { entity } } } = useDojo();
 
     const entityIndex = useMemo(() => {
         return getEntityIdFromKeys(keys);
     }, [keys]);
 
-    async function getEntityRemote() {
+    async function syncEntity() {
 
-        const data = await getEntity(component.metadata?.name as string, { keys }, 0, component.metadata?.length as number);
+        const data = await entity(component.metadata?.name as string, { keys }, 0, component.metadata?.length as number);
 
         // get values
         const values = data.slice(1);
@@ -40,7 +40,7 @@ export function useSync<S extends Schema>(
     }
 
     useEffect(() => {
-        getEntityRemote();
+        syncEntity();
         console.log('sync');
     }, [component, entityIndex]);
 }

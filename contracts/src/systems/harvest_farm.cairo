@@ -14,7 +14,9 @@ mod harvest_farm {
     use beer_barron::components::balances::{ItemBalance};
 
     use beer_barron::constants::{
-        GAME_CONFIG, CROP_GROWTH_TIME, CROP_YIELD, SEED_GROWN_OFFSET, NUMBER_OF_FARM_PLOTS
+        CONFIG::{
+            ITEM_IDS::{SEED_TO_FLOWER_OFFSET}, FARMING::{PLOT_COUNT, CROP_GROWTH_TIME, CROP_YIELD}
+        }
     };
 
     fn execute(ctx: Context, game_id: u64) {
@@ -22,12 +24,12 @@ mod harvest_farm {
         let game = get!(ctx.world, (game_id), (Game));
         game.active();
 
-        // MAX AREAS = NUMBER_OF_FARM_PLOTS
+        // MAX AREAS = PLOT_COUNT
         let mut area_id: usize = 0;
 
         // loop through all areas
         loop {
-            if area_id >= NUMBER_OF_FARM_PLOTS.try_into().unwrap() {
+            if area_id >= PLOT_COUNT.try_into().unwrap() {
                 break;
             }
 
@@ -45,7 +47,7 @@ mod harvest_farm {
                         (
                             game_id,
                             ctx.origin,
-                            farm_area.area_type + SEED_GROWN_OFFSET.try_into().unwrap()
+                            farm_area.area_type + SEED_TO_FLOWER_OFFSET.try_into().unwrap()
                         ),
                         (ItemBalance)
                     );

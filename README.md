@@ -103,12 +103,20 @@ Random weather events will affect the hop market, and the hop flower growth rate
 
 ### Launch the Example in Under 30 Seconds
 
+Make sure you have dojo installed: 
+
+- [Install Dojo](https://book.dojoengine.org/getting-started/quick-start.html)
+
+We are currently using:
+
+`dojoup -v nightly`
+
 After cloning the project, execute the following:
 
 1. **Terminal 1 - Katana**:
 
 ```console
-cd contracts && katana --disable-fee --block-time 1
+cd contracts && katana --disable-fee --block-time 1000
 ```
 
 2. **Terminal 2 - Contracts**:

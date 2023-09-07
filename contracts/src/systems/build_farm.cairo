@@ -13,16 +13,14 @@ mod build_farm {
     use beer_barron::components::player::{FarmArea};
     use beer_barron::components::balances::{ItemBalance};
 
-    use beer_barron::constants::{GAME_CONFIG, NUMBER_OF_FARM_PLOTS};
+    use beer_barron::constants::{CONFIG::{FARMING::{PLOT_COUNT}}};
 
     fn execute(ctx: Context, game_id: u64, area_type: Span<u64>) {
         // assert that the game is active
         let game = get!(ctx.world, (game_id), (Game));
         game.active();
 
-        assert(
-            area_type.len() == NUMBER_OF_FARM_PLOTS.try_into().unwrap(), 'you must submit 6 areas'
-        );
+        assert(area_type.len() == PLOT_COUNT.try_into().unwrap(), 'you must submit 6 areas');
 
         // MAX AREAS = NUMBER_OF_FARM_PLOTS
         let mut area_id: usize = 0;

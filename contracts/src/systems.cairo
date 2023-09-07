@@ -7,3 +7,4 @@ mod brew_beer;
 mod bottle_beer;
 mod start_beer_auction;
 mod sell_beer;
+mod trade;

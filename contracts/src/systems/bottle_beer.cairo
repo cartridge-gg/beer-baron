@@ -15,7 +15,7 @@ mod bottle_beer {
         Brew, BrewTrait, BrewBatchTrack, Recipe, BeerID, BrewStatus
     };
 
-    use beer_barron::constants::BREW_YEILD_LITRES;
+    use beer_barron::constants::CONFIG::{BREWING::{BREW_YEILD_LITRES}};
 
     // TODO: Remove Beer ID from this, can get it from the batch
     fn execute(ctx: Context, game_id: u64, batch_id: u64) {
