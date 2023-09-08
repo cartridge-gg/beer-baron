@@ -12,6 +12,7 @@ mod start_hops_auction {
     use dojo::world::Context;
     use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
 
+    // TODO: Move to game state so each game can have its own auction parameters
     const target_price: u128 = 10;
     const _0_31: u128 = 571849066284996100; // 0.031
     const MAX_SELLABLE: u128 = 100000;

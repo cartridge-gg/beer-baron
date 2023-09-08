@@ -23,6 +23,8 @@ export function useSync<S extends Schema>(
 
         const data = await entity(component.metadata?.name as string, { keys }, 0, component.metadata?.length as number);
 
+        console.log(data)
+
         // get values
         const values = data.slice(1);
 

@@ -10,15 +10,18 @@ export function defineContractComponents(world: World) {
         world,
         {
           target_price: RecsType.Number,
-          decay_constant: RecsType.Number,
+          decay_constant_mag: RecsType.Number,
+          decay_constant_sign: RecsType.Boolean,
           max_sellable: RecsType.Number,
-          time_scale: RecsType.Number,
+          time_scale_mag: RecsType.Number,
+          time_scale_sign: RecsType.Boolean,
           start_time: RecsType.Number,
           sold: RecsType.Number,
         },
         {
           metadata: {
             name: name,
+            length: 8,
           },
         }
       );
@@ -29,7 +32,8 @@ export function defineContractComponents(world: World) {
         world,
         {
           target_price: RecsType.Number,
-          decay_constant: RecsType.Number,
+          decay_constant_mag: RecsType.Number,
+          decay_constant_sign: RecsType.Boolean,
           per_time_unit: RecsType.Number,
           start_time: RecsType.Number,
           sold: RecsType.Number,
@@ -37,6 +41,8 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
+
+            length: 6,
           },
         }
       );
@@ -51,7 +57,8 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1
+            length: 1,
+
           },
         }
       );
@@ -72,7 +79,22 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 7
+            length: 7,
+          },
+        }
+      );
+    })(),
+    Joined: (() => {
+      const name = "Joined";
+      return defineComponent(
+        world,
+        {
+          joined: RecsType.Boolean,
+        },
+        {
+          metadata: {
+            name: name,
+            length: 1,
           },
         }
       );
@@ -87,7 +109,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1
+            length: 1,
           },
         }
       );
@@ -102,7 +124,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1
+            length: 1,
           },
         }
       );
@@ -117,7 +139,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1
+            length: 1,
           },
         }
       );
@@ -133,7 +155,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 2
+            length: 2,
           },
         }
       );
@@ -152,7 +174,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 5
+            length: 5,
           },
         }
       );
@@ -168,7 +190,41 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            lenght: 2
+            length: 2,
+          },
+        }
+      );
+    })(),
+    Trade: (() => {
+      const name = "Trade";
+      return defineComponent(
+        world,
+        {
+          game_id: RecsType.Number,
+          item_id: RecsType.Number,
+          quantity: RecsType.Number,
+          price: RecsType.Number,
+          status: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            length: 5,
+          },
+        }
+      );
+    })(),
+    TradeTrack: (() => {
+      const name = "TradeTrack";
+      return defineComponent(
+        world,
+        {
+          count: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            length: 1,
           },
         }
       );

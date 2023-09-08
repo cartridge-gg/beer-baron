@@ -112,3 +112,7 @@ h5 {
 h6 {
   @apply text-base font-medium my-1;
 }
+
+.border {
+  @apply border-white/20;
+}

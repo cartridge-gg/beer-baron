@@ -86,3 +86,9 @@ export const beerRecipes: Recipe = {
         { hop: Flowers.Chinook, quantity: 2 },
     ],
 };
+
+export enum GameStatus {
+    Created = 1,
+    Lobby = 2,
+    Started = 3,
+}

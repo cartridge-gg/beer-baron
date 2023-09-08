@@ -2,20 +2,20 @@ import { defineContractComponents } from "./contractComponents";
 import { world } from "./world";
 import { RPCProvider, Query, } from "@dojoengine/core";
 import { Account, num } from "starknet";
-// import { GraphQLClient } from 'graphql-request';
-
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../generated/graphql';
 
 export type SetupNetworkResult = Awaited<ReturnType<typeof setupNetwork>>;
 
 export async function setupNetwork() {
     // Extract environment variables for better readability.
-    const { VITE_PUBLIC_WORLD_ADDRESS, VITE_PUBLIC_NODE_URL } = import.meta.env;
+    const { VITE_PUBLIC_WORLD_ADDRESS, VITE_PUBLIC_NODE_URL, VITE_PUBLIC_TORII } = import.meta.env;
 
     // Create a new RPCProvider instance.
     const provider = new RPCProvider(VITE_PUBLIC_WORLD_ADDRESS, VITE_PUBLIC_NODE_URL);
 
     // Utility function to get the SDK.
-    // const createGraphSdk = () => getSdk(new GraphQLClient(VITE_PUBLIC_TORII));
+    const createGraphSdk = () => getSdk(new GraphQLClient(VITE_PUBLIC_TORII));
 
     // Return the setup object.
     return {
@@ -26,7 +26,7 @@ export async function setupNetwork() {
         contractComponents: defineContractComponents(world),
 
         // Define the graph SDK instance.
-        // graphSdk: createGraphSdk(),
+        graphSdk: createGraphSdk(),
 
         // Execute function.
         execute: async (signer: Account, system: string, call_data: num.BigNumberish[]) => {

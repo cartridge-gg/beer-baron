@@ -55,7 +55,7 @@ mod join_game {
     use option::OptionTrait;
     use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 
-    use beer_barron::components::game::{Game, GameTracker, GameTrait};
+    use beer_barron::components::game::{Game, GameTracker, GameTrait, Joined};
     use beer_barron::components::player::{Player};
     use beer_barron::components::balances::{ItemBalance};
 
@@ -86,6 +86,9 @@ mod join_game {
                 balance: GOLD.try_into().unwrap()
             })
         );
+
+        // set joined
+        set!(ctx.world, (Joined { game_id, address: ctx.origin.into(), joined: true }));
 
         ctx.origin
     }

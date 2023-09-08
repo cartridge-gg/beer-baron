@@ -7,8 +7,8 @@ version = "0.1.0"
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo" }
-dojo_defi = { git = "https://github.com/dojoengine/dojo" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "nightly-f0696801b6faeb0818039af7b41ae4eae3c903c3" }
+dojo_defi = { git = "https://github.com/dojoengine/dojo", tag = "nightly-f0696801b6faeb0818039af7b41ae4eae3c903c3" }
 cubit = { git = "https://github.com/ametel01/cubit.git" }
 
 [[target.dojo]]
@@ -17,13 +17,13 @@ cubit = { git = "https://github.com/ametel01/cubit.git" }
 initializer_class_hash = "0xbeef"
 
 [tool.dojo.env]
-rpc_url = "http://localhost:5050/"
-# Default account for katana with seed = 0
-account_address = "0x517ececd29116499f4a1b64b094da79ba08dfd54a3edaa316134c41f8160973"
-private_key = "0x1800000000300000180000000000030000000000003006001800006600"
-world_address = "0x56e58cfcfc4b18ab4677a46c92e93824fe866f2c90b4915e04d2998d3e1702e"
+# rpc_url = "http://localhost:5050/"
+# # Default account for katana with seed = 0
+# account_address = "0x517ececd29116499f4a1b64b094da79ba08dfd54a3edaa316134c41f8160973"
+# private_key = "0x1800000000300000180000000000030000000000003006001800006600"
+# world_address = "0x56e58cfcfc4b18ab4677a46c92e93824fe866f2c90b4915e04d2998d3e1702e"
 
 # Madara testnet
-# rpc_url = "https://api.cartridge.gg/x/shinai/madara"
-# account_address = "0x2"
-# private_key = "0xc1cf1490de1352865301bb8705143f3ef938f97fdf892f1090dcb5ac7bcd1d"
+rpc_url = "https://api.cartridge.gg/x/shinai/madara"
+account_address = "0x2"
+private_key = "0xc1cf1490de1352865301bb8705143f3ef938f97fdf892f1090dcb5ac7bcd1d"

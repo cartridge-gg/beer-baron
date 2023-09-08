@@ -17,6 +17,15 @@ mod GameStatus {
     const Started: u64 = 3;
 }
 
+#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+struct Joined {
+    #[key]
+    game_id: u64,
+    #[key]
+    address: felt252,
+    joined: bool
+}
+
 // To use for params in create_game system
 #[derive(Copy, Drop, Serde)]
 struct GameConfig {

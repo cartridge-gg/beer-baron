@@ -1,0 +1,45 @@
+query getGames($status: Int!) {
+  gameComponents(where: {status: $status}) {
+    edges {
+      node {
+        entity {
+          keys
+          components {
+            __typename
+            ... on Game {
+              game_id
+              start_time
+              status
+              number_players
+              max_players
+              game_length
+              entry_fee
+              password
+            }
+            ... on Ownership {
+              owner
+            }
+          }
+        }
+      }
+    }
+  }
+  joinedComponents {
+    edges {
+      node {
+        entity{
+          keys
+          components {
+            __typename
+            ... on Joined {
+              joined
+            }
+            ... on Player {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
