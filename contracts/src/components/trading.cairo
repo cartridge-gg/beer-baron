@@ -1,6 +1,6 @@
 use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Trade {
     #[key]
     entity_id: u64, // uuid trade number
@@ -17,7 +17,7 @@ mod TradeStatus {
     const CANCELLED: u8 = 0;
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct TradeTrack {
     #[key]
     game_id: u64,

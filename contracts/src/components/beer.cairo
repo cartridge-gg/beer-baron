@@ -6,7 +6,7 @@ use option::OptionTrait;
 
 // this could a generalised component in the future with the FarmArea
 // TODO: Can drop player_id and just use owner check
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Brew {
     #[key]
     game_id: u64,
@@ -40,7 +40,7 @@ impl ImplBrew of BrewTrait {
 
 
 // This will track batch numbers in games
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct BrewBatchTrack {
     #[key]
     game_id: u64,

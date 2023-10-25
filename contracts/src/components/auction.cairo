@@ -4,7 +4,7 @@ use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 use core::traits::{Into};
 use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Auction {
     #[key]
     game_id: u64,
@@ -46,7 +46,7 @@ impl ImplAuction of AuctionTrait {
 }
 
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct TavernAuction {
     #[key]
     game_id: u64,
@@ -82,11 +82,10 @@ impl ImplTavernAuction of TavernAuctionTrait {
             )
     }
 }
+// impl SerdeLenFixed of dojo::serde::SerdeLen<Fixed> {
+//     #[inline(always)]
+//     fn len() -> usize {
+//         2
+//     }
+// }
 
-
-impl SerdeLenFixed of dojo::serde::SerdeLen<Fixed> {
-    #[inline(always)]
-    fn len() -> usize {
-        2
-    }
-}

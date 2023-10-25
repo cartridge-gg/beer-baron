@@ -1,11 +1,11 @@
 import { useComponentValue, useEntityQuery } from "@dojoengine/react";
 import { useDojo } from "../../DojoContext"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/ui/elements/button"
 import { HasValue } from "@latticexyz/recs";
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { num } from "starknet";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/ui/elements/input";
 import { Game, GameEdge } from "@/generated/graphql";
 import {
     Table,
@@ -15,7 +15,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
+} from "@/ui/elements/table"
 import { localStartTime } from "@/utils";
 import { GameStatus } from "@/dojo/gameConfig";
 
@@ -27,7 +27,7 @@ import {
     SelectLabel,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select"
+} from "@/ui/elements/select"
 
 export const LobbyContainer = () => {
     const navigate = useNavigate();

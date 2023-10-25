@@ -1,0 +1,146 @@
+use dojo::world::{IWorldDispatcher, IWorldDispatcherTrait};
+use starknet::{ContractAddress, ClassHash};
+use beer_barron::components::beer::{BeerID, get_beer_id_from_enum};
+
+#[starknet::interface]
+trait IAuction<TContractState> {
+    fn start_hops_auction(self: @TContractState, game_id: u64, item_id: u128);
+    fn start_beer_auction(self: @TContractState, game_id: u64, item_id: u128);
+    fn sell_beer(self: @TContractState, game_id: u64, beer_id: BeerID, amount: u128);
+    fn buy_hops(self: @TContractState, game_id: u64, item_id: u128, amount: u128);
+}
+
+#[dojo::contract]
+mod auctions {
+    use traits::{Into, TryInto};
+    use option::OptionTrait;
+    use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use beer_barron::components::game::{
+        Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig, Joined
+    };
+
+    use beer_barron::components::player::{Player};
+    use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
+
+    use beer_barron::constants::CONFIG::{SYSTEM_IDS::{GAME_CONFIG}};
+    use beer_barron::constants::{CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID}}};
+    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
+
+    use beer_barron::components::auction::{Auction, AuctionTrait};
+    use beer_barron::components::auction::{TavernAuction, TavernAuctionTrait};
+
+    use cubit::f128::types::fixed::{Fixed, FixedTrait};
+    use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
+
+
+    use beer_barron::components::beer::{BeerID, get_beer_id_from_enum};
+
+
+    use super::IAuction;
+
+    const target_price: u128 = 10;
+    const _0_31: u128 = 571849066284996100; // 0.031
+    const MAX_SELLABLE: u128 = 100000;
+    const _0_0023: u128 = 32427511369531970; // 0.0016
+
+    const _0_11: u128 = 1071849066284996100; // 0.031
+    const PER_TIME_UNIT: u128 = 1;
+
+    #[external(v0)]
+    impl AuctionImpl of IAuction<ContractState> {
+        fn start_hops_auction(self: @ContractState, game_id: u64, item_id: u128) {
+            let world = self.world_dispatcher.read();
+            // todo: check if auction already exists
+            // todo: check game exists
+            let mut game = get!(world, (game_id), (Game));
+            // assert(game.status, 'game is not running');
+
+            let auction = Auction {
+                game_id,
+                item_id,
+                target_price: target_price,
+                decay_constant_mag: _0_31,
+                decay_constant_sign: true,
+                max_sellable: MAX_SELLABLE,
+                time_scale_mag: _0_0023,
+                time_scale_sign: false,
+                start_time: get_block_timestamp(), //update to timestamp
+                sold: 0,
+            };
+
+            set!(world, (auction));
+        }
+
+        fn start_beer_auction(self: @ContractState, game_id: u64, item_id: u128) {
+            let world = self.world_dispatcher.read();
+
+            let mut game = get!(world, (game_id), (Game));
+            // assert(game.status, 'game is not running');
+
+            let auction = TavernAuction {
+                game_id,
+                item_id,
+                target_price: 10,
+                decay_constant_mag: _0_11,
+                decay_constant_sign: true,
+                per_time_unit: PER_TIME_UNIT,
+                start_time: get_block_timestamp(),
+                sold: 0,
+            };
+
+            set!(world, (auction));
+        }
+
+        fn sell_beer(self: @ContractState, game_id: u64, beer_id: BeerID, amount: u128) {
+            let world = self.world_dispatcher.read();
+            // assert that the game is active
+            let game = get!(world, (game_id), (Game));
+            game.active();
+
+            let caller = get_caller_address();
+
+            let mut auction = get!(
+                world, (game_id, get_beer_id_from_enum(beer_id)).into(), (TavernAuction)
+            );
+            let mut gold_balance = get!(world, (game_id, caller, GOLD_ID), ItemBalance);
+            let mut item_balance = get!(
+                world, (game_id, caller, get_beer_id_from_enum(beer_id)), ItemBalance
+            );
+
+            auction.sold += amount;
+
+            // we sell beer into the auction and in return get gold
+            gold_balance.add(auction.get_price().try_into().unwrap() * amount);
+
+            // we remove the beer amount from the player
+            item_balance.sub(amount);
+
+            set!(world, (auction, gold_balance, item_balance));
+        }
+
+        fn buy_hops(self: @ContractState, game_id: u64, item_id: u128, amount: u128) {
+            let world = self.world_dispatcher.read();
+            let caller = get_caller_address();
+            // assert that the game is active
+            let game = get!(world, (game_id), (Game));
+            game.active();
+
+            let mut auction = get!(world, (game_id, item_id), Auction);
+            let mut gold_balance = get!(world, (game_id, caller, GOLD_ID), ItemBalance);
+            let mut item_balance = get!(world, (game_id, caller, item_id), ItemBalance);
+
+            // add to amount sold
+            auction.sold += amount;
+
+            // TODO: check this
+            // subtract from gold
+            // TODO: overflow check
+            gold_balance.sub(auction.get_price().try_into().unwrap() * amount);
+
+            // add to item balance
+            item_balance.add(amount);
+
+            set!(world, (auction, gold_balance, item_balance));
+        }
+    }
+}

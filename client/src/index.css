@@ -113,6 +113,12 @@ h6 {
   @apply text-base font-medium my-1;
 }
 
-.border {
-  @apply border-white/20;
+@font-face {
+  font-family: "Pixelify Sans";
+  src: url("../fonts/pixelify-sans-regular.ttf");
+}
+
+@font-face {
+  font-family: "Pixel Castle";
+  src: url("../fonts/Pixelcastle-Regular.otf");
 }

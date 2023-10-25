@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/ui/elements/button";
 import { useDojo } from "../../DojoContext"
 import { getEntityIdFromKeys } from "@/dojo/createSystemCalls";
 import { useComponentValue } from "@dojoengine/react";

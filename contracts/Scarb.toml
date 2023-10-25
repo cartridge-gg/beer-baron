@@ -7,9 +7,9 @@ version = "0.1.0"
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "nightly-f0696801b6faeb0818039af7b41ae4eae3c903c3" }
-dojo_defi = { git = "https://github.com/dojoengine/dojo", tag = "nightly-f0696801b6faeb0818039af7b41ae4eae3c903c3" }
-cubit = { git = "https://github.com/ametel01/cubit.git" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.3.1" }
+dojo_defi = { git = "https://github.com/dojoengine/dojo", tag = "v0.3.1" }
+cubit = { git = "https://github.com/influenceth/cubit" }
 
 [[target.dojo]]
 
@@ -23,7 +23,7 @@ initializer_class_hash = "0xbeef"
 # private_key = "0x1800000000300000180000000000030000000000003006001800006600"
 # world_address = "0x56e58cfcfc4b18ab4677a46c92e93824fe866f2c90b4915e04d2998d3e1702e"
 
-# Madara testnet
-rpc_url = "https://api.cartridge.gg/x/shinai/madara"
-account_address = "0x2"
-private_key = "0xc1cf1490de1352865301bb8705143f3ef938f97fdf892f1090dcb5ac7bcd1d"
+# # Madara testnet
+# rpc_url = "https://api.cartridge.gg/x/shinai/madara"
+# account_address = "0x2"
+# private_key = "0xc1cf1490de1352865301bb8705143f3ef938f97fdf892f1090dcb5ac7bcd1d"

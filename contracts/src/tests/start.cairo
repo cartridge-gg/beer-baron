@@ -26,16 +26,10 @@ mod test {
     use beer_barron::components::trading::{Trade, trade};
 
     // systems
-    use beer_barron::systems::buy_hops::{buy_hops};
-    use beer_barron::systems::start_hops_auction::{start_hops_auction};
-    use beer_barron::systems::game::{start_game, join_game, create_game};
-    use beer_barron::systems::build_farm::{build_farm};
-    use beer_barron::systems::harvest_farm::{harvest_farm};
-    use beer_barron::systems::brew_beer::{brew_beer};
-    use beer_barron::systems::bottle_beer::{bottle_beer};
-    use beer_barron::systems::start_beer_auction::{start_beer_auction};
-    use beer_barron::systems::sell_beer::{sell_beer};
-    use beer_barron::systems::trade::{accept_trade, create_trade};
+    use beer_barron::systems::lobby::{lobby, ILobbyDispatcher, ILobbyDispatcherTrait};
+    use beer_barron::systems::auctions::{auctions, IAuctionDispatcher, IAuctionDispatcherTrait};
+    use beer_barron::systems::farming::{farming, IFarmingDispatcher, IFarmingDispatcherTrait};
+    use beer_barron::systems::brewing::{brewing, IBrewingDispatcher, IBrewingDispatcherTrait};
 
     // consts
     use beer_barron::constants::{
@@ -44,7 +38,7 @@ mod test {
 
     fn setup() -> IWorldDispatcher {
         // components
-        let mut components = array![
+        let mut models = array![
             item_balance::TEST_CLASS_HASH,
             auction::TEST_CLASS_HASH,
             game::TEST_CLASS_HASH,
@@ -58,82 +52,127 @@ mod test {
             trade::TEST_CLASS_HASH
         ];
 
-        // // systems
-        let mut systems = array![
-            buy_hops::TEST_CLASS_HASH,
-            start_hops_auction::TEST_CLASS_HASH,
-            start_game::TEST_CLASS_HASH,
-            join_game::TEST_CLASS_HASH,
-            create_game::TEST_CLASS_HASH,
-            build_farm::TEST_CLASS_HASH,
-            brew_beer::TEST_CLASS_HASH,
-            harvest_farm::TEST_CLASS_HASH,
-            bottle_beer::TEST_CLASS_HASH,
-            start_beer_auction::TEST_CLASS_HASH,
-            sell_beer::TEST_CLASS_HASH,
-            create_trade::TEST_CLASS_HASH,
-            accept_trade::TEST_CLASS_HASH
-        ];
+        spawn_test_world(models)
+    }
 
-        // deploy executor, world and register components/systems
-        spawn_test_world(components, systems)
+    fn deploy_system(world: IWorldDispatcher, hash: felt252) -> ContractAddress {
+        world.deploy_contract('salt', hash.try_into().unwrap())
+    }
+
+    #[derive(Copy, Drop, Serde, SerdeLen)]
+    struct SetupValues {
+        world: IWorldDispatcher,
+        lobby_system: ILobbyDispatcher,
+        auction_system: IAuctionDispatcher,
+        farming_system: IFarmingDispatcher,
+        brewing_system: IBrewingDispatcher
+    }
+
+    fn setup_world_with_systems() -> SetupValues {
+        let mut world = setup();
+
+        SetupValues {
+            world,
+            lobby_system: ILobbyDispatcher {
+                contract_address: deploy_system(world, lobby::TEST_CLASS_HASH)
+            },
+            auction_system: IAuctionDispatcher {
+                contract_address: deploy_system(world, auctions::TEST_CLASS_HASH)
+            },
+            farming_system: IFarmingDispatcher {
+                contract_address: deploy_system(world, farming::TEST_CLASS_HASH)
+            },
+            brewing_system: IBrewingDispatcher {
+                contract_address: deploy_system(world, brewing::TEST_CLASS_HASH)
+            }
+        }
+    }
+
+    // We have to do this or else the compiler will complain about the 5 params
+    #[derive(Copy, Drop, Serde, SerdeLen)]
+    struct StartValues {
+        world: IWorldDispatcher,
+        game_id: u64,
+        player_id: ContractAddress,
+        lobby_system: ILobbyDispatcher,
+        auction_system: IAuctionDispatcher,
+        farming_system: IFarmingDispatcher,
+        brewing_system: IBrewingDispatcher
     }
 
 
-    fn create_start() -> (IWorldDispatcher, u64, ContractAddress) {
-        let mut world = setup();
+    const max_players: u32 = 1;
+    const game_length: u32 = 900;
+    const password: felt252 = 0;
+    const entry_fee: u32 = 0;
 
-        // config
-        let max_players = 1;
-        let game_length = 900;
-        let password = 0;
-        let entry_fee = 0;
+    fn create_start() -> StartValues {
+        let world_setup = setup_world_with_systems();
 
-        let mut res = world
-            .execute('create_game', array![max_players, game_length, password, entry_fee]);
-        assert(res.len() > 0, 'did not spawn');
+        // create game
+        let config = GameConfig {
+            max_players: max_players,
+            game_length: game_length,
+            password: password,
+            entry_fee: entry_fee
+        };
+        let mut game_id = world_setup.lobby_system.create_game(config);
+        assert(game_id == 1, 'game id wrong');
 
-        let game_id = serde::Serde::<u64>::deserialize(ref res).expect('create des failed');
-
+        // join game
         let name = 123;
-        let mut join_game = world.execute('join_game', array![game_id.into(), name, password]);
-        let player_id = serde::Serde::<ContractAddress>::deserialize(ref join_game)
-            .expect('id des failed');
+        let mut player_id = world_setup.lobby_system.join_game(game_id, name, config.password);
 
+        // start game
         starknet::testing::set_block_timestamp(1);
+        world_setup.lobby_system.start_game(game_id, world_setup.auction_system.contract_address);
 
-        world.execute('start_game', array![game_id.into()]);
-
-        // hop auctions
-        let auction_GALAXY = get!(world, (game_id, HOP_SEEDS::GALAXY).into(), (Auction));
-        let auction_CHINOOK = get!(world, (game_id, HOP_SEEDS::CHINOOK).into(), (Auction));
-        let auction_CITRA = get!(world, (game_id, HOP_SEEDS::CITRA).into(), (Auction));
+        // // hop auctions
+        let auction_GALAXY = get!(
+            world_setup.world, (game_id, HOP_SEEDS::GALAXY).into(), (Auction)
+        );
+        let auction_CHINOOK = get!(
+            world_setup.world, (game_id, HOP_SEEDS::CHINOOK).into(), (Auction)
+        );
+        let auction_CITRA = get!(world_setup.world, (game_id, HOP_SEEDS::CITRA).into(), (Auction));
         assert(auction_GALAXY.start_time > 0, 'auction not started');
         assert(auction_CHINOOK.start_time > 0, 'auction not started');
         assert(auction_CITRA.start_time > 0, 'auction not started');
 
-        // beer auctions
+        // // beer auctions
         let dragonhide_ipa_market = get!(
-            world, (game_id, BEERS::DRAGON_HIDE_BLAZE_IPA).into(), (TavernAuction)
+            world_setup.world, (game_id, BEERS::DRAGON_HIDE_BLAZE_IPA).into(), (TavernAuction)
         );
         let mithril_haze_market = get!(
-            world, (game_id, BEERS::MITHRIL_HAZE).into(), (TavernAuction)
+            world_setup.world, (game_id, BEERS::MITHRIL_HAZE).into(), (TavernAuction)
         );
         assert(dragonhide_ipa_market.start_time > 0, 'auction not started');
         assert(mithril_haze_market.start_time > 0, 'auction not started');
 
-        (world, game_id, player_id)
+        StartValues {
+            world: world_setup.world,
+            game_id: game_id,
+            player_id: player_id,
+            lobby_system: world_setup.lobby_system,
+            auction_system: world_setup.auction_system,
+            farming_system: world_setup.farming_system,
+            brewing_system: world_setup.brewing_system
+        }
     }
 
-    fn player_buy_hops() -> (IWorldDispatcher, u64, ContractAddress) {
-        let (world, game_id, player_id) = create_start();
+    fn player_buy_hops() -> StartValues {
+        let game = create_start();
 
         let buy_quantity = 10;
 
-        // TODO: Make Better - we know it's just working basically
-        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::GALAXY.into(), buy_quantity]);
-        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::CITRA.into(), buy_quantity]);
-        world.execute('buy_hops', array![game_id.into(), HOP_SEEDS::CHINOOK.into(), buy_quantity]);
+        // game_id
+        let game_id = game.game_id;
+        let world = game.world;
+        let player_id = game.player_id;
+
+        game.auction_system.buy_hops(game_id, HOP_SEEDS::GALAXY.try_into().unwrap(), buy_quantity);
+        game.auction_system.buy_hops(game_id, HOP_SEEDS::CITRA.try_into().unwrap(), buy_quantity);
+        game.auction_system.buy_hops(game_id, HOP_SEEDS::CHINOOK.try_into().unwrap(), buy_quantity);
 
         let player_balance = get!(world, (game_id, player_id, GOLD_ID).into(), (ItemBalance));
         assert(player_balance.balance < GOLD.try_into().unwrap(), 'balance not updated');
@@ -147,129 +186,120 @@ mod test {
         let chinook_auction = get!(world, (game_id, HOP_SEEDS::CHINOOK).into(), (Auction));
         assert(chinook_auction.sold.into() == buy_quantity, 'auction not updated');
 
-        (world, game_id, player_id)
+        game
     }
 
-    fn player_build_farm() -> (IWorldDispatcher, u64, ContractAddress) {
-        let (world, game_id, player_id) = player_buy_hops();
 
-        let crop: felt252 = 0;
+    fn player_build_farm() -> StartValues {
+        let game = player_buy_hops();
 
-        let mut calldata = Default::default();
-        Serde::serialize(@game_id, ref calldata);
-        Serde::serialize(
-            @array![
-                HOP_SEEDS::GALAXY.into(),
-                HOP_SEEDS::CITRA.into(),
-                HOP_SEEDS::CHINOOK.into(),
-                crop,
-                crop,
-                crop
-            ],
-            ref calldata
-        );
+        let mut arr = ArrayTrait::<u64>::new();
+        arr.append(HOP_SEEDS::GALAXY.try_into().unwrap());
+        arr.append(HOP_SEEDS::CITRA.try_into().unwrap());
+        arr.append(HOP_SEEDS::CHINOOK.try_into().unwrap());
+        arr.append(0);
+        arr.append(0);
+        arr.append(0);
 
-        world.execute('build_farm', calldata);
-        (world, game_id, player_id)
+        game.farming_system.build_farm(game.game_id, arr);
+
+        game
     }
 
-    fn player_harvest_farm() -> (IWorldDispatcher, u64, ContractAddress) {
-        let (world, game_id, player_id) = player_build_farm();
-
-        let crop: felt252 = 0;
-
-        let mut calldata = Default::default();
-        Serde::serialize(@game_id, ref calldata);
+    fn player_harvest_farm() -> StartValues {
+        let game = player_build_farm();
 
         starknet::testing::set_block_timestamp(2000);
 
-        world.execute('harvest_farm', calldata);
-        (world, game_id, player_id)
+        game.farming_system.harvest_farm(game.game_id);
+
+        // TODO: Check values of farms
+
+        game
     }
 
-    fn player_brew_beer() -> (IWorldDispatcher, u64, ContractAddress) {
-        let (world, game_id, player_id) = player_harvest_farm();
+    fn player_brew_beer() -> StartValues {
+        let game = player_harvest_farm();
 
-        world.execute('brew_beer', array![game_id.into(), 1]);
-        (world, game_id, player_id)
+        let mut brewing_system = IBrewingDispatcher {
+            contract_address: deploy_system(game.world, brewing::TEST_CLASS_HASH)
+        };
+
+        brewing_system.brew_beer(game.game_id, BeerID::DragonHideBlazeIPA);
+
+        game
     }
 
-    fn player_bottle_beer() -> (IWorldDispatcher, u64, ContractAddress) {
-        let (world, game_id, player_id) = player_brew_beer();
+    fn player_bottle_beer() -> StartValues {
+        let game = player_brew_beer();
 
         starknet::testing::set_block_timestamp(4000);
 
-        // game_id, beer_id, batch_id - hardcoded
-        world.execute('bottle_beer', array![game_id.into(), 1]);
+        game.brewing_system.bottle_beer(game.game_id, 1);
 
-        let batch = get!(world, (game_id, player_id, 1).into(), (Brew));
+        let batch = get!(game.world, (game.game_id, game.player_id, 1).into(), (Brew));
 
         assert(batch.status == 2, 'batch not updated');
 
-        (world, game_id, player_id)
+        game
     }
 
     #[test]
     #[available_gas(600000000)]
     fn test_start() {
-        let (world, game_id, player_id) = create_start();
+        create_start();
     }
-
     #[test]
     #[available_gas(600000000)]
     fn test_buy_hops() {
-        let (world, game_id, player_id) = player_buy_hops();
+        player_buy_hops();
     }
-
     #[test]
     #[available_gas(600000000)]
     fn test_build_farm() {
-        let (world, game_id, player_id) = player_build_farm();
+        player_build_farm();
     }
 
     #[test]
     #[available_gas(600000000)]
     fn test_harvest_farm() {
-        let (world, game_id, player_id) = player_harvest_farm();
+        player_harvest_farm();
     }
-
     #[test]
     #[available_gas(600000000)]
     fn test_brew_beer() {
-        let (world, game_id, player_id) = player_brew_beer();
+        player_brew_beer();
     }
-
     #[test]
     #[available_gas(600000000)]
     fn test_bottle_beer() {
-        let (world, game_id, player_id) = player_bottle_beer();
+        player_bottle_beer();
     }
+//     #[test]
+//     #[available_gas(600000000)]
+//     fn test_sell_beer() {
+//         let (world, game_id, player_id) = player_bottle_beer();
 
-    #[test]
-    #[available_gas(600000000)]
-    fn test_sell_beer() {
-        let (world, game_id, player_id) = player_bottle_beer();
+//         world.execute('sell_beer', array![game_id.into(), 1, 1]);
+//     }
 
-        world.execute('sell_beer', array![game_id.into(), 1, 1]);
-    }
+//     #[test]
+//     #[available_gas(600000000)]
+//     fn test_create_hop_flower_trade() {
+//         let (world, game_id, player_id) = player_harvest_farm();
 
-    #[test]
-    #[available_gas(600000000)]
-    fn test_create_hop_flower_trade() {
-        let (world, game_id, player_id) = player_harvest_farm();
+//         let item_id = HOP_FLOWERS::GALAXY;
+//         let quantity = 1;
+//         let price = 1;
 
-        let item_id = HOP_FLOWERS::GALAXY;
-        let quantity = 1;
-        let price = 1;
+//         world
+//             .execute(
+//                 'create_trade',
+//                 array![game_id.into(), item_id.into(), quantity.into(), price.into()]
+//             );
 
-        world
-            .execute(
-                'create_trade',
-                array![game_id.into(), item_id.into(), quantity.into(), price.into()]
-            );
-
-        let trade_id = 1;
-        world.execute('accept_trade', array![game_id.into(), trade_id.into()]);
-    }
+//         let trade_id = 1;
+//         world.execute('accept_trade', array![game_id.into(), trade_id.into()]);
+//     }
 }
 

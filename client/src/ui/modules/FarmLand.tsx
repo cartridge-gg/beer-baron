@@ -1,5 +1,5 @@
 import { useDojo } from '@/DojoContext';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/ui/elements/button';
 import { getEntityIdFromKeys } from '@/dojo/createSystemCalls';
 import { FlowerImages, GROW_TIME, Hops } from '@/dojo/gameConfig';
 import { useQueryParams } from '@/dojo/useQueryParams';

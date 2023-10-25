@@ -1,4 +1,4 @@
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Game {
     #[key]
     game_id: u64,
@@ -17,7 +17,7 @@ mod GameStatus {
     const Started: u64 = 3;
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Joined {
     #[key]
     game_id: u64,
@@ -55,14 +55,14 @@ impl ImplGame of GameTrait {
 // Config Components ---------------------------------------------------------------------
 
 // This will track the number of games played
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct GameTracker {
     #[key]
     entity_id: u64, // FIXED
     count: u64
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Ownership {
     #[key]
     entity_id: u64, // FIXED

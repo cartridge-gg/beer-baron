@@ -19,13 +19,26 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        display: ['"Righteous"', ...defaultTheme.fontFamily.sans],
-        body: ['"Zilla Slab"', ...defaultTheme.fontFamily.sans],
+        display: ['"Pixel Castle"', ...defaultTheme.fontFamily.sans],
+        body: ['"Pixelify Sans"', ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         'tavern': "url('/images/backgrounds/background.png')",
       },
       colors: {
+        beer: {
+          DEFAULT: "#f5f5dc",
+          100: "#F1C34D"
+        },
+        dirt: {
+          DEFAULT: "#a0522d",
+          100: "#2B281F",
+          300: "#443F31"
+        },
+        grass: {
+          DEFAULT: "#00FF00",
+          100: "#D4FF9C"
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDojo } from "@/DojoContext.tsx";
-import { Button } from "@/components/ui/button.tsx";
+import { Button } from "@/ui/elements/button";
 import { Hops } from "@/dojo/gameConfig.ts";
 import { useQueryParams } from "@/dojo/useQueryParams";
 

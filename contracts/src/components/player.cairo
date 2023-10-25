@@ -1,6 +1,6 @@
 use starknet::ContractAddress;
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Player {
     #[key]
     game_id: u64,
@@ -9,7 +9,7 @@ struct Player {
     name: felt252
 }
 
-#[derive(Component, Copy, Drop, Serde, SerdeLen)]
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct FarmArea {
     #[key]
     game_id: u64,
