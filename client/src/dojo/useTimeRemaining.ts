@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const useTimeRemaining = (time_built?: number, GROW_TIME: number = 0) => {
-    const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
+const useTimeRemaining = (time_built?: number, GROW_TIME = 0) => {
+    const [timeRemaining, setTimeRemaining] = useState<number>(0);
 
     useEffect(() => {
         if (time_built) {

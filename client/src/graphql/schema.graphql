@@ -1,45 +1,93 @@
-query getGames($status: Int!) {
-  gameComponents(where: {status: $status}) {
-    edges {
-      node {
-        entity {
-          keys
-          components {
-            __typename
-            ... on Game {
-              game_id
-              start_time
-              status
-              number_players
-              max_players
-              game_length
-              entry_fee
-              password
+query getGames($status: u64!) {
+    gameModels(where: { status: $status }) {
+        edges {
+            node {
+                entity {
+                    keys
+                    models {
+                        __typename
+                        ... on Game {
+                            game_id
+                            start_time
+                            status
+                            number_players
+                            max_players
+                            game_length
+                            entry_fee
+                            password
+                        }
+                        ... on Ownership {
+                            owner
+                        }
+                    }
+                }
             }
-            ... on Ownership {
-              owner
-            }
-          }
         }
-      }
     }
-  }
-  joinedComponents {
-    edges {
-      node {
-        entity{
-          keys
-          components {
-            __typename
-            ... on Joined {
-              joined
+    joinedModels {
+        edges {
+            node {
+                entity {
+                    keys
+                    models {
+                        __typename
+                        ... on Joined {
+                            joined
+                        }
+                        ... on Player {
+                            name
+                        }
+                    }
+                }
             }
-            ... on Player {
-              name
-            }
-          }
         }
-      }
     }
-  }
+}
+
+query getTrades($game_id: u64!, $status: u8!) {
+    tradeModels(where: { game_id: $game_id, status: $status }) {
+        edges {
+            node {
+                entity {
+                    keys
+                    models {
+                        __typename
+                        ... on Trade {
+                            entity_id
+                            game_id
+                            item_id
+                            quantity
+                            price
+                            status
+                            player_id
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query getIndulgences($game_id: u64!, $status: u8!) {
+    indulgenceauctionModels(where: { game_id: $game_id, status: $status }) {
+        edges {
+            node {
+                entity {
+                    keys
+                    models {
+                        __typename
+                        ... on IndulgenceAuction {
+                            game_id
+                            price
+                            status
+                            auction_id
+                            highest_bid_player_id
+                            expiry
+                            auction_id_value
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

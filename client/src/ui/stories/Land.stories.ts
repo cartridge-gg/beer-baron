@@ -12,8 +12,7 @@ const meta = {
     tags: ['autodocs'],
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
-        landType: { control: 2 },
-        active: { control: true },
+        index: { control: true },
     },
 } satisfies Meta<typeof Land>;
 
@@ -23,7 +22,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
-        landType: 1,
-        active: true,
+        index: 1,
     },
 };

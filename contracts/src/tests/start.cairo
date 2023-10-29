@@ -30,6 +30,7 @@ mod test {
     use beer_barron::systems::auctions::{auctions, IAuctionDispatcher, IAuctionDispatcherTrait};
     use beer_barron::systems::farming::{farming, IFarmingDispatcher, IFarmingDispatcherTrait};
     use beer_barron::systems::brewing::{brewing, IBrewingDispatcher, IBrewingDispatcherTrait};
+    use beer_barron::systems::trading::{trading, ITradingDispatcher, ITradingDispatcherTrait};
 
     // consts
     use beer_barron::constants::{
@@ -65,7 +66,8 @@ mod test {
         lobby_system: ILobbyDispatcher,
         auction_system: IAuctionDispatcher,
         farming_system: IFarmingDispatcher,
-        brewing_system: IBrewingDispatcher
+        brewing_system: IBrewingDispatcher,
+        trading_system: ITradingDispatcher
     }
 
     fn setup_world_with_systems() -> SetupValues {
@@ -84,11 +86,13 @@ mod test {
             },
             brewing_system: IBrewingDispatcher {
                 contract_address: deploy_system(world, brewing::TEST_CLASS_HASH)
+            },
+            trading_system: ITradingDispatcher {
+                contract_address: deploy_system(world, trading::TEST_CLASS_HASH)
             }
         }
     }
 
-    // We have to do this or else the compiler will complain about the 5 params
     #[derive(Copy, Drop, Serde, SerdeLen)]
     struct StartValues {
         world: IWorldDispatcher,
@@ -97,7 +101,8 @@ mod test {
         lobby_system: ILobbyDispatcher,
         auction_system: IAuctionDispatcher,
         farming_system: IFarmingDispatcher,
-        brewing_system: IBrewingDispatcher
+        brewing_system: IBrewingDispatcher,
+        trading_system: ITradingDispatcher
     }
 
 
@@ -156,7 +161,8 @@ mod test {
             lobby_system: world_setup.lobby_system,
             auction_system: world_setup.auction_system,
             farming_system: world_setup.farming_system,
-            brewing_system: world_setup.brewing_system
+            brewing_system: world_setup.brewing_system,
+            trading_system: world_setup.trading_system
         }
     }
 

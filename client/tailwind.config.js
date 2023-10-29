@@ -32,12 +32,14 @@ module.exports = {
         },
         dirt: {
           DEFAULT: "#a0522d",
-          100: "#2B281F",
-          300: "#443F31"
+          100: "#928968",
+          300: "#443F31",
+          400: "#3C382C"
         },
         grass: {
           DEFAULT: "#00FF00",
-          100: "#D4FF9C"
+          100: "#D4FF9C",
+          200: "#3F4431"
         },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

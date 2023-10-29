@@ -9,19 +9,19 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          target_price: RecsType.Number,
-          decay_constant_mag: RecsType.Number,
+          target_price: RecsType.BigInt,
+          decay_constant_mag: RecsType.BigInt,
           decay_constant_sign: RecsType.Boolean,
-          max_sellable: RecsType.Number,
-          time_scale_mag: RecsType.Number,
+          max_sellable: RecsType.BigInt,
+          time_scale_mag: RecsType.BigInt,
           time_scale_sign: RecsType.Boolean,
           start_time: RecsType.Number,
-          sold: RecsType.Number,
+          sold: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
-            length: 8,
+            types: ["u128","u128","bool","u128","u128","bool","u64","u128"],
           },
         }
       );
@@ -31,18 +31,51 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          target_price: RecsType.Number,
-          decay_constant_mag: RecsType.Number,
+          target_price: RecsType.BigInt,
+          decay_constant_mag: RecsType.BigInt,
           decay_constant_sign: RecsType.Boolean,
-          per_time_unit: RecsType.Number,
+          per_time_unit: RecsType.BigInt,
           start_time: RecsType.Number,
-          sold: RecsType.Number,
+          sold: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
-
-            length: 6,
+            types: ["u128","u128","bool","u128","u64","u128"],
+          },
+        }
+      );
+    })(),
+    IndulgenceAuction: (() => {
+      const name = "IndulgenceAuction";
+      return defineComponent(
+        world,
+        {
+          price: RecsType.BigInt,
+          highest_bid_player_id: RecsType.BigInt,
+          expiry: RecsType.Number,
+          auction_id_value: RecsType.Number,
+          status: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["u128","ContractAddress","u64","u64","u8"],
+          },
+        }
+      );
+    })(),
+    IndulgenceAuctionCount: (() => {
+      const name = "IndulgenceAuctionCount";
+      return defineComponent(
+        world,
+        {
+          count: RecsType.Number,
+        },
+        {
+          metadata: {
+            name: name,
+            types: ["u64"],
           },
         }
       );
@@ -52,13 +85,12 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          balance: RecsType.Number,
+          balance: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
-            length: 1,
-
+            types: ["u128"],
           },
         }
       );
@@ -73,13 +105,14 @@ export function defineContractComponents(world: World) {
           number_players: RecsType.Number,
           max_players: RecsType.Number,
           game_length: RecsType.Number,
-          password: RecsType.Number,
+          password: RecsType.BigInt,
           entry_fee: RecsType.Number,
+          seed: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            length: 7,
+            types: ["u64","u64","u32","u32","u32","felt252","u32","u64"],
           },
         }
       );
@@ -94,7 +127,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1,
+            types: ["bool"],
           },
         }
       );
@@ -109,7 +142,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1,
+            types: ["u64"],
           },
         }
       );
@@ -119,12 +152,12 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          owner: RecsType.Number,
+          owner: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
-            length: 1,
+            types: ["felt252"],
           },
         }
       );
@@ -134,12 +167,12 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          name: RecsType.Number,
+          name: RecsType.BigInt,
         },
         {
           metadata: {
             name: name,
-            length: 1,
+            types: ["felt252"],
           },
         }
       );
@@ -155,7 +188,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 2,
+            types: ["u64","u64"],
           },
         }
       );
@@ -166,7 +199,7 @@ export function defineContractComponents(world: World) {
         world,
         {
           batch_key: RecsType.Number,
-          owner: RecsType.Number,
+          owner: RecsType.BigInt,
           beer_id: RecsType.Number,
           time_built: RecsType.Number,
           status: RecsType.Number,
@@ -174,7 +207,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 5,
+            types: ["u64","ContractAddress","u64","u64","u64"],
           },
         }
       );
@@ -184,13 +217,13 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          owner: RecsType.Number,
+          owner: RecsType.BigInt,
           count: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            length: 2,
+            types: ["ContractAddress","u64"],
           },
         }
       );
@@ -200,16 +233,17 @@ export function defineContractComponents(world: World) {
       return defineComponent(
         world,
         {
-          game_id: RecsType.Number,
-          item_id: RecsType.Number,
-          quantity: RecsType.Number,
-          price: RecsType.Number,
+          item_id: RecsType.BigInt,
+          quantity: RecsType.BigInt,
+          price: RecsType.BigInt,
           status: RecsType.Number,
+          player_id: RecsType.BigInt,
+          game_id_value: RecsType.Number,
         },
         {
           metadata: {
             name: name,
-            length: 5,
+            types: ["u128","u128","u128","u8","ContractAddress","u64"],
           },
         }
       );
@@ -224,7 +258,7 @@ export function defineContractComponents(world: World) {
         {
           metadata: {
             name: name,
-            length: 1,
+            types: ["u64"],
           },
         }
       );

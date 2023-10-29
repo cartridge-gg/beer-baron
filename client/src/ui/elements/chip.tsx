@@ -21,7 +21,7 @@ const colorClassNames = {
 
 export const Chip = (props: Props) => {
     return (
-        <div className={`${positionClassNames[props.position]} ${colorClassNames[props.color]} rounded px-2 text-sm uppercase shadow-lg border-2 border-black/10 shadow-xl`}>
+        <div className={`${positionClassNames[props.position]} ${colorClassNames[props.color]} rounded px-2 text-sm uppercase shadow-lg border-2 border-black/10 shadow-xl text-dirt-300`}>
             {props.title}
         </div>
     )

@@ -1,8 +1,9 @@
-export const BREW_TIME = 100000
-export const GROW_TIME = 100000;
-export const BATCH_AMOUNT = 1000;
+export const BREW_TIME = 1000000
+export const GROW_TIME = 2000000;
+export const BATCH_AMOUNT = 100;
 
 export const GOLD_ID = 999999;
+export const INDULGENCE_ID = 999998;
 // used for internal enum in cairo
 export enum BeerID {
     DragonHideBlaze = 1,
@@ -91,4 +92,16 @@ export enum GameStatus {
     Created = 1,
     Lobby = 2,
     Started = 3,
+}
+
+export enum TradeStatus {
+    Open = 1,
+    Accepted = 2,
+    Cancelled = 3
+}
+
+export const TradeStatusTitles = {
+    [TradeStatus.Open]: "Open",
+    [TradeStatus.Accepted]: "Accepted",
+    [TradeStatus.Cancelled]: "Cancelled",
 }

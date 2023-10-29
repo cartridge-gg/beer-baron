@@ -39,7 +39,9 @@ mod brewing {
             ITEM_IDS::{SEED_TO_FLOWER_OFFSET}, FARMING::{PLOT_COUNT, CROP_GROWTH_TIME, CROP_YIELD}
         }
     };
-    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_FLOWERS::{CITRA, CHINOOK, GALAXY}}}};
+    use beer_barron::constants::{
+        CONFIG::{ITEM_IDS::{HOP_FLOWERS::{CITRA, CHINOOK, GALAXY, FUGGLE, SAAZ, CASCADE}}}
+    };
 
     use super::IBrewing;
 
@@ -52,7 +54,7 @@ mod brewing {
             game.active();
 
             // get beer recipe
-            let beer_recipe = get_recipe(beer_id);
+            let beer_recipe = get_recipe(beer_id, game.seed);
 
             let player_id = get_caller_address().into();
 
@@ -60,6 +62,9 @@ mod brewing {
             check_balance(world, game_id, beer_recipe.citra, CITRA.try_into().unwrap());
             check_balance(world, game_id, beer_recipe.chinook, CHINOOK.try_into().unwrap());
             check_balance(world, game_id, beer_recipe.galaxy, GALAXY.try_into().unwrap());
+            check_balance(world, game_id, beer_recipe.fuggle, FUGGLE.try_into().unwrap());
+            check_balance(world, game_id, beer_recipe.saaz, SAAZ.try_into().unwrap());
+            check_balance(world, game_id, beer_recipe.cascade, CASCADE.try_into().unwrap());
 
             // create unique batch number for the game
             let mut batch = get!(world, (game_id), (BrewBatchTrack));

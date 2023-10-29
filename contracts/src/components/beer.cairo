@@ -53,6 +53,9 @@ struct Recipe {
     citra: u64,
     chinook: u64,
     galaxy: u64,
+    cascade: u64,
+    saaz: u64,
+    fuggle: u64,
 }
 
 
@@ -63,7 +66,10 @@ enum BeerID {
     None: (),
     DragonHideBlazeIPA,
     MithrilHaze,
-    ObsidianImperialStout
+    ObsidianImperialStout,
+    RubySour,
+    DiamondWheatBeer,
+    EtherealLager,
 }
 
 
@@ -72,15 +78,34 @@ fn get_beer_id_from_enum(beer_id: BeerID) -> u64 {
         BeerID::None(_) => 0,
         BeerID::DragonHideBlazeIPA(_) => BEERS::DRAGON_HIDE_BLAZE_IPA.try_into().unwrap(),
         BeerID::MithrilHaze(_) => BEERS::MITHRIL_HAZE.try_into().unwrap(),
-        BeerID::ObsidianImperialStout(_) => BEERS::OBSIDIAN_IMPERIAL_STOUT.try_into().unwrap()
+        BeerID::ObsidianImperialStout(_) => BEERS::OBSIDIAN_IMPERIAL_STOUT.try_into().unwrap(),
+        BeerID::RubySour(_) => BEERS::RUBY_SOUR.try_into().unwrap(),
+        BeerID::DiamondWheatBeer(_) => BEERS::DIAMOND_WHEAT_BEER.try_into().unwrap(),
+        BeerID::EtherealLager(_) => BEERS::ETHEREAL_LAGER.try_into().unwrap(),
     }
 }
 
-fn get_recipe(beer_id: BeerID) -> Recipe {
+fn get_recipe(beer_id: BeerID, seed: u64) -> Recipe {
     match beer_id {
-        BeerID::None(_) => Recipe { citra: 0, chinook: 0, galaxy: 0 },
-        BeerID::DragonHideBlazeIPA(_) => Recipe { citra: 5, chinook: 3, galaxy: 2 },
-        BeerID::MithrilHaze(_) => Recipe { citra: 1, chinook: 6, galaxy: 3 },
-        BeerID::ObsidianImperialStout(_) => Recipe { citra: 2, chinook: 6, galaxy: 2 }
+        BeerID::None(_) => Recipe {
+            citra: 0, chinook: 0, galaxy: 0, cascade: 0, saaz: 0, fuggle: 0
+        },
+        BeerID::DragonHideBlazeIPA(_) => generate_random_recipe(seed, 1),
+        BeerID::MithrilHaze(_) => generate_random_recipe(seed, 2),
+        BeerID::ObsidianImperialStout(_) => generate_random_recipe(seed, 3),
+        BeerID::RubySour(_) => generate_random_recipe(seed, 4),
+        BeerID::DiamondWheatBeer(_) => generate_random_recipe(seed, 5),
+        BeerID::EtherealLager(_) => generate_random_recipe(seed, 6),
     }
+}
+
+fn generate_random_recipe(seed: u64, offset: u64) -> Recipe {
+    let citra = (seed * offset * 17) % 50;
+    let chinook = (seed * offset * 23) % 50;
+    let galaxy = (seed * offset * 67) % 50;
+    let cascade = (seed * offset * 123) % 50;
+    let saaz = (seed * offset * 89) % 50;
+    let fuggle = (seed * offset * 45) % 50;
+
+    Recipe { citra, chinook, galaxy, cascade, saaz, fuggle }
 }

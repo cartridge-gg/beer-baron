@@ -1,14 +1,19 @@
 use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
-
+use starknet::{ContractAddress, get_caller_address};
+use traits::{Into, TryInto};
+use option::OptionTrait;
 #[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Trade {
     #[key]
     entity_id: u64, // uuid trade number
+    #[key]
     game_id: u64,
     item_id: u128,
     quantity: u128,
     price: u128,
-    status: u8
+    status: u8,
+    player_id: ContractAddress,
+    game_id_value: u64
 }
 
 mod TradeStatus {
@@ -37,6 +42,7 @@ impl ImplTrade of TradeTrait {
         assert(self.quantity > 0, 'Trade quantity is 0');
         assert(buyer_gold_balance.balance >= self.price, 'not enough gold');
         assert(self.game_id == game_id, 'game id does not match');
+        assert(self.player_id != get_caller_address(), 'cannot accept self');
 
         // update gold
         buyer_gold_balance.sub(self.price);
@@ -76,15 +82,22 @@ fn test_trade() {
 
     // seller
     let mut seller_gold_balance = ItemBalance {
-        game_id, player_id: 2.try_into().unwrap(), item_id: 999, balance: 0
+        game_id, player_id: get_caller_address(), item_id: 999, balance: 0
     };
     let mut seller_item_balance = ItemBalance {
-        game_id, player_id: 2.try_into().unwrap(), item_id, balance: quantity
+        game_id, player_id: get_caller_address(), item_id, balance: quantity
     };
 
     // trade
     let mut trade = Trade {
-        entity_id: 1, game_id, item_id, quantity, price, status: TradeStatus::OPEN
+        entity_id: 1,
+        game_id,
+        item_id,
+        quantity,
+        price,
+        status: TradeStatus::OPEN,
+        player_id: get_caller_address(),
+        game_id_value: game_id
     };
 
     trade.create_trade(ref seller_item_balance);

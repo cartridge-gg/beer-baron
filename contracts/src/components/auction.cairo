@@ -1,8 +1,12 @@
 use cubit::f128::types::fixed::{Fixed, FixedTrait};
-use starknet::{ContractAddress, get_block_timestamp};
+use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
 use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
-use core::traits::{Into};
 use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
+use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
+use traits::{Into, TryInto};
+use option::OptionTrait;
+
+use beer_barron::components::trading::{TradeStatus};
 
 #[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Auction {
@@ -82,10 +86,64 @@ impl ImplTavernAuction of TavernAuctionTrait {
             )
     }
 }
-// impl SerdeLenFixed of dojo::serde::SerdeLen<Fixed> {
-//     #[inline(always)]
-//     fn len() -> usize {
-//         2
-//     }
-// }
 
+
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
+struct IndulgenceAuction {
+    #[key]
+    game_id: u64,
+    #[key]
+    auction_id: u64, // count in the game  
+    price: u128,
+    highest_bid_player_id: ContractAddress,
+    expiry: u64,
+    auction_id_value: u64,
+    status: u8, // claimed or not
+}
+
+#[derive(Model, Copy, Drop, Serde, SerdeLen)]
+struct IndulgenceAuctionCount {
+    #[key]
+    game_id: u64,
+    count: u64,
+}
+
+#[generate_trait]
+impl ImplIndulgenceAuction of IndulgenceAuctionTrait {
+    fn set_new_price(
+        ref self: IndulgenceAuction,
+        ref new_bidder_gold_balance: ItemBalance,
+        ref old_bidder_gold_balance: ItemBalance,
+        game_id: u64,
+        price: u128
+    ) {
+        assert(self.status == TradeStatus::OPEN, 'auction not open');
+        assert(price > self.price, 'You have to bid more');
+        assert(new_bidder_gold_balance.balance >= self.price, 'not enough gold');
+        assert(self.game_id == game_id, 'game id does not match');
+        assert(self.highest_bid_player_id != get_caller_address(), 'cannot accept self');
+        assert(self.expiry > get_block_timestamp(), 'not expired');
+
+        // update gold
+        new_bidder_gold_balance.sub(price);
+        old_bidder_gold_balance.add(price);
+
+        self.highest_bid_player_id = get_caller_address();
+
+        self.price = price;
+    }
+    fn claim_indulgence_and_increment(ref self: IndulgenceAuction, game_id: u64) {
+        assert(self.game_id == game_id, 'game id does not match');
+        assert(self.highest_bid_player_id == get_caller_address(), 'not winning bid');
+        assert(self.expiry < get_block_timestamp(), 'not expired');
+
+        self.status = TradeStatus::ACCEPTED;
+    }
+    fn assert_auction_expired(self: IndulgenceAuction) {
+        assert(
+            self.status == TradeStatus::OPEN || self.status == TradeStatus::ACCEPTED,
+            'auction not open'
+        );
+        assert(self.expiry < get_block_timestamp(), 'not expired');
+    }
+}

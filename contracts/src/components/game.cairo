@@ -9,6 +9,7 @@ struct Game {
     game_length: u32, // seconds
     password: felt252, // 0 for no password
     entry_fee: u32,
+    seed: u64
 }
 
 mod GameStatus {

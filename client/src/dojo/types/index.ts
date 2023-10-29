@@ -1,5 +1,5 @@
 import { Account, num } from "starknet";
-import { Beers } from "../gameConfig";
+import { BeerID } from "@/ui/components/BeerCard";
 
 export interface SystemSigner {
     account: Account
@@ -44,7 +44,7 @@ export interface FarmProps extends SystemSigner {
 
 export interface BrewBeerProps extends SystemSigner {
     game_id: number;
-    beer_id: Beers;
+    beer_id: BeerID;
 }
 
 export interface BottleBeerProps extends BrewBeerProps {
@@ -53,4 +53,30 @@ export interface BottleBeerProps extends BrewBeerProps {
 
 export interface SellBeerProps extends BrewBeerProps {
     amount: number;
+}
+
+export interface MakeTradeProps extends SystemSigner {
+    game_id: number;
+    item_id: number;
+    quantity: number;
+    price: number;
+}
+
+export interface AcceptTradeProps extends SystemSigner {
+    game_id: number;
+    trade_id: number;
+}
+
+export interface CancelTradeProps extends SystemSigner {
+    game_id: number;
+    trade_id: number;
+}
+
+export interface PlaceIndulgencesBidProps extends SystemSigner {
+    game_id: number;
+    price: number;
+}
+
+export interface ClaimIndulgenceProps extends SystemSigner {
+    game_id: number;
 }

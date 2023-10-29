@@ -1,31 +1,31 @@
 import './App.css';
 import { useQueryParams } from './dojo/useQueryParams';
-import { LobbyContainer } from './ui/containers/LobbyContainer';
-import { MainContainer } from './ui/containers/MainContainer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { DesktopDashboard } from './ui/screens/DesktopDashboard';
+import { TopNavigationContainer } from './ui/containers/TopNavigationContainer';
+import { Toaster } from "@/components/ui/toaster"
+import { LobbyScreen } from './ui/screens/LobbyScreen';
 
 export const CoreScreen = () => {
   const { game_id } = useQueryParams();
-  if (game_id) {
-    return <MainContainer />;
-  } else {
-    return <LobbyContainer />;
-  }
+
+  return (
+    <>
+      <TopNavigationContainer />
+      {game_id ? <DesktopDashboard /> : <LobbyScreen />}
+    </>
+  )
 }
 
 function App() {
-
   return (
     <>
       <Router>
         <Routes>
           <Route path="/" element={<CoreScreen />} />
         </Routes>
-        <ToastContainer />
+        <Toaster />
       </Router>
-
     </>
   );
 }

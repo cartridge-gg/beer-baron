@@ -17,7 +17,9 @@ trait ILobby<TContractState> {
 mod lobby {
     use traits::{Into, TryInto};
     use option::OptionTrait;
-    use starknet::{ContractAddress, get_caller_address, get_block_timestamp};
+    use starknet::{
+        ContractAddress, get_caller_address, get_block_timestamp, get_block_hash_syscall
+    };
     use beer_barron::components::game::{
         Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig, Joined
     };
@@ -42,6 +44,8 @@ mod lobby {
             let mut game_tracker = get!(world, (GAME_CONFIG), (GameTracker));
             let count: u64 = (game_tracker.count + 1).into();
 
+            let seed = 5672635178472;
+
             // set config
             let mut game = Game {
                 game_id: count,
@@ -52,6 +56,7 @@ mod lobby {
                 game_length: config.game_length,
                 password: config.password,
                 entry_fee: config.entry_fee,
+                seed
             };
 
             // set game
@@ -122,11 +127,20 @@ mod lobby {
             auctions.start_hops_auction(game_id, HOP_SEEDS::CHINOOK.try_into().unwrap());
             auctions.start_hops_auction(game_id, HOP_SEEDS::CITRA.try_into().unwrap());
             auctions.start_hops_auction(game_id, HOP_SEEDS::GALAXY.try_into().unwrap());
+            auctions.start_hops_auction(game_id, HOP_SEEDS::CASCADE.try_into().unwrap());
+            auctions.start_hops_auction(game_id, HOP_SEEDS::SAAZ.try_into().unwrap());
+            auctions.start_hops_auction(game_id, HOP_SEEDS::FUGGLE.try_into().unwrap());
 
             auctions.start_beer_auction(game_id, BEERS::DRAGON_HIDE_BLAZE_IPA.try_into().unwrap());
             auctions.start_beer_auction(game_id, BEERS::MITHRIL_HAZE.try_into().unwrap());
             auctions
                 .start_beer_auction(game_id, BEERS::OBSIDIAN_IMPERIAL_STOUT.try_into().unwrap());
+            auctions.start_beer_auction(game_id, BEERS::RUBY_SOUR.try_into().unwrap());
+            auctions.start_beer_auction(game_id, BEERS::DIAMOND_WHEAT_BEER.try_into().unwrap());
+            auctions.start_beer_auction(game_id, BEERS::ETHEREAL_LAGER.try_into().unwrap());
+
+            // start indulgence auction
+            auctions.start_indulgences_auction(game_id);
         }
     }
 }
