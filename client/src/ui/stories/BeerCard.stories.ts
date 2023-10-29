@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { BeerCard, BeerID } from '../components/BeerCard';
+import { BeerCard } from '../components/BeerCard';
+import { Entity } from '@latticexyz/recs';
 
 const meta = {
     title: 'components/BeerCard',
@@ -22,6 +23,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Lager: Story = {
     args: {
-        entity_id: '1'
+        entity_id: '1' as Entity
     },
 };

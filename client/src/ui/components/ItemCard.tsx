@@ -3,7 +3,6 @@ import Coin from '../../icons/coin.svg?react';
 import { Input } from '../elements/input';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogFooter,
@@ -136,7 +135,7 @@ export const ItemCard = ({ type }: Item) => {
 
     const { price } = usePricePolling(type);
 
-    const quantity = useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(type)]), 0)?.balance || 0;
+    const quantity = useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(type)]))?.balance || 0;
 
     const [actionQuantity, setActionQuantity] = useState(1);
 

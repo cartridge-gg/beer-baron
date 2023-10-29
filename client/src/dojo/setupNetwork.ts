@@ -18,6 +18,8 @@ export async function setupNetwork() {
     // Utility function to get the SDK.
     const createGraphSdk = () => getSdk(new GraphQLClient(VITE_PUBLIC_TORII));
 
+    console.log(manifest)
+
     // Return the setup object.
     return {
         provider,

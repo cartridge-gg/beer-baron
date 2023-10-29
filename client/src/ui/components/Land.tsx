@@ -1,34 +1,23 @@
-import { useQueryParams } from "@/dojo/useQueryParams";
-import { Chip } from "../elements/chip";
-import { useDojo } from "@/DojoContext";
-import { getEntityIdFromKeys } from "@dojoengine/utils";
-import { useSync } from "@/hooks/useSync";
-import { useComponentValue } from "@dojoengine/react";
-import useTimeRemaining from "@/dojo/useTimeRemaining";
-import { GROW_TIME } from "@/dojo/gameConfig";
-import { useState } from "react";
+import { useQueryParams } from '@/dojo/useQueryParams';
+import { Chip } from '../elements/chip';
+import { useDojo } from '@/DojoContext';
+import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { useComponentValue } from '@dojoengine/react';
+import useTimeRemaining from '@/dojo/useTimeRemaining';
+import { GROW_TIME } from '@/dojo/gameConfig';
+import { useState } from 'react';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
-    AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogHeader,
-    AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/ui/elements/select"
-import { FancyTitle } from "./FancyTitle";
-import { Button } from "../elements/button";
-import { ImagePaths, Seeds } from "./ItemCard";
+} from '@/components/ui/alert-dialog';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
+import { FancyTitle } from './FancyTitle';
+import { Button } from '../elements/button';
+import { ImagePaths, Seeds } from './ItemCard';
 
 export enum LandType {
     Empty,
@@ -37,9 +26,9 @@ export enum LandType {
 }
 
 export const LandImagePaths: { [key in LandType]: string } = {
-    [LandType.Empty]: "/images/lands/State=Empty, Kind=Default, Num=1.png",
-    [LandType.Sprout]: "/images/lands/State=Sprout, Kind=Galaxy, Num=1.png",
-    [LandType.Flower]: "/images/lands/State=Flower, Kind=Galaxy, Num=1.png",
+    [LandType.Empty]: '/images/lands/State=Empty, Kind=Default, Num=1.png',
+    [LandType.Sprout]: '/images/lands/State=Sprout, Kind=Galaxy, Num=1.png',
+    [LandType.Flower]: '/images/lands/State=Flower, Kind=Galaxy, Num=1.png',
 };
 
 interface Props {
@@ -50,7 +39,13 @@ export const Land = ({ index }: Props) => {
     const [selectedHop, setSelectedHop] = useState(Seeds.CascadeSeeds);
 
     const { game_id } = useQueryParams();
-    const { setup: { systemCalls: { build_farm }, components: { FarmArea, ItemBalance } }, account: { account } } = useDojo();
+    const {
+        setup: {
+            systemCalls: { build_farm },
+            components: { FarmArea, ItemBalance },
+        },
+        account: { account },
+    } = useDojo();
 
     const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(index)]);
 
@@ -58,8 +53,8 @@ export const Land = ({ index }: Props) => {
 
     const farm = useComponentValue(FarmArea, entityId);
 
-    const built = farm?.time_built;
-    const duration = Date.now() - (farm?.time_built * 1000);
+    const built = farm?.time_built || 0;
+    const duration = Date.now() - built * 1000;
     const fully_grown = duration >= GROW_TIME;
     const half_grown = duration >= GROW_TIME / 2;
 
@@ -68,7 +63,7 @@ export const Land = ({ index }: Props) => {
         if (!built) return;
 
         // full grown
-        if (fully_grown) return ImagePaths[farm.area_type + 100 as Seeds];
+        if (fully_grown) return ImagePaths[(farm.area_type + 100) as Seeds];
 
         // sprout
         if (half_grown) return ImagePaths[farm.area_type as Seeds];
@@ -97,38 +92,35 @@ export const Land = ({ index }: Props) => {
     const quantity = (type: string) => {
         const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
-        return useComponentValue(ItemBalance, entityId, 0)?.balance || 0;
-    }
+        return useComponentValue(ItemBalance, entityId)?.balance || 0;
+    };
 
     return (
-
-
         <AlertDialog>
             <AlertDialogTrigger asChild>
                 <div className="relative p-2">
                     <Chip title={ready_state} position="top-right" color={ready_state_color} />
-                    <div className={`${ready_state ? "border-beer-100" : ""} rounded border h-48 bg-dirt-300 border-dirt-100/20 p-10 hover:border-green-100 hover:bg-grass-200 cursor-pointer`}>
+                    <div
+                        className={`${
+                            ready_state ? 'border-beer-100' : ''
+                        } rounded border h-48 bg-dirt-300 border-dirt-100/20 p-10 hover:border-green-100 hover:bg-grass-200 cursor-pointer`}
+                    >
                         {getImage()}
                     </div>
                 </div>
-
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <FancyTitle title="Plant hops" />
                     <p className="text-center">Grow flowers needed for brewing!</p>
                     <div className="mx-auto flex space-x-2 py-3">
-                        <div className="w-24">
-                            {ImagePaths[selectedHop]}
-                        </div>
+                        <div className="w-24">{ImagePaths[selectedHop]}</div>
                         <div className="self-center">
-                            {" > "} grows {" > "}
+                            {' > '} grows {' > '}
                         </div>
-                        <div className="w-24">
-                            {ImagePaths[(selectedHop + 100) as Seeds]}
-                        </div>
+                        <div className="w-24">{ImagePaths[(selectedHop + 100) as Seeds]}</div>
                     </div>
-                    <div className='flex space-x-1 mx-auto'>
+                    <div className="flex space-x-1 mx-auto">
                         <Select onValueChange={(value) => setSelectedHop(parseInt(value))}>
                             <SelectTrigger className="w-[180px]">
                                 <SelectValue placeholder="Select Status" />
@@ -146,17 +138,16 @@ export const Land = ({ index }: Props) => {
                             </SelectContent>
                         </Select>
                     </div>
-
-
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel asChild>
-                        <Button variant={'default'} size={'sm'} onClick={() => handlePlanting(selectedHop, index)}>Plant</Button>
+                        <Button variant={'default'} size={'sm'} onClick={() => handlePlanting(selectedHop, index)}>
+                            Plant
+                        </Button>
                     </AlertDialogCancel>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-
-    )
-}
+    );
+};

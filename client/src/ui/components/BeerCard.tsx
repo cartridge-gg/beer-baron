@@ -7,6 +7,7 @@ import { Button } from '../elements/button';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { BREW_TIME } from '@/dojo/gameConfig';
 import { generateRandomRecipe } from '@/utils';
+import { Entity } from '@latticexyz/recs';
 
 export enum BeerID {
     TIPA = 1,
@@ -98,7 +99,7 @@ export const BeerRecipes: Recipe = {
 };
 
 interface BeerCardProps {
-    entity_id: string;
+    entity_id: Entity;
 }
 
 export const BeerCard = ({ entity_id }: BeerCardProps) => {

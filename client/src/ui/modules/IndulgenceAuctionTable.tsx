@@ -8,7 +8,6 @@ import { IndulgenceAuctionEdge } from '@/generated/graphql';
 import { TradeStatus } from '@/dojo/gameConfig';
 import { Button } from '../elements/button';
 import { useComponentValue } from '@latticexyz/react';
-import { HasValue } from '@latticexyz/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 
 export const IndulgenceAuctionTable = () => {
