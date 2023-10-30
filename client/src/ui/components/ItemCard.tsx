@@ -11,7 +11,7 @@ import {
     AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { FancyTitle } from './FancyTitle';
-import { useComponentValue } from '@dojoengine/react';
+import { useComponentValue } from '@latticexyz/react';
 import FuggleSeeds from '../../icons/seeds/FuggleSeeds.svg?react';
 import GalaxySeeds from '../../icons/seeds/GalaxySeeds.svg?react';
 import ChinookSeeds from '../../icons/seeds/ChinookSeeds.svg?react';
@@ -39,6 +39,8 @@ import { Button } from '../elements/button';
 import { TextContainer } from '../elements/TextContainer';
 import { usePricePolling } from '@/hooks/usePricePolling';
 import { useState } from 'react';
+import { useSync } from '@/hooks/useSync';
+import { Entity } from '@latticexyz/recs';
 
 export enum Seeds {
     ChinookSeeds = 1,
@@ -135,9 +137,13 @@ export const ItemCard = ({ type }: Item) => {
 
     const { price } = usePricePolling(type);
 
-    const quantity = useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(type)]))?.balance || 0;
+    const entity_id = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(type)]) as Entity;
+
+    const quantity = useComponentValue(ItemBalance, entity_id)?.balance || 0;
 
     const [actionQuantity, setActionQuantity] = useState(1);
+
+    useSync(ItemBalance, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
     return (
         <AlertDialog>

@@ -5,7 +5,7 @@ import { GameStatus } from '@/dojo/gameConfig';
 import { useDojo } from '@/DojoContext';
 import { GameEdge } from '@/generated/graphql';
 import { GameRow } from './GameRow';
-import { useEntityQuery } from '@dojoengine/react';
+import { useEntityQuery } from '@latticexyz/react';
 import { HasValue } from '@latticexyz/recs';
 
 export const GamesTable = () => {
@@ -23,8 +23,6 @@ export const GamesTable = () => {
     const new_games = useEntityQuery([HasValue(Game, { status: GameStatus.Created })]);
 
     const lobby_games = useEntityQuery([HasValue(Game, { status: GameStatus.Lobby })]);
-
-    console.log(lobby_games.length);
 
     useEffect(() => {
         const games = async () => {

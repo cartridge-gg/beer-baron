@@ -36,7 +36,7 @@ mod auctions {
     use beer_barron::constants::{
         CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID, INDULGENCE_ID}}
     };
-    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
+    use beer_barron::constants::{CONFIG::STARTING_PRICES::{HOP_SEEDS, BEERS},{ITEM_IDS::{HOP_SEEDS, BEERS}}};
 
     use beer_barron::components::auction::{
         Auction, AuctionTrait, TavernAuction, TavernAuctionTrait, IndulgenceAuction,

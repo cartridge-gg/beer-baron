@@ -2,7 +2,7 @@ import { useQueryParams } from '@/dojo/useQueryParams';
 import { Chip } from '../elements/chip';
 import { useDojo } from '@/DojoContext';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useComponentValue } from '@dojoengine/react';
+import { useComponentValue } from '@latticexyz/react';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { GROW_TIME } from '@/dojo/gameConfig';
 import { useState } from 'react';
