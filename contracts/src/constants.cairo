@@ -1,8 +1,8 @@
 // markets
 mod CONFIG {
     mod STARTING_PRICES {
-        const HOP_SEEDS: felt252 = 100;
-        const BEERS: felt252 = 100;
+        const HOP_SEED_STARTING_PRICE: felt252 = 100;
+        const BEERS_STARTING_PRICE: felt252 = 100;
     }
     mod STARTING_BALANCES {
         const GOLD: felt252 = 250;

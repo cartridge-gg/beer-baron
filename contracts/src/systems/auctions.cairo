@@ -34,9 +34,9 @@ mod auctions {
     use beer_barron::constants::CONFIG::{INDULGENCES::{AUCTION_LENGTH}};
     use beer_barron::constants::CONFIG::{SYSTEM_IDS::{INDULGENCE_COUNT}};
     use beer_barron::constants::{
-        CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID, INDULGENCE_ID}}
+        CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID, INDULGENCE_ID},STARTING_PRICES::{HOP_SEED_STARTING_PRICE, BEERS_STARTING_PRICE}}
     };
-    use beer_barron::constants::{CONFIG::STARTING_PRICES::{HOP_SEEDS, BEERS},{ITEM_IDS::{HOP_SEEDS, BEERS}}};
+    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
 
     use beer_barron::components::auction::{
         Auction, AuctionTrait, TavernAuction, TavernAuctionTrait, IndulgenceAuction,
@@ -72,7 +72,7 @@ mod auctions {
             let auction = Auction {
                 game_id,
                 item_id,
-                target_price: target_price,
+                target_price: HOP_SEED_STARTING_PRICE.try_into().unwrap(),
                 decay_constant_mag: _0_31,
                 decay_constant_sign: true,
                 max_sellable: MAX_SELLABLE,
@@ -94,7 +94,7 @@ mod auctions {
             let auction = TavernAuction {
                 game_id,
                 item_id,
-                target_price: 2,
+                target_price: BEERS_STARTING_PRICE.try_into().unwrap(),
                 decay_constant_mag: _0_11,
                 decay_constant_sign: true,
                 per_time_unit: PER_TIME_UNIT,
