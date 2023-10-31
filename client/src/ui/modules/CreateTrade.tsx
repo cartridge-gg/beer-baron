@@ -5,30 +5,29 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { useState } from "react";
-import { Input } from "../elements/input";
-import { Button } from "../elements/button";
-import { useDojo } from "@/DojoContext";
-import { FancyTitle } from "../components/FancyTitle";
-import { useQueryParams } from "@/dojo/useQueryParams";
+} from '@/ui/elements/alert-dialog';
+import { useState } from 'react';
+import { Input } from '../elements/input';
+import { Button } from '../elements/button';
+import { useDojo } from '@/DojoContext';
+import { FancyTitle } from '../components/FancyTitle';
+import { useQueryParams } from '@/dojo/useQueryParams';
 
 export const CreateTrade = () => {
-
     const { game_id } = useQueryParams();
 
     const {
         setup: {
-            systemCalls: { create_trade }
+            systemCalls: { create_trade },
         },
-        account: { account }
+        account: { account },
     } = useDojo();
 
     const [formData, setFormData] = useState({
         game_id: game_id,
         item_id: 1,
         quantity: 1,
-        price: 10
+        price: 10,
     });
 
     // Event handler for form changes
@@ -36,7 +35,7 @@ export const CreateTrade = () => {
         const { name, value } = event.target;
         setFormData((prevState: any) => ({
             ...prevState,
-            [name]: value
+            [name]: value,
         }));
     };
 
@@ -49,7 +48,9 @@ export const CreateTrade = () => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button variant={'default'} size={'sm'}>Create Trade</Button>
+                <Button variant={'default'} size={'sm'}>
+                    Create Trade
+                </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
@@ -59,27 +60,23 @@ export const CreateTrade = () => {
                             <label>
                                 Item:
                                 <Input type="number" name="item_id" value={formData.item_id} onChange={handleInputChange} />
-
                             </label>
                             <label>
                                 quantity:
                                 <Input type="text" name="quantity" value={formData.quantity} onChange={handleInputChange} />
-
                             </label>
                             <label>
                                 price:
                                 <Input type="number" name="price" value={formData.price} onChange={handleInputChange} />
-
                             </label>
                             <Button type="submit">Create Trade</Button>
                         </form>
                     </div>
-
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Close</AlertDialogCancel>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
-    )
-}
+    );
+};

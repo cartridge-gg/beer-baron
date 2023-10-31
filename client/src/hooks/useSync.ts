@@ -2,6 +2,7 @@ import { useDojo } from '@/DojoContext';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Component, Entity, Metadata, Schema, setComponent } from '@latticexyz/recs';
 import { useEffect, useMemo } from 'react';
+import { defineComponent, Type as RecsType, World } from '@latticexyz/recs';
 
 export function useSync<S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) {
     const {
@@ -16,42 +17,35 @@ export function useSync<S extends Schema>(component: Component<S, Metadata, unde
 
     const keys_to_strings = keys.map((key) => key.toString());
 
-    const componentValue = () => {
-        const balance = torii_client.getModelValue(component.metadata?.name, [entityIndex]);
-        console.log(balance);
-    };
+    const model = component.metadata?.name as string;
 
-    console.log(component.metadata?.name);
+    const componentValue = async () => {
+        // Fetch values from torii_client
+        const values = await torii_client.getModelValue(model, keys_to_strings);
+        console.log(values);
+
+        // Create component object from values with schema
+        const componentValues = Object.keys(component.schema).reduce((acc, key) => {
+            if (key in values) {
+                // Convert value to Number if necessary, adjust based on type
+                const value = values[key];
+                acc[key] = component.schema[key] === RecsType.BigInt ? BigInt(value) : Number(value);
+            }
+            return acc;
+        }, {});
+
+        setComponent(component, entityIndex as Entity, componentValues as any);
+    };
 
     async function syncEntity() {
         if (!torii_client) return;
 
-        await torii_client.addEntitiesToSync([{ model: component.metadata?.name, keys: keys_to_strings }]);
+        await torii_client.addEntitiesToSync([{ model, keys: keys_to_strings }]);
 
-        torii_client.onSyncEntityChange({ model: component.metadata?.name, keys: keys_to_strings }, componentValue);
-
-        // // const data = await entity(component.metadata?.name as string, { keys }, 0, component.metadata?.length as number);
-
-        // console.log(data);
-
-        // // get values
-        // const values = data.slice(1);
-
-        // create component object from values with schema
-        // const componentValues = Object.keys(component.schema).reduce((acc: Schema, key, index) => {
-        //     const value = values[index];
-        //     acc[key] = Number(value);
-        //     return acc;
-        // }, {});
-
-        // console.log(component.metadata?.name, entityIndex, componentValues);
-
-        // // set component
-        // setComponent(component, entityIndex as Entity, componentValues as any);
+        await torii_client.onSyncEntityChange({ model, keys: keys_to_strings }, componentValue);
     }
 
-    useEffect(() => {
+    useMemo(() => {
         syncEntity();
-        console.log('sync');
     }, [component]);
 }

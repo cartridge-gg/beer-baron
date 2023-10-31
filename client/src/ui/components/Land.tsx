@@ -13,7 +13,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/ui/elements/alert-dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
 import { FancyTitle } from './FancyTitle';
 import { Button } from '../elements/button';

@@ -9,7 +9,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/ui/elements/alert-dialog';
 import { FancyTitle } from './FancyTitle';
 import { useComponentValue } from '@latticexyz/react';
 import FuggleSeeds from '../../icons/seeds/FuggleSeeds.svg?react';
@@ -129,7 +129,11 @@ export const ItemCard = ({ type }: Item) => {
         setup: {
             systemCalls: { buy_hops, sell_beer },
             components: { ItemBalance },
+            network: {
+                contractComponents: { ItemBalance: ItemBalanceContract },
+            },
         },
+
         account: { account },
     } = useDojo();
 
@@ -143,7 +147,11 @@ export const ItemCard = ({ type }: Item) => {
 
     const [actionQuantity, setActionQuantity] = useState(1);
 
-    useSync(ItemBalance, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
+    // if (type == 1) {
+    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
+    // }
+
+    // useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
     return (
         <AlertDialog>

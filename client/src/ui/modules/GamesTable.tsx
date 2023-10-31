@@ -5,24 +5,15 @@ import { GameStatus } from '@/dojo/gameConfig';
 import { useDojo } from '@/DojoContext';
 import { GameEdge } from '@/generated/graphql';
 import { GameRow } from './GameRow';
-import { useEntityQuery } from '@latticexyz/react';
-import { HasValue } from '@latticexyz/recs';
 
 export const GamesTable = () => {
     const [gamesList, setGamesList] = useState<any | undefined[]>([]);
     const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.Lobby);
     const {
         setup: {
-            components: { Game },
             network: { graphSdk },
         },
     } = useDojo();
-
-    const active_games = useEntityQuery([HasValue(Game, { status: GameStatus.Started })]);
-
-    const new_games = useEntityQuery([HasValue(Game, { status: GameStatus.Created })]);
-
-    const lobby_games = useEntityQuery([HasValue(Game, { status: GameStatus.Lobby })]);
 
     useEffect(() => {
         const games = async () => {
@@ -33,7 +24,7 @@ export const GamesTable = () => {
         };
 
         games();
-    }, [gameStatus, active_games.length, new_games.length, lobby_games.length, graphSdk, gamesList]);
+    }, [gameStatus, gamesList]);
 
     return (
         <div className="mt-8 p-4">

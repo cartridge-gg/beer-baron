@@ -15,7 +15,7 @@ import {
     AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+} from '@/ui/elements/alert-dialog';
 import { FancyTitle } from '../components/FancyTitle';
 
 export const GameRow = ({ game }: { game: Maybe<Entity> | undefined }) => {

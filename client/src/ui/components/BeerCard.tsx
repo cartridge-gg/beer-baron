@@ -1,6 +1,6 @@
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { Chip } from '../elements/chip';
-import { Beers, Flowers, ImagePaths, ItemIcons } from './ItemCard';
+import { Beers, Flowers, ImagePaths, ItemIcons, Seeds } from './ItemCard';
 import { useComponentValue } from '@latticexyz/react';
 import { useDojo } from '@/DojoContext';
 import { Button } from '../elements/button';
@@ -8,6 +8,8 @@ import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { BREW_TIME } from '@/dojo/gameConfig';
 import { generateRandomRecipe } from '@/utils';
 import { Entity } from '@latticexyz/recs';
+import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { Card } from '../elements/card';
 
 export enum BeerID {
     TIPA = 1,
@@ -154,17 +156,71 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
     const {
         setup: {
             systemCalls: { brew_beer },
+            components: { ItemBalance },
         },
         account: { account },
     } = useDojo();
 
     const recipe = generateRandomRecipe('5672635178472', beer.toString());
 
+    const cascade_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.CascadeSeeds)]) as Entity)
+            ?.balance || 0;
+
+    const chinook_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.ChinookSeeds)]) as Entity)
+            ?.balance || 0;
+
+    const cintra_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.CintraSeeds)]) as Entity)
+            ?.balance || 0;
+
+    const fuggle_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.FuggleSeeds)]) as Entity)
+            ?.balance || 0;
+
+    const saaz_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.SaazSeeds)]) as Entity)?.balance ||
+        0;
+
+    const galaxy_quantity =
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.GalaxySeeds)]) as Entity)
+            ?.balance || 0;
+
+    const can_brew = () => {
+        return (
+            cascade_quantity >= recipe[Flowers.CascadeFlowers] &&
+            chinook_quantity >= recipe[Flowers.ChinookFlowers] &&
+            cintra_quantity >= recipe[Flowers.CintraFlowers] &&
+            fuggle_quantity >= recipe[Flowers.FuggleFlowers] &&
+            saaz_quantity >= recipe[Flowers.SaazFlowers] &&
+            galaxy_quantity >= recipe[Flowers.GalaxyFlowers]
+        );
+    };
+
+    const isBalanceSufficient = (itemType, requiredAmount) => {
+        switch (itemType) {
+            case Flowers.CascadeFlowers:
+                return cascade_quantity >= requiredAmount;
+            case Flowers.ChinookFlowers:
+                return chinook_quantity >= requiredAmount;
+            case Flowers.CintraFlowers:
+                return cintra_quantity >= requiredAmount;
+            case Flowers.FuggleFlowers:
+                return fuggle_quantity >= requiredAmount;
+            case Flowers.SaazFlowers:
+                return saaz_quantity >= requiredAmount;
+            case Flowers.GalaxyFlowers:
+                return galaxy_quantity >= requiredAmount;
+            default:
+        }
+    };
+
     return (
-        <div className="relative rounded-xl bg-dirt-300 rounded border border-dirt-100 flex text-white flex-wrap hover:bg-grass-200 hover:cursor-pointer hover:border-green-200">
+        <Card>
             <div className="p-4 border-r border-dirt-100 w-3/12 self-center space-y-2">
                 {ImagePaths[(beer + 1000) as Beers]}
-                <Button variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
+                <Button disabled={!can_brew()} variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
                     Brew
                 </Button>
             </div>
@@ -172,17 +228,21 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
                 <div className="text-lg">{BeerNames[beer]}</div>
                 <div className="grid grid-cols-3 gap-2 my-2">
                     {Object.keys(recipe).map((a, index) => {
-                        console.log(a);
+                        const flowerType = parseInt(a) as Flowers;
+                        const requiredAmount = recipe[flowerType];
+                        const isSufficient = isBalanceSufficient(flowerType, requiredAmount);
                         return (
                             <div key={index} className="flex">
-                                <div className="w-8">{ItemIcons[parseInt(a) as Flowers]}</div>
+                                <div className={`w-8 ${!isSufficient ? 'opacity-50' : ''}`}>{ItemIcons[parseInt(a) as Flowers]}</div>
 
-                                <div className="rounded-full bg-dirt-100/20 px-2 self-center">{recipe[parseInt(a) as Flowers].toString()}</div>
+                                <div className={`${!isSufficient ? 'opacity-50' : ''} rounded-full bg-dirt-100/20 px-2 self-center`}>
+                                    {recipe[parseInt(a) as Flowers].toString()}
+                                </div>
                             </div>
                         );
                     })}
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };

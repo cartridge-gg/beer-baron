@@ -7,8 +7,6 @@ import { IndulgenceRow } from '../components/IndulgenceRow';
 import { IndulgenceAuctionEdge } from '@/generated/graphql';
 import { TradeStatus } from '@/dojo/gameConfig';
 import { Button } from '../elements/button';
-import { useComponentValue } from '@latticexyz/react';
-import { getEntityIdFromKeys } from '@dojoengine/utils';
 
 export const IndulgenceAuctionTable = () => {
     const {
@@ -27,12 +25,6 @@ export const IndulgenceAuctionTable = () => {
         },
     } = useDojo();
 
-    const indulgenceAuctionCount = useComponentValue(IndulgenceAuctionCount, getEntityIdFromKeys([BigInt(game_id)]))?.count || '0';
-
-    const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(indulgenceAuctionCount)]);
-
-    const indulgences = useComponentValue(IndulgenceAuction, entityId)?.price.toString() || 0;
-
     useEffect(() => {
         const indulgences = async () => {
             const {
@@ -41,7 +33,7 @@ export const IndulgenceAuctionTable = () => {
             return setIndulgenceList(indulgenceauctionModels?.edges);
         };
         indulgences();
-    }, [tradeStatus, indulgenceList, graphSdk, game_id, indulgences]);
+    }, [tradeStatus, indulgenceList]);
 
     return (
         <div>

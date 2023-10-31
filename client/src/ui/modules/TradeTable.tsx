@@ -11,33 +11,25 @@ import { CreateTrade } from './CreateTrade';
 import { useQueryParams } from '@/dojo/useQueryParams';
 
 export const TradeTable = () => {
-    const [gamesList, setGamesList] = useState<any | undefined[]>([]);
+    const [tradeList, setTradeList] = useState<any | undefined[]>([]);
     const [tradeStatus, setTradeStatus] = useState<TradeStatus>(TradeStatus.Open);
     const {
         setup: {
-            components: { Trade },
             network: { graphSdk },
         },
     } = useDojo();
 
     const { game_id } = useQueryParams();
 
-    const games = async () => {
-        const {
-            data: { tradeModels },
-        } = await graphSdk.getTrades({ game_id, status: tradeStatus });
-        return setGamesList(tradeModels?.edges);
-    };
-
-    const open_trades = useEntityQuery([HasValue(Trade, { status: TradeStatus.Open, game_id_value: game_id })]);
-
-    const accepted_trades = useEntityQuery([HasValue(Trade, { status: TradeStatus.Accepted, game_id_value: game_id })]);
-
-    const cancelled_trades = useEntityQuery([HasValue(Trade, { status: TradeStatus.Cancelled, game_id_value: game_id })]);
-
     useEffect(() => {
+        const games = async () => {
+            const {
+                data: { tradeModels },
+            } = await graphSdk.getTrades({ game_id, status: tradeStatus });
+            return setTradeList(tradeModels?.edges);
+        };
         games();
-    }, [open_trades.length, tradeStatus, accepted_trades.length, cancelled_trades.length]);
+    }, [tradeList, tradeStatus]);
 
     return (
         <div>
@@ -71,7 +63,7 @@ export const TradeTable = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {gamesList.map((trade: TradeEdge, index: number) => {
+                        {tradeList.map((trade: TradeEdge, index: number) => {
                             return <TradeRow trade={trade.node?.entity} key={index} />;
                         })}
                     </TableBody>
