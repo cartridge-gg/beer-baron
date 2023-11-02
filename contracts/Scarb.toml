@@ -1,5 +1,5 @@
 [package]
-cairo-version = "2.2.0"
+cairo-version = "2.3.0"
 name = "beer_barron"
 version = "0.1.0"
 
@@ -7,9 +7,9 @@ version = "0.1.0"
 sierra-replace-ids = true
 
 [dependencies]
-dojo = { git = "https://github.com/dojoengine/dojo", tag = "v0.3.1" }
-dojo_defi = { git = "https://github.com/dojoengine/dojo", tag = "v0.3.1" }
-cubit = { git = "https://github.com/influenceth/cubit" }
+dojo = { git = "https://github.com/dojoengine/dojo", tag = "nightly-bbdd5f22a8238cfa17212df217b339712e4e714c" }
+dojo_defi = { git = "https://github.com/dojoengine/dojo", tag = "nightly-bbdd5f22a8238cfa17212df217b339712e4e714c" }
+cubit = { git = "https://github.com/ponderingdemocritus/cubit" }
 
 [[target.dojo]]
 

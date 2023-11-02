@@ -5,16 +5,16 @@ use cubit::f128::types::fixed::{Fixed, FixedTrait};
 
 #[starknet::interface]
 trait IAuction<TContractState> {
-    fn start_hops_auction(self: @TContractState, game_id: u64, item_id: u128);
-    fn start_beer_auction(self: @TContractState, game_id: u64, item_id: u128);
-    fn sell_beer(self: @TContractState, game_id: u64, beer_id: BeerID, amount: u128);
-    fn buy_hops(self: @TContractState, game_id: u64, item_id: u128, amount: u128);
-    fn get_beer_price(self: @TContractState, game_id: u64, item_id: u128) -> Fixed;
-    fn get_hop_price(self: @TContractState, game_id: u64, item_id: u128) -> Fixed;
+    fn start_hops_auction(self: @TContractState, game_id: u64, item_id: u64);
+    fn start_beer_auction(self: @TContractState, game_id: u64, item_id: u64);
+    fn sell_beer(self: @TContractState, game_id: u64, beer_id: BeerID, amount: u64);
+    fn buy_hops(self: @TContractState, game_id: u64, item_id: u64, amount: u64);
+    fn get_beer_price(self: @TContractState, game_id: u64, item_id: u64) -> Fixed;
+    fn get_hop_price(self: @TContractState, game_id: u64, item_id: u64) -> Fixed;
 
     // indulgences
     fn start_indulgences_auction(self: @TContractState, game_id: u64);
-    fn place_indulgences_bid(self: @TContractState, game_id: u64, price: u128);
+    fn place_indulgences_bid(self: @TContractState, game_id: u64, price: u64);
     fn claim_indulgence(self: @TContractState, game_id: u64);
     fn increment_indulgences_auction(self: @TContractState, game_id: u64);
 }
@@ -34,7 +34,10 @@ mod auctions {
     use beer_barron::constants::CONFIG::{INDULGENCES::{AUCTION_LENGTH}};
     use beer_barron::constants::CONFIG::{SYSTEM_IDS::{INDULGENCE_COUNT}};
     use beer_barron::constants::{
-        CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID, INDULGENCE_ID},STARTING_PRICES::{HOP_SEED_STARTING_PRICE, BEERS_STARTING_PRICE}}
+        CONFIG::{
+            STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID, INDULGENCE_ID},
+            STARTING_PRICES::{HOP_SEED_STARTING_PRICE, BEERS_STARTING_PRICE}
+        }
     };
     use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
 
@@ -62,7 +65,7 @@ mod auctions {
 
     #[external(v0)]
     impl AuctionImpl of IAuction<ContractState> {
-        fn start_hops_auction(self: @ContractState, game_id: u64, item_id: u128) {
+        fn start_hops_auction(self: @ContractState, game_id: u64, item_id: u64) {
             let world = self.world_dispatcher.read();
             // todo: check if auction already exists
             // todo: check game exists
@@ -85,7 +88,7 @@ mod auctions {
             set!(world, (auction));
         }
 
-        fn start_beer_auction(self: @ContractState, game_id: u64, item_id: u128) {
+        fn start_beer_auction(self: @ContractState, game_id: u64, item_id: u64) {
             let world = self.world_dispatcher.read();
 
             let mut game = get!(world, (game_id), (Game));
@@ -105,7 +108,7 @@ mod auctions {
             set!(world, (auction));
         }
 
-        fn sell_beer(self: @ContractState, game_id: u64, beer_id: BeerID, amount: u128) {
+        fn sell_beer(self: @ContractState, game_id: u64, beer_id: BeerID, amount: u64) {
             let world = self.world_dispatcher.read();
             // assert that the game is active
             let game = get!(world, (game_id), (Game));
@@ -132,7 +135,7 @@ mod auctions {
             set!(world, (auction, gold_balance, item_balance));
         }
 
-        fn buy_hops(self: @ContractState, game_id: u64, item_id: u128, amount: u128) {
+        fn buy_hops(self: @ContractState, game_id: u64, item_id: u64, amount: u64) {
             let world = self.world_dispatcher.read();
             let caller = get_caller_address();
             // assert that the game is active
@@ -156,11 +159,11 @@ mod auctions {
 
             set!(world, (auction, gold_balance, item_balance));
         }
-        fn get_beer_price(self: @ContractState, game_id: u64, item_id: u128) -> Fixed {
+        fn get_beer_price(self: @ContractState, game_id: u64, item_id: u64) -> Fixed {
             get!(self.world_dispatcher.read(), (game_id, item_id), TavernAuction).get_price()
         }
 
-        fn get_hop_price(self: @ContractState, game_id: u64, item_id: u128) -> Fixed {
+        fn get_hop_price(self: @ContractState, game_id: u64, item_id: u64) -> Fixed {
             get!(self.world_dispatcher.read(), (game_id, item_id), Auction).get_price()
         }
 
@@ -194,7 +197,7 @@ mod auctions {
 
             set!(world, (indulgence_auction, indulgence_count));
         }
-        fn place_indulgences_bid(self: @ContractState, game_id: u64, price: u128) {
+        fn place_indulgences_bid(self: @ContractState, game_id: u64, price: u64) {
             let world = self.world_dispatcher.read();
 
             let caller = get_caller_address();

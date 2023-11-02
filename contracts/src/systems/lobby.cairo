@@ -20,16 +20,17 @@ mod lobby {
     use starknet::{
         ContractAddress, get_caller_address, get_block_timestamp, get_block_hash_syscall
     };
-    use beer_barron::components::game::{
-        Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig, Joined
+    use beer_barron::components::{
+        game::{Game, GameTracker, GameStatus, GameTrait, Ownership, GameConfig, Joined},
+        player::Player, balances::ItemBalance,
     };
 
-    use beer_barron::components::player::{Player};
-    use beer_barron::components::balances::{ItemBalance};
-
-    use beer_barron::constants::CONFIG::{SYSTEM_IDS::{GAME_CONFIG}};
-    use beer_barron::constants::{CONFIG::{STARTING_BALANCES::{GOLD}, ITEM_IDS::{GOLD_ID}}};
-    use beer_barron::constants::{CONFIG::{ITEM_IDS::{HOP_SEEDS, BEERS}}};
+    use beer_barron::constants::{
+        CONFIG::{
+            SYSTEM_IDS::{GAME_CONFIG}, STARTING_BALANCES::{GOLD},
+            ITEM_IDS::{GOLD_ID, HOP_SEEDS, BEERS},
+        },
+    };
 
     use beer_barron::systems::auctions::{auctions, IAuctionDispatcher, IAuctionDispatcherTrait};
 

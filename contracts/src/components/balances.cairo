@@ -10,19 +10,19 @@ struct ItemBalance {
     #[key]
     player_id: ContractAddress,
     #[key]
-    item_id: u128,
-    balance: u128,
+    item_id: u64,
+    balance: u64,
 }
 
 #[generate_trait]
 impl ImplItemBalance of ItemBalanceTrait {
-    fn add(ref self: ItemBalance, amount: u128) {
+    fn add(ref self: ItemBalance, amount: u64) {
         self.balance += amount
     }
-    fn sub(ref self: ItemBalance, amount: u128) {
+    fn sub(ref self: ItemBalance, amount: u64) {
         self.balance -= amount
     }
-    fn assert_balance(ref self: ItemBalance, amount: u128) {
+    fn assert_balance(ref self: ItemBalance, amount: u64) {
         assert(self.balance >= amount, 'Insufficient balance')
     }
 }

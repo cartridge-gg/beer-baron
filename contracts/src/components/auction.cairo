@@ -13,7 +13,7 @@ struct Auction {
     #[key]
     game_id: u64,
     #[key]
-    item_id: u128,
+    item_id: u64,
     target_price: u128,
     decay_constant_mag: u128,
     decay_constant_sign: bool,
@@ -21,7 +21,7 @@ struct Auction {
     time_scale_mag: u128,
     time_scale_sign: bool,
     start_time: u64,
-    sold: u128,
+    sold: u64,
 }
 
 // we generate a trait here so we can construct the LogisticVRGDA from the remote library
@@ -44,7 +44,7 @@ impl ImplAuction of AuctionTrait {
             .to_LogisticVRGDA()
             .get_vrgda_price(
                 FixedTrait::new_unscaled(time_since_start / 60, false), // time since start
-                FixedTrait::new_unscaled(self.sold, false) // amount sold
+                FixedTrait::new_unscaled(self.sold.into(), false) // amount sold
             )
     }
 }
@@ -55,13 +55,13 @@ struct TavernAuction {
     #[key]
     game_id: u64,
     #[key]
-    item_id: u128,
+    item_id: u64,
     target_price: u128,
     decay_constant_mag: u128,
     decay_constant_sign: bool,
     per_time_unit: u128,
     start_time: u64,
-    sold: u128,
+    sold: u64,
 }
 
 #[generate_trait]
@@ -82,7 +82,7 @@ impl ImplTavernAuction of TavernAuctionTrait {
             .to_ReverseLinearVRGDA()
             .get_reverse_vrgda_price(
                 FixedTrait::new_unscaled(time_since_start / 60, false), // time since start
-                FixedTrait::new_unscaled(self.sold, false) // amount sold
+                FixedTrait::new_unscaled(self.sold.into(), false) // amount sold
             )
     }
 }
@@ -94,7 +94,7 @@ struct IndulgenceAuction {
     game_id: u64,
     #[key]
     auction_id: u64, // count in the game  
-    price: u128,
+    price: u64,
     highest_bid_player_id: ContractAddress,
     expiry: u64,
     auction_id_value: u64,
@@ -115,7 +115,7 @@ impl ImplIndulgenceAuction of IndulgenceAuctionTrait {
         ref new_bidder_gold_balance: ItemBalance,
         ref old_bidder_gold_balance: ItemBalance,
         game_id: u64,
-        price: u128
+        price: u64
     ) {
         assert(self.status == TradeStatus::OPEN, 'auction not open');
         assert(price > self.price, 'You have to bid more');

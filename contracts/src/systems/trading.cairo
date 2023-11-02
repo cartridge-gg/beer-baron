@@ -2,11 +2,9 @@ use starknet::{ContractAddress, ClassHash};
 
 #[starknet::interface]
 trait ITrading<TContractState> {
-    fn create_trade(
-        self: @TContractState, game_id: u64, item_id: u128, quantity: u128, price: u128
-    );
-    fn accept_trade(self: @TContractState, game_id: u64, trade_id: u128);
-    fn cancel_trade(self: @TContractState, game_id: u64, trade_id: u128);
+    fn create_trade(self: @TContractState, game_id: u64, item_id: u64, quantity: u64, price: u64);
+    fn accept_trade(self: @TContractState, game_id: u64, trade_id: u64);
+    fn cancel_trade(self: @TContractState, game_id: u64, trade_id: u64);
 }
 
 #[dojo::contract]
@@ -29,7 +27,7 @@ mod trading {
     #[external(v0)]
     impl TradingImpl of ITrading<ContractState> {
         fn create_trade(
-            self: @ContractState, game_id: u64, item_id: u128, quantity: u128, price: u128
+            self: @ContractState, game_id: u64, item_id: u64, quantity: u64, price: u64
         ) {
             let world = self.world_dispatcher.read();
 
@@ -61,7 +59,7 @@ mod trading {
             set!(world, (trade, item_balance, trade_track));
         }
 
-        fn accept_trade(self: @ContractState, game_id: u64, trade_id: u128) {
+        fn accept_trade(self: @ContractState, game_id: u64, trade_id: u64) {
             let world = self.world_dispatcher.read();
 
             get!(world, (game_id), (Game)).active();
@@ -87,7 +85,7 @@ mod trading {
 
             set!(world, (trade, buyer_gold_balance, seller_gold_balance, buyer_item_balance));
         }
-        fn cancel_trade(self: @ContractState, game_id: u64, trade_id: u128) {
+        fn cancel_trade(self: @ContractState, game_id: u64, trade_id: u64) {
             let world = self.world_dispatcher.read();
 
             get!(world, (game_id), (Game)).active();

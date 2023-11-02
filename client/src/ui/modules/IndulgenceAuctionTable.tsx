@@ -40,7 +40,7 @@ export const IndulgenceAuctionTable = () => {
             <div className="flex justify-between mb-4">
                 <div className="uppercase self-center">Bids</div>
                 <Select onValueChange={(value) => setTradeStatus(parseInt(value))}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-[100px]">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -55,10 +55,11 @@ export const IndulgenceAuctionTable = () => {
             <Table className=" text-dirt-100">
                 <TableHeader>
                     <TableRow className="">
-                        <TableHead>ID</TableHead>
+                        <TableHead>Expiry</TableHead>
+                        {/* <TableHead>ID</TableHead> */}
                         <TableHead>Price</TableHead>
                         <TableHead>Holder</TableHead>
-                        <TableHead>Expiry</TableHead>
+
                         <TableHead>Actions</TableHead>
                     </TableRow>
                 </TableHeader>

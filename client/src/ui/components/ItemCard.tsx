@@ -69,6 +69,12 @@ export enum Beers {
     EtherealLager = 1006,
 }
 
+export const allItems = [
+    ...Object.entries(Seeds).filter(([key]) => isNaN(Number(key))),
+    ...Object.entries(Flowers).filter(([key]) => isNaN(Number(key))),
+    ...Object.entries(Beers).filter(([key]) => isNaN(Number(key))),
+];
+
 export const ItemIcons: { [key in Flowers]: any } = {
     [Flowers.CintraFlowers]: <CintraFlowers />,
     [Flowers.ChinookFlowers]: <ChinookFlowers />,

@@ -29,26 +29,27 @@ export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<Entity> | unde
     const claimed = indulgence_auction_model.status == TradeStatus.Accepted;
     const isOwner = account.address == indulgence_auction_model.highest_bid_player_id;
 
-    const pricePlusOne = parseInt(num.hexToDecimalString(indulgence_auction_model.price)) + 1;
+    const pricePlusOne = parseInt(indulgence_auction_model.price) + 1;
     const [newPrice, setNewPrice] = useState<number>(pricePlusOne);
 
     return (
         <TableRow className=" m-1 text-white">
-            <TableCell>{indulgence_auction_model.auction_id}</TableCell>
+            <TableCell>{getTimeRemaining()}</TableCell>
+            {/* <TableCell>{indulgence_auction_model.auction_id}</TableCell> */}
             <TableCell>
                 <div className="flex space-x-2">
                     <Coin className="self-center mr-1 h-6" />
-                    <span className="self-center">{num.hexToDecimalString(indulgence_auction_model.price)}</span>
+                    <span className="self-center">{indulgence_auction_model.price}</span>
                 </div>
             </TableCell>
             <TableCell>{isOwner ? 'you!' : shortenHex(indulgence_auction_model.highest_bid_player_id)}</TableCell>
-            <TableCell>{getTimeRemaining()}</TableCell>
+
             <TableCell>
                 {!finished && (
-                    <div className="flex ml-auto">
-                        <Button onClick={() => place_indulgences_bid({ account, game_id, price: newPrice })}>place bid</Button>
+                    <div className="flex ml-auto space-x-1">
+                        <Coin className="w-4" />
                         <Input
-                            className="w-12"
+                            className="w-12 bg-dirt-300/90"
                             min={indulgence_auction_model.price.toString()}
                             type="number"
                             placeholder={newPrice.toString()}
@@ -56,10 +57,17 @@ export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<Entity> | unde
                             value={newPrice}
                             onChange={(event) => setNewPrice(parseInt(event.target.value))}
                         />
+                        <Button variant="outline" onClick={() => place_indulgences_bid({ account, game_id, price: newPrice })}>
+                            place bid
+                        </Button>
                     </div>
                 )}
 
-                {isOwner && finished && !claimed && <Button onClick={() => claim_indulgence({ account, game_id })}>claim</Button>}
+                {isOwner && finished && !claimed && (
+                    <Button variant="outline" onClick={() => claim_indulgence({ account, game_id })}>
+                        Claim!
+                    </Button>
+                )}
             </TableCell>
         </TableRow>
     );

@@ -1,8 +1,8 @@
 // markets
 mod CONFIG {
     mod STARTING_PRICES {
-        const HOP_SEED_STARTING_PRICE: felt252 = 100;
-        const BEERS_STARTING_PRICE: felt252 = 100;
+        const HOP_SEED_STARTING_PRICE: felt252 = 60;
+        const BEERS_STARTING_PRICE: felt252 = 10;
     }
     mod STARTING_BALANCES {
         const GOLD: felt252 = 250;
@@ -17,11 +17,11 @@ mod CONFIG {
         const PLOT_COUNT: felt252 = 6;
     }
     mod BREWING {
-        const BREW_TIME: felt252 = 1000;
+        const BREW_TIME: felt252 = 500;
         const BREW_YEILD_LITRES: felt252 = 100;
     }
     mod INDULGENCES {
-        const AUCTION_LENGTH: u64 = 2000;
+        const AUCTION_LENGTH: u64 = 300;
     }
     //
     // to use in the ItemBalances - we offset the values so we can fit more in the future

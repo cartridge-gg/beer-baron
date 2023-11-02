@@ -10,7 +10,7 @@ const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableE
 Table.displayName = 'Table';
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(({ className, ...props }, ref) => (
-    <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+    <thead ref={ref} className={cn('[&_tr]:border-b uppercase text-xl', className)} {...props} />
 ));
 TableHeader.displayName = 'TableHeader';
 
@@ -25,7 +25,7 @@ const TableFooter = React.forwardRef<HTMLTableSectionElement, React.HTMLAttribut
 TableFooter.displayName = 'TableFooter';
 
 const TableRow = React.forwardRef<HTMLTableRowElement, React.HTMLAttributes<HTMLTableRowElement>>(({ className, ...props }, ref) => (
-    <tr ref={ref} className={cn('border-b transition-colors  data-[state=selected]:bg-muted', className)} {...props} />
+    <tr ref={ref} className={cn('border-b border-dirt-300 transition-colors  data-[state=selected]:bg-muted', className)} {...props} />
 ));
 TableRow.displayName = 'TableRow';
 

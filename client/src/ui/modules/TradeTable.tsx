@@ -34,7 +34,7 @@ export const TradeTable = () => {
     return (
         <div>
             <div className="flex justify-between mb-2">
-                <CreateTrade />
+                {/* <CreateTrade /> */}
 
                 <Select onValueChange={(value) => setTradeStatus(parseInt(value))}>
                     <SelectTrigger className="w-[180px]">
@@ -55,9 +55,9 @@ export const TradeTable = () => {
                     <TableHeader>
                         <TableRow className="">
                             <TableHead>Item</TableHead>
-                            <TableHead>Quantity</TableHead>
+                            <TableHead>Qty</TableHead>
                             <TableHead>Price</TableHead>
-                            <TableHead>Status</TableHead>
+                            {/* <TableHead>Status</TableHead> */}
                             <TableHead>Seller</TableHead>
                             <TableHead>Actions</TableHead>
                         </TableRow>

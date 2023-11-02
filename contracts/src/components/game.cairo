@@ -1,3 +1,5 @@
+use starknet::{get_block_timestamp};
+
 #[derive(Model, Copy, Drop, Serde, SerdeLen)]
 struct Game {
     #[key]
@@ -50,6 +52,11 @@ impl ImplGame of GameTrait {
     }
     fn check_password(self: Game, password: felt252) {
         assert(self.password == password, 'GAME: Incorrect password');
+    }
+    fn finished(self: Game) {
+        assert(
+            self.start_time + self.game_length.into() < get_block_timestamp(), 'GAME: Not finished'
+        );
     }
 }
 
