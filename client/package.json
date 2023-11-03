@@ -12,18 +12,12 @@
         "components": "npx @dojoengine/core ../contracts/target/dev/manifest.json src/dojo/contractComponents.ts",
         "storybook": "storybook dev -p 6006",
         "build-storybook": "storybook build",
-        "precommit": "lint-staged",
-        "prepare": "husky install"
+        "precommit": "lint-staged"
     },
     "lint-staged": {
         "src/**/*.{js,jsx,ts,tsx}": [
             "eslint --fix"
         ]
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "yarn precommit"
-        }
     },
     "dependencies": {
         "@dojoengine/core": "^0.1.35",
