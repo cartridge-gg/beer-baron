@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { FancyTitle } from './FancyTitle';
 import { Button } from '../elements/button';
 import { ImagePaths, Seeds } from './ItemCard';
+import { useSync } from '@/hooks/useSync';
 
 export enum LandType {
     Empty,
@@ -43,6 +44,9 @@ export const Land = ({ index }: Props) => {
         setup: {
             systemCalls: { build_farm },
             components: { FarmArea, ItemBalance },
+            network: {
+                contractComponents: { FarmArea: FarmAreaContract },
+            },
         },
         account: { account },
     } = useDojo();
@@ -94,6 +98,8 @@ export const Land = ({ index }: Props) => {
 
         return useComponentValue(ItemBalance, entityId)?.balance || 0;
     };
+
+    useSync(FarmAreaContract, [BigInt(game_id), BigInt(account.address), BigInt(index)]);
 
     return (
         <AlertDialog>

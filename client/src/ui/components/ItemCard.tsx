@@ -153,11 +153,7 @@ export const ItemCard = ({ type }: Item) => {
 
     const [actionQuantity, setActionQuantity] = useState(1);
 
-    // if (type == 1) {
     useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
-    // }
-
-    // useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
     return (
         <AlertDialog>

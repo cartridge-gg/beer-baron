@@ -11,7 +11,6 @@ import { Button } from '../elements/button';
 export const IndulgenceAuctionTable = () => {
     const {
         setup: {
-            components: { IndulgenceAuction, IndulgenceAuctionCount },
             systemCalls: { increment_indulgences_auction },
         },
         account: { account },
@@ -33,7 +32,7 @@ export const IndulgenceAuctionTable = () => {
             return setIndulgenceList(indulgenceauctionModels?.edges);
         };
         indulgences();
-    }, [tradeStatus, indulgenceList]);
+    }, []);
 
     return (
         <div>

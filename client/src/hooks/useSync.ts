@@ -2,12 +2,12 @@ import { useDojo } from '@/DojoContext';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Component, Entity, Metadata, Schema, setComponent } from '@latticexyz/recs';
 import { useEffect, useMemo } from 'react';
-import { defineComponent, Type as RecsType, World } from '@latticexyz/recs';
+import { Type as RecsType } from '@latticexyz/recs';
 
 export function useSync<S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) {
     const {
         setup: {
-            network: { torii_client },
+            network: { addEntitiesToSync, getModelValue },
         },
     } = useDojo();
 
@@ -17,12 +17,9 @@ export function useSync<S extends Schema>(component: Component<S, Metadata, unde
 
     const keys_to_strings = keys.map((key) => key.toString());
 
-    const model = component.metadata?.name as string;
-
-    const componentValue = async () => {
+    const setModelValue = async <S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) => {
         // Fetch values from torii_client
-        const values = await torii_client.getModelValue(model, keys_to_strings);
-        console.log(values);
+        const values = await getModelValue(component.metadata?.name as string, keys);
 
         // Create component object from values with schema
         const componentValues = Object.keys(component.schema).reduce((acc, key) => {
@@ -37,15 +34,9 @@ export function useSync<S extends Schema>(component: Component<S, Metadata, unde
         setComponent(component, entityIndex as Entity, componentValues as any);
     };
 
-    async function syncEntity() {
-        if (!torii_client) return;
+    useEffect(() => {
+        addEntitiesToSync(component.metadata?.name as string, keys_to_strings);
 
-        await torii_client.addEntitiesToSync([{ model, keys: keys_to_strings }]);
-
-        await torii_client.onSyncEntityChange({ model, keys: keys_to_strings }, componentValue);
-    }
-
-    useMemo(() => {
-        syncEntity();
-    }, [component]);
+        setModelValue(component, keys_to_strings);
+    }, []);
 }

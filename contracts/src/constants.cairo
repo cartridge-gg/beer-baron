@@ -5,20 +5,20 @@ mod CONFIG {
         const BEERS_STARTING_PRICE: felt252 = 10;
     }
     mod STARTING_BALANCES {
-        const GOLD: felt252 = 250;
+        const GOLD: felt252 = 500;
     }
     mod SYSTEM_IDS {
         const GAME_CONFIG: felt252 = 999999999999999;
         const INDULGENCE_COUNT: felt252 = 999999999999998;
     }
     mod FARMING {
-        const CROP_GROWTH_TIME: felt252 = 2000;
+        const CROP_GROWTH_TIME: felt252 = 200;
         const CROP_YIELD: felt252 = 100;
         const PLOT_COUNT: felt252 = 6;
     }
     mod BREWING {
-        const BREW_TIME: felt252 = 500;
-        const BREW_YEILD_LITRES: felt252 = 100;
+        const BREW_TIME: felt252 = 100;
+        const BREW_YEILD_LITRES: felt252 = 30;
     }
     mod INDULGENCES {
         const AUCTION_LENGTH: u64 = 300;

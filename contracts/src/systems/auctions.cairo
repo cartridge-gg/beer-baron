@@ -55,10 +55,9 @@ mod auctions {
 
     use super::IAuction;
 
-    const target_price: u128 = 25;
-    const _0_31: u128 = 1071849066284996100;
-    const MAX_SELLABLE: u128 = 100000;
-    const _0_0023: u128 = 32427511369531970;
+    const _0_31: u128 = 571849066284996100;
+    const MAX_SELLABLE: u128 = 1000;
+    const _0_0023: u128 = 12427511369531970;
 
     const _0_11: u128 = 2071849066284996100;
     const PER_TIME_UNIT: u128 = 1;

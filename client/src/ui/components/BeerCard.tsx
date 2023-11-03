@@ -10,6 +10,7 @@ import { generateRandomRecipe } from '@/utils';
 import { Entity } from '@latticexyz/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Card } from '../elements/card';
+import { useSync } from '@/hooks/useSync';
 
 export enum BeerID {
     TIPA = 1,
@@ -110,6 +111,9 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
         setup: {
             systemCalls: { bottle_beer },
             components: { Brew },
+            network: {
+                contractComponents: { Brew: BrewContract },
+            },
         },
         account: { account },
     } = useDojo();
@@ -124,9 +128,11 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
 
     const ready_state_color = ready ? 'green' : 'yellow';
 
+    useSync(BrewContract, [BigInt(entity_id)]);
+
     return (
         <div className="p-2 relative">
-            <div className="bg-dirt-300  rounded-xl rounded border border-dirt-100 hover:bg-grass-200 hover:cursor-pointer hover:border-green-200 p-2">
+            <div className="bg-dirt-300  rounded-xl border border-dirt-100 hover:bg-grass-200 hover:cursor-pointer hover:border-green-200 p-2">
                 <Chip title={ready_state} position="top-right" color={ready_state_color} />
                 <div className="w-24 mx-auto">{ImagePaths[brew?.beer_id as Beers]}</div>
 

@@ -5,12 +5,16 @@ import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useComponentValue } from '@latticexyz/react';
 import { TextContainer } from '../elements/TextContainer';
 import Trophy from '../../icons/Kind=Pixel Trophy.svg?react';
+import { useSync } from '@/hooks/useSync';
 
 export const IndulgencesBalance = () => {
     const { game_id } = useQueryParams();
     const {
         setup: {
             components: { ItemBalance },
+            network: {
+                contractComponents: { ItemBalance: ItemBalanceContract },
+            },
         },
         account: { account },
     } = useDojo();
@@ -19,7 +23,7 @@ export const IndulgencesBalance = () => {
 
     const indulgence_balance = useComponentValue(ItemBalance, entityId)?.balance.toString() || 0;
 
-    console.log(indulgence_balance);
+    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(INDULGENCE_ID)]);
 
     return (
         <TextContainer>
