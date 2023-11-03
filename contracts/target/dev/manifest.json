@@ -861,7 +861,7 @@
   "contracts": [
     {
       "name": "auctions",
-      "address": null,
+      "address": "0x44ecb95979bb6a7f5fbbcee1d9c25dfe46502d5adae63046b1100166d84cd7f",
       "class_hash": "0x74fbc22957179f4fc583b863510438e29350945ab68352140b5bf1606977df2",
       "abi": [
         {
@@ -1160,7 +1160,7 @@
     },
     {
       "name": "brewing",
-      "address": null,
+      "address": "0x2270bce903925a9cb5b8b3879320e0862f2916e5ec998829c114959bd3d7809",
       "class_hash": "0x15b209e4ab9ce5d90a965d46e1d8715850bc77a7d55541825729ae92682691e",
       "abi": [
         {
@@ -1295,7 +1295,7 @@
     },
     {
       "name": "farming",
-      "address": null,
+      "address": "0x7d0a670131536e3de0fe43a6139bb421eb3a69e56bd6807a0495ca63e36f616",
       "class_hash": "0x3a96ccf338a3989be174c224529cab557132d4512b8c72bbaf80ef87e071c6e",
       "abi": [
         {
@@ -1389,7 +1389,7 @@
     },
     {
       "name": "lobby",
-      "address": null,
+      "address": "0x7a647cdfd77b58e1f766c271afc8a7c29d9f92994ac47c1428177b7453735c9",
       "class_hash": "0x19ebec0e291db8251f3857eb5407eac1f44e5bd3567458c57fe7ccd72f9afc9",
       "abi": [
         {

@@ -7,7 +7,7 @@ import { Type as RecsType } from '@latticexyz/recs';
 export function useSync<S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) {
     const {
         setup: {
-            network: { addEntitiesToSync, getModelValue },
+            network: { addEntitiesToSync, getModelValue, removeEntitiesToSync },
         },
     } = useDojo();
 
@@ -38,5 +38,7 @@ export function useSync<S extends Schema>(component: Component<S, Metadata, unde
         addEntitiesToSync(component.metadata?.name as string, keys_to_strings);
 
         setModelValue(component, keys_to_strings);
+
+        // return () => removeEntitiesToSync(component.metadata?.name as string, keys_to_strings);
     }, []);
 }

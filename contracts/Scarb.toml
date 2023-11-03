@@ -22,7 +22,14 @@ initializer_class_hash = "0xbeef"
 # private_key = "0x1800000000300000180000000000030000000000003006001800006600"
 # world_address = "0x56e58cfcfc4b18ab4677a46c92e93824fe866f2c90b4915e04d2998d3e1702e"
 
-rpc_url = "https://api.cartridge.gg/x/beer-baron-2/katana"
-account_address = "0x579699c272549259563ff91434d9cea75c0fa3f3bd8db5910b7a515de9c8527"
-private_key = "0x57b5b5602ffb16e9cb1d7d42ac2c6a6fa86295e91f43004b22ce092b3ddf21"
+# # rpc_url = "https://api.cartridge.gg/x/beer-baron-4/katana"
+account_address = "0x7016c4d660d9f217073d9a8a2596a6604532b88b41c4cb5600bf368698b5922"
+private_key = "0x6bc7f21aa62933931341964eb3f2e0541b6298f67adb2a6b46bbcfd1a7e119f"
 world_address = "0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a"
+
+
+[tool.dojo.world]
+name = "beer baron"
+description = "Brew Beer, Sell Beer, Make Money"
+cover_uri = "file://assets/cover.png"
+website = "https://beer-baron.vercel.app/"

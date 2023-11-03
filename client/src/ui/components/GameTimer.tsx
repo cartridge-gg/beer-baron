@@ -6,30 +6,35 @@ import { useComponentValue } from '@latticexyz/react';
 import { TextContainer } from '../elements/TextContainer';
 import Coin from '../../icons/coin.svg?react';
 import { useSync } from '@/hooks/useSync';
+import useTimeRemaining from '@/dojo/useTimeRemaining';
 
-export const GoldBalance = () => {
+export const GameTimer = () => {
     const { game_id } = useQueryParams();
     const {
         setup: {
-            components: { ItemBalance },
+            components: { Game },
             network: {
-                contractComponents: { ItemBalance: ItemBalanceContract },
+                contractComponents: { Game: GameContract },
             },
         },
         account: { account },
     } = useDojo();
 
-    const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
+    const entityId = getEntityIdFromKeys([BigInt(game_id)]);
 
-    const gold_balance = useComponentValue(ItemBalance, entityId)?.balance.toString() || 0;
+    const start_time = useComponentValue(Game, entityId)?.start_time || 0;
 
-    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
+    const game_length = useComponentValue(Game, entityId)?.game_length || 0;
+
+    const { getTimeRemaining } = useTimeRemaining(start_time, game_length * 1000);
+
+    useSync(GameContract, [BigInt(game_id)]);
 
     return (
         <TextContainer>
             <span className="text-2xl flex">
-                <Coin className="self-center mr-3 h-8" />
-                <span className="self-center">{gold_balance}</span>
+                {/* <Coin className="self-center mr-3 h-10" /> */}
+                <span className="self-center">{getTimeRemaining()}</span>
             </span>
         </TextContainer>
     );

@@ -55,6 +55,10 @@ export async function setupNetwork() {
             return await torii_client.getModelValue(model, keys);
         },
 
+        removeEntitiesToSync: async (model: string, keys: string[]) => {
+            await torii_client.removeEntitiesToSync([{ model, keys }]);
+        },
+
         // useComponentValue
 
         // Define contract components for the world.

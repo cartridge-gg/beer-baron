@@ -27,8 +27,8 @@ export const IndulgencesBalance = () => {
 
     return (
         <TextContainer>
-            <span className="text-3xl flex">
-                <Trophy className="h-10 fill-beer-100" />
+            <span className="text-2xl flex">
+                <Trophy className="h-8 fill-beer-100" />
                 <span className="self-center">{indulgence_balance}</span>
             </span>
         </TextContainer>
