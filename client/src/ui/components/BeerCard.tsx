@@ -112,6 +112,7 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
             systemCalls: { bottle_beer },
             components: { Brew },
             network: {
+                torii_client,
                 contractComponents: { Brew: BrewContract },
             },
         },
@@ -128,7 +129,7 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
 
     const ready_state_color = ready ? 'green' : 'yellow';
 
-    useSync(BrewContract, [BigInt(entity_id)]);
+    useSync(torii_client, BrewContract, [BigInt(entity_id)]);
 
     return (
         <div className="p-2 relative">

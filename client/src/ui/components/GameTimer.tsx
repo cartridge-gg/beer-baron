@@ -15,6 +15,7 @@ export const GameTimer = () => {
             components: { Game },
             network: {
                 contractComponents: { Game: GameContract },
+                torii_client,
             },
         },
         account: { account },
@@ -28,7 +29,7 @@ export const GameTimer = () => {
 
     const { getTimeRemaining } = useTimeRemaining(start_time, game_length * 1000);
 
-    useSync(GameContract, [BigInt(game_id)]);
+    useSync(torii_client, GameContract, [BigInt(game_id)]);
 
     return (
         <TextContainer>

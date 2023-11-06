@@ -46,6 +46,7 @@ export const Land = ({ index }: Props) => {
             components: { FarmArea, ItemBalance },
             network: {
                 contractComponents: { FarmArea: FarmAreaContract },
+                torii_client,
             },
         },
         account: { account },
@@ -99,7 +100,7 @@ export const Land = ({ index }: Props) => {
         return useComponentValue(ItemBalance, entityId)?.balance || 0;
     };
 
-    useSync(FarmAreaContract, [BigInt(game_id), BigInt(account.address), BigInt(index)]);
+    useSync(torii_client, FarmAreaContract, [BigInt(game_id), BigInt(account.address), BigInt(index)]);
 
     return (
         <AlertDialog>

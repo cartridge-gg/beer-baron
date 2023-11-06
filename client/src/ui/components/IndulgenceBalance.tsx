@@ -14,6 +14,7 @@ export const IndulgencesBalance = () => {
             components: { ItemBalance },
             network: {
                 contractComponents: { ItemBalance: ItemBalanceContract },
+                torii_client,
             },
         },
         account: { account },
@@ -23,7 +24,7 @@ export const IndulgencesBalance = () => {
 
     const indulgence_balance = useComponentValue(ItemBalance, entityId)?.balance.toString() || 0;
 
-    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(INDULGENCE_ID)]);
+    useSync(torii_client, ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(INDULGENCE_ID)]);
 
     return (
         <TextContainer>

@@ -18,14 +18,14 @@ initializer_class_hash = "0xbeef"
 
 [tool.dojo.env]
 # rpc_url = "http://localhost:5050/"
-# account_address = "0x517ececd29116499f4a1b64b094da79ba08dfd54a3edaa316134c41f8160973"
-# private_key = "0x1800000000300000180000000000030000000000003006001800006600"
+account_address = "0x517ececd29116499f4a1b64b094da79ba08dfd54a3edaa316134c41f8160973"
+private_key = "0x1800000000300000180000000000030000000000003006001800006600"
 # world_address = "0x56e58cfcfc4b18ab4677a46c92e93824fe866f2c90b4915e04d2998d3e1702e"
 
 # # rpc_url = "https://api.cartridge.gg/x/beer-baron-4/katana"
-account_address = "0x7016c4d660d9f217073d9a8a2596a6604532b88b41c4cb5600bf368698b5922"
-private_key = "0x6bc7f21aa62933931341964eb3f2e0541b6298f67adb2a6b46bbcfd1a7e119f"
-world_address = "0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a"
+# account_address = "0x7016c4d660d9f217073d9a8a2596a6604532b88b41c4cb5600bf368698b5922"
+# private_key = "0x6bc7f21aa62933931341964eb3f2e0541b6298f67adb2a6b46bbcfd1a7e119f"
+# world_address = "0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a"
 
 
 [tool.dojo.world]

@@ -1,44 +1,55 @@
-import { useDojo } from '@/DojoContext';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Component, Entity, Metadata, Schema, setComponent } from '@latticexyz/recs';
 import { useEffect, useMemo } from 'react';
 import { Type as RecsType } from '@latticexyz/recs';
+import { Client } from '@dojoengine/torii-client';
 
-export function useSync<S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) {
-    const {
-        setup: {
-            network: { addEntitiesToSync, getModelValue, removeEntitiesToSync },
-        },
-    } = useDojo();
-
+export function useSync<S extends Schema>(client: Client, component: Component<S, Metadata, undefined>, keys: any[]) {
     const entityIndex = useMemo(() => {
         return getEntityIdFromKeys(keys);
     }, [keys]);
 
-    const keys_to_strings = keys.map((key) => key.toString());
+    const componentName = useMemo(() => component.metadata?.name, [component.metadata?.name]);
 
-    const setModelValue = async <S extends Schema>(component: Component<S, Metadata, undefined>, keys: any[]) => {
-        // Fetch values from torii_client
-        const values = await getModelValue(component.metadata?.name as string, keys);
+    const keys_to_strings = useMemo(() => keys.map((key) => key.toString()), [keys]);
 
-        // Create component object from values with schema
-        const componentValues = Object.keys(component.schema).reduce((acc, key) => {
-            if (key in values) {
-                // Convert value to Number if necessary, adjust based on type
-                const value = values[key];
-                acc[key] = component.schema[key] === RecsType.BigInt ? BigInt(value) : Number(value);
+    // Fetch and set model values
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchAndSetModelValue = async () => {
+            try {
+                const values = await client.getModelValue(componentName as string, keys_to_strings);
+
+                if (isMounted) {
+                    const componentValues = Object.keys(component.schema).reduce((acc, key) => {
+                        acc[key] = component.schema[key] === RecsType.BigInt ? BigInt(values[key]) : Number(values[key]);
+                        return acc;
+                    }, {});
+
+                    setComponent(component, entityIndex as Entity, componentValues as any);
+                }
+            } catch (error) {
+                console.error('Failed to fetch or set model value:', error);
             }
-            return acc;
-        }, {});
+        };
 
-        setComponent(component, entityIndex as Entity, componentValues as any);
-    };
+        fetchAndSetModelValue();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [client]);
 
     useEffect(() => {
-        addEntitiesToSync(component.metadata?.name as string, keys_to_strings);
+        const entity = { model: componentName as string, keys: keys_to_strings };
 
-        setModelValue(component, keys_to_strings);
+        client.addEntitiesToSync([entity]);
 
-        // return () => removeEntitiesToSync(component.metadata?.name as string, keys_to_strings);
-    }, []);
+        return () => {
+            client.removeEntitiesToSync([entity]).catch((error) => {
+                console.error('Failed to remove entities on cleanup', error);
+            });
+        };
+    }, [client]);
 }

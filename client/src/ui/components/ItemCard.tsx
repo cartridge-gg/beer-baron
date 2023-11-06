@@ -137,6 +137,7 @@ export const ItemCard = ({ type }: Item) => {
             components: { ItemBalance },
             network: {
                 contractComponents: { ItemBalance: ItemBalanceContract },
+                torii_client,
             },
         },
 
@@ -153,7 +154,7 @@ export const ItemCard = ({ type }: Item) => {
 
     const [actionQuantity, setActionQuantity] = useState(1);
 
-    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
+    useSync(torii_client, ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
     return (
         <AlertDialog>

@@ -14,6 +14,7 @@ export const GoldBalance = () => {
             components: { ItemBalance },
             network: {
                 contractComponents: { ItemBalance: ItemBalanceContract },
+                torii_client,
             },
         },
         account: { account },
@@ -23,7 +24,7 @@ export const GoldBalance = () => {
 
     const gold_balance = useComponentValue(ItemBalance, entityId)?.balance.toString() || 0;
 
-    useSync(ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
+    useSync(torii_client, ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
 
     return (
         <TextContainer>
