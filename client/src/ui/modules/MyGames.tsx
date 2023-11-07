@@ -1,7 +1,7 @@
 import { useEntityQuery } from '@latticexyz/react';
 import { useDojo } from '../../DojoContext';
 import { Button } from '@/ui/elements/button';
-import { HasValue } from '@latticexyz/recs';
+import { HasValue } from '@dojoengine/recs';
 import { useNavigate } from 'react-router-dom';
 
 export const MyGames = () => {

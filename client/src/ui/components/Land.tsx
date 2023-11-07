@@ -18,7 +18,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { FancyTitle } from './FancyTitle';
 import { Button } from '../elements/button';
 import { ImagePaths, Seeds } from './ItemCard';
-import { useSync } from '@/hooks/useSync';
+import { useSync } from '@dojoengine/react';
 
 export enum LandType {
     Empty,

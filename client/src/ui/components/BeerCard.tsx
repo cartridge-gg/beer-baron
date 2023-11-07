@@ -7,10 +7,10 @@ import { Button } from '../elements/button';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { BREW_TIME } from '@/dojo/gameConfig';
 import { generateRandomRecipe } from '@/utils';
-import { Entity } from '@latticexyz/recs';
+import { Entity } from '@dojoengine/recs';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { Card } from '../elements/card';
-import { useSync } from '@/hooks/useSync';
+import { useSync } from '@dojoengine/react';
 
 export enum BeerID {
     TIPA = 1,

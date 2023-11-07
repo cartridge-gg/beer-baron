@@ -6,7 +6,7 @@ An [dojo](https://github.com/dojoengine/dojo) onchain simulation masked as a bee
 
 ### **Overview:**
 
-In the game of Beer Baron, you step into the shoes of a monk with a flair for entrepreneurship. Hailing from an unknown Realm, your primary resource is a humble sum of 1000 gold. With this capital, you must use your abacus to navigate the hop market, grow hop flowers, brew beer, and sell it to the traverns to make a profit. The game is played over a period of 2 weeks, with the player with the largest fortune at the end of the game being crowned the winner.
+In the game of Beer Baron, you step into the shoes of a monk with a flair for entrepreneurship. Hailing from an unknown Realm, your primary resource is a humble sum of gold. With this capital, you must use your abacus to navigate the hop market, grow hop flowers, brew beer, and sell it to the traverns to make a profit. The game is played over a period of 2 weeks, with the player with the largest fortune at the end of the game being crowned the winner.
 
 _Game Loop:_
 
@@ -64,33 +64,6 @@ _Game Loop:_
 - **Dynamic games**: Contracts have been designed to handle many games at once, and players can choose to modifiy the game parameters to suit their needs. Eg: Maybe you have 20 beer recipes and 30 different hop types, you can create a game with those parameters.
 - **Game lobby**: Contracts include a basic Lobby system, where players can find games.
 - **Optimistic client updates**: Where possible the game optimistically updates the client before resolving the transaction.
-
-### Dojo World In detail
-
-#### Systems
-
-- `Buy Hops` : Buy hops from the VRGDA market
-- `Game` : Game and Lobby logic
-- `Start Beer Auction` : Start the beer auction
-- `Start Hops Auction` : Start the hops auction
-- `Build Farm` : Build a farm
-- `Harvest Farm` : Harvest a farm
-- `Brew Beer` : Brew a beer
-- `Bottle Beer` : Bottle a beer
-- `Sell Beer` : Sell beer to the market
-
-#### Components
-
-- `Auction` : Maintains the state of a VRGDA auction
-- `TavernAuction` : Maintains the state of the Inverse VRGDA auction
-- `GoldBalance` : Maintains the state of a players gold balance
-- `ItemBalance` : Maintains the state of a players item balance (Hops, Beer, Flowers)
-- `Brew` : Tracks brew batches
-- `BrewBatchTrack` : Counts batches of beer
-- `Game` : Tracks the state of a game
-- `GameTracker` : Tracks number of games player in World
-- `Player` : Tracks the state of a player per game
-- `FarmArea` : Tracks the state of a farm
 
 ### Launch the Example in Under 30 Seconds
 

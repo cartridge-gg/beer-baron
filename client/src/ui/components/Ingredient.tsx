@@ -1,4 +1,4 @@
-import { Entity } from '@latticexyz/recs';
+import { Entity } from '@dojoengine/recs';
 import { Flowers, ItemIcons } from './ItemCard';
 import { useComponentValue } from '@latticexyz/react';
 import { getEntityIdFromKeys } from '@dojoengine/utils';

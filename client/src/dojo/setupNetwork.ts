@@ -6,7 +6,7 @@ import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../generated/graphql';
 import dev_manifest from '../../../contracts/target/dev/manifest.json';
 import prod_manifest from '../../../contracts/target/release/manifest.json';
-import { EntityModel } from '@dojoengine/torii-wasm';
+// import { EntityModel } from '@dojoengine/torii-client';
 
 import * as torii from '@dojoengine/torii-client';
 
@@ -17,7 +17,7 @@ export async function setupNetwork() {
 
     const manifest = VITE_PUBLIC_ENV === 'development' ? dev_manifest : prod_manifest;
 
-    const provider = new RPCProvider(VITE_PUBLIC_WORLD_ADDRESS, prod_manifest, VITE_PUBLIC_NODE_URL);
+    const provider = new RPCProvider(VITE_PUBLIC_WORLD_ADDRESS, manifest, VITE_PUBLIC_NODE_URL);
 
     const createGraphSdk = () => getSdk(new GraphQLClient(VITE_PUBLIC_TORII + '/graphql'));
 
@@ -46,7 +46,7 @@ export async function setupNetwork() {
             await torii_client.removeEntitiesToSync([{ model, keys }]);
         },
 
-        syncEntity: async (model: EntityModel, callback: Function) => {
+        syncEntity: async (model: any, callback: Function) => {
             await torii_client.onSyncEntityChange(model, callback);
         },
 

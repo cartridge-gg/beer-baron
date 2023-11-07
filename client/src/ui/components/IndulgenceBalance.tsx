@@ -5,7 +5,7 @@ import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useComponentValue } from '@latticexyz/react';
 import { TextContainer } from '../elements/TextContainer';
 import Trophy from '../../icons/Kind=Pixel Trophy.svg?react';
-import { useSync } from '@/hooks/useSync';
+import { useSync } from '@dojoengine/react';
 
 export const IndulgencesBalance = () => {
     const { game_id } = useQueryParams();

@@ -5,7 +5,7 @@ import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useComponentValue } from '@latticexyz/react';
 import { TextContainer } from '../elements/TextContainer';
 import Coin from '../../icons/coin.svg?react';
-import { useSync } from '@/hooks/useSync';
+import { useSync } from '@dojoengine/react';
 
 export const GoldBalance = () => {
     const { game_id } = useQueryParams();

@@ -39,8 +39,8 @@ import { Button } from '../elements/button';
 import { TextContainer } from '../elements/TextContainer';
 import { usePricePolling } from '@/hooks/usePricePolling';
 import { useState } from 'react';
-import { useSync } from '@/hooks/useSync';
-import { Entity } from '@latticexyz/recs';
+import { useSync } from '@dojoengine/react';
+import { Entity } from '@dojoengine/recs';
 
 export enum Seeds {
     ChinookSeeds = 1,

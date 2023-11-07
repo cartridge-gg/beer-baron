@@ -1,7 +1,7 @@
 import { useDojo } from '@/DojoContext';
 import { BeerCard } from '../components/BeerCard';
 import { useEntityQuery } from '@latticexyz/react';
-import { HasValue } from '@latticexyz/recs';
+import { HasValue } from '@dojoengine/recs';
 
 export const BreweryRow = () => {
     const {

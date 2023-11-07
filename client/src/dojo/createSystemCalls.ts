@@ -1,5 +1,5 @@
 import { SetupNetworkResult } from './setupNetwork';
-import { getComponentValue } from '@latticexyz/recs';
+import { getComponentValue } from '@dojoengine/recs';
 import { uuid } from '@latticexyz/utils';
 import { fromFixed } from '@/utils/fixed';
 import {
