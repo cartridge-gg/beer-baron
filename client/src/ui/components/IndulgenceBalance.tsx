@@ -2,7 +2,7 @@ import { useDojo } from '@/DojoContext';
 import { INDULGENCE_ID } from '@/dojo/gameConfig';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useComponentValue } from '@latticexyz/react';
+import { useComponentValue } from '@dojoengine/react';
 import { TextContainer } from '../elements/TextContainer';
 import Trophy from '../../icons/Kind=Pixel Trophy.svg?react';
 import { useSync } from '@dojoengine/react';

@@ -1,6 +1,6 @@
 import { Entity } from '@dojoengine/recs';
 import { Flowers, ItemIcons } from './ItemCard';
-import { useComponentValue } from '@latticexyz/react';
+import { useComponentValue } from '@dojoengine/react';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useDojo } from '@/DojoContext';
 import { useQueryParams } from '@/dojo/useQueryParams';

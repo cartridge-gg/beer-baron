@@ -1,7 +1,7 @@
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { Chip } from '../elements/chip';
 import { Beers, Flowers, ImagePaths, ItemIcons, Seeds } from './ItemCard';
-import { useComponentValue } from '@latticexyz/react';
+import { useComponentValue } from '@dojoengine/react';
 import { useDojo } from '@/DojoContext';
 import { Button } from '../elements/button';
 import useTimeRemaining from '@/dojo/useTimeRemaining';

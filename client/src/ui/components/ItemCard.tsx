@@ -11,7 +11,7 @@ import {
     AlertDialogTrigger,
 } from '@/ui/elements/alert-dialog';
 import { FancyTitle } from './FancyTitle';
-import { useComponentValue } from '@latticexyz/react';
+import { useComponentValue } from '@dojoengine/react';
 import FuggleSeeds from '../../icons/seeds/FuggleSeeds.svg?react';
 import GalaxySeeds from '../../icons/seeds/GalaxySeeds.svg?react';
 import ChinookSeeds from '../../icons/seeds/ChinookSeeds.svg?react';

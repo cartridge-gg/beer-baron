@@ -4,10 +4,7 @@ import { useEffect, useState } from 'react';
 import { TradeStatus } from '@/dojo/gameConfig';
 import { useDojo } from '@/DojoContext';
 import { TradeEdge } from '@/generated/graphql';
-import { useEntityQuery } from '@latticexyz/react';
-import { HasValue } from '@dojoengine/recs';
 import { TradeRow } from '../components/TradeRow';
-import { CreateTrade } from './CreateTrade';
 import { useQueryParams } from '@/dojo/useQueryParams';
 
 export const TradeTable = () => {

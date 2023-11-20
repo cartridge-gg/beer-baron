@@ -1,4 +1,4 @@
-import { useEntityQuery } from '@latticexyz/react';
+import { useEntityQuery } from '@dojoengine/react';
 import { useDojo } from '../../DojoContext';
 import { Button } from '@/ui/elements/button';
 import { HasValue } from '@dojoengine/recs';
