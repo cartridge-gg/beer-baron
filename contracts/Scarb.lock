@@ -17,16 +17,16 @@ source = "git+https://github.com/ponderingdemocritus/cubit#9c3bbdfee7b165ab06ac8
 
 [[package]]
 name = "dojo"
-version = "0.3.3"
-source = "git+https://github.com/dojoengine/dojo?tag=nightly-bbdd5f22a8238cfa17212df217b339712e4e714c#bbdd5f22a8238cfa17212df217b339712e4e714c"
+version = "0.3.10"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.3.10#be1676252c41f8188465741edcbcb381d2c12080"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
 name = "dojo_defi"
-version = "0.3.3"
-source = "git+https://github.com/dojoengine/dojo?tag=nightly-bbdd5f22a8238cfa17212df217b339712e4e714c#bbdd5f22a8238cfa17212df217b339712e4e714c"
+version = "0.3.10"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.3.10#be1676252c41f8188465741edcbcb381d2c12080"
 dependencies = [
  "cubit",
  "dojo",
@@ -34,4 +34,4 @@ dependencies = [
 
 [[package]]
 name = "dojo_plugin"
-version = "0.3.3"
+version = "0.3.10"

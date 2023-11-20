@@ -97,6 +97,6 @@ cd client && yarn && yarn dev
 
 Upon completion, launch your browser and navigate to http://localhost:5173/. You'll be greeted by the running example!
 
-`slot deployments create beer-baron-2 katana`
+`slot deployments create beer-baron-prod-2 katana`
 
-`slot deployments create beer-baron-2 torii --rpc https://api.cartridge.gg/x/beer-baron-2/katana --world 0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a --start-block 1`
+`slot deployments create beer-baron-prod-2 torii --world 0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a --rpc https://api.cartridge.gg/x/beer-baron-prod-2/katana --start-block 1 `

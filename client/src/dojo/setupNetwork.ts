@@ -6,7 +6,6 @@ import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../generated/graphql';
 import dev_manifest from '../../../contracts/target/dev/manifest.json';
 import prod_manifest from '../../../contracts/target/release/manifest.json';
-// import { EntityModel } from '@dojoengine/torii-client';
 
 import * as torii from '@dojoengine/torii-client';
 

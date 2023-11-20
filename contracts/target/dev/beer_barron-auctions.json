@@ -15424,7 +15424,7 @@
     "user_func_names": [
       [
         0,
-        "beer_barron::systems::auctions::auctions::__wrapper__name"
+        "beer_barron::systems::auctions::auctions::__wrapper__dojo_resource"
       ],
       [
         1,
@@ -15968,12 +15968,12 @@
         "function_idx": 3
       },
       {
-        "selector": "0x361458367e696363fbcc70777d07ebbd2394e89fd0adcaf147faccd1d294d60",
-        "function_idx": 0
-      },
-      {
         "selector": "0x37eb63b70db77396306aebf7bdab0478206daaa4218b3c167ddb80578e2a959",
         "function_idx": 6
+      },
+      {
+        "selector": "0x38f2d91dabc7079b6f336cc00f874d17cbb7463674c7d3edfd04668fbdb6f6a",
+        "function_idx": 0
       },
       {
         "selector": "0x3d4c44d53e56a24206d42f7afb87b21038d67360e2e6895d54b630ad849a189",
@@ -16254,7 +16254,7 @@
     },
     {
       "type": "function",
-      "name": "name",
+      "name": "dojo_resource",
       "inputs": [],
       "outputs": [
         {
