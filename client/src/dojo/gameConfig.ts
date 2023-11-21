@@ -1,5 +1,5 @@
-export const BREW_TIME = 1000000
-export const GROW_TIME = 2000000;
+export const BREW_TIME = 100000
+export const GROW_TIME = 200000;
 export const BATCH_AMOUNT = 100;
 
 export const GOLD_ID = 999999;
