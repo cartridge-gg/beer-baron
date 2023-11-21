@@ -227,7 +227,7 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
         <Card>
             <div className="p-4 border-r border-dirt-100 w-3/12 self-center space-y-2">
                 {ImagePaths[(beer + 1000) as Beers]}
-                <Button disabled={!can_brew()} variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
+                <Button variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
                     Brew
                 </Button>
             </div>
