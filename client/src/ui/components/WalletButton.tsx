@@ -19,9 +19,9 @@ export const WalletButton = () => {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup defaultValue={account.address}>
-                        {list().map((account) => {
+                        {list().map((account, index) => {
                             return (
-                                <div className="flex">
+                                <div key={index} className="flex">
                                     <SelectItem value={account.address}>{shortenHex(account.address)}</SelectItem>
                                     <Button size={'sm'} variant={'outline'} onClick={clear}>
                                         X

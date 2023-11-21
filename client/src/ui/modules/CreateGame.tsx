@@ -1,5 +1,5 @@
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTrigger } from '@/ui/elements/alert-dialog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../elements/input';
 import { Button } from '../elements/button';
 import { useDojo } from '@/DojoContext';
@@ -12,6 +12,10 @@ export const CreateGame = () => {
         },
         account: { account },
     } = useDojo();
+
+    useEffect(() => {
+        console.log('account changed create', account);
+    }, [account]);
 
     const [formData, setFormData] = useState({
         max_players: 10,

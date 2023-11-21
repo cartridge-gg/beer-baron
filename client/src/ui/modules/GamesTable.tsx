@@ -24,7 +24,7 @@ export const GamesTable = () => {
         };
 
         games();
-    }, [gameStatus, gamesList]);
+    }, [gameStatus]);
 
     return (
         <div className="mt-8 p-4">

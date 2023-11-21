@@ -4,8 +4,21 @@ import { CreateGame } from "../modules/CreateGame";
 import { IconTitle, Icons } from "../components/IconTitle";
 import { GamesTable } from "../modules/GamesTable";
 import { MyGames } from "../modules/MyGames";
+import { useDojo } from "@/DojoContext";
+import { useEffect } from "react";
 
 export const LobbyScreen = () => {
+    const {
+        setup: {
+            systemCalls: { create_game },
+        },
+        account: { account },
+    } = useDojo();
+
+    useEffect(() => {
+        console.log('account changed create', account);
+    }, [account]);
+
     return <div className="bg-dirt-400">
         <div className="container grid grid-cols-12 gap-8 mx-auto">
             <div className="p-10 col-span-4 text-center text-beer-100">

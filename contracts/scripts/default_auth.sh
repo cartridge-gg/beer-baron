@@ -2,9 +2,9 @@
 set -euo pipefail
 pushd $(dirname "$0")/..
 
-# export RPC_URL="http://localhost:5050";
+export RPC_URL="http://localhost:5050";
 
-export RPC_URL="https://api.cartridge.gg/x/beer-baron-prod-2/katana"
+# export RPC_URL="https://api.cartridge.gg/x/beer-baron-prod-2/katana"
 
 export WORLD_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.world.address')
 
@@ -21,10 +21,12 @@ echo actions : $AUCTIONS_ADDRESS
 echo "---------------------------------------------------------------------------"
 
 # enable system -> component authorizations
-COMPONENTS=($(cat "./target/dev/manifest.json" | jq -r '.models[].name' | sed 's/.*/"&"/'))
+COMPONENTS=("Auction" "Brew" "BrewBatchTrack" "FarmArea" "Game" "GameTracker" "IndulgenceAuction" "IndulgenceAuctionCount" "ItemBalance" "Joined" "Ownership" "Player" "TavernAuction" "Trade" "TradeTrack")
 
 for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $AUCTIONS_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
+
+    echo ${component}
     sleep 1 
 done
 
@@ -40,6 +42,9 @@ done
 
 for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $LOBBY_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
+
+    echo ${LOBBY_ADDRESS}
+    echo ${component}
     sleep 1 
 done
 

@@ -37,6 +37,8 @@ export function createSystemCalls({ execute, contractComponents, call }: SetupNe
         });
 
     const create_game = async ({ account, max_players, game_length, password, entry_fee }: CreateGameProps) => {
+
+        console.log(account)
         try {
             const tx = await execute(account, 'lobby', 'create_game', [max_players, game_length, password, entry_fee]);
             const receipt = await account.waitForTransaction(tx.transaction_hash, { retryInterval: 100 });

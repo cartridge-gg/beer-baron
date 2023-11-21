@@ -14,7 +14,9 @@ async function init() {
   root.render(
     <React.StrictMode>
       <DojoProvider value={setupResult}>
-        <App />
+       
+          <App />
+       
       </DojoProvider>
     </React.StrictMode>
   );
