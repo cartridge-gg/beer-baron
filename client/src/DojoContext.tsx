@@ -87,7 +87,11 @@ export const DojoContextProvider = ({ children, value }: DojoProviderProps) => {
 
     const { create, list, get, account, select, isDeploying, clear } = useBurner();
 
-    if(!account) return
+    if(!list().length && !isDeploying) {
+        
+        create();
+        return
+    }
 
     return (
         <DojoContext.Provider value={{
