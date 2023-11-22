@@ -1727,16 +1727,16 @@ const GetIndulgencesDocumentString = print(GetIndulgencesDocument);
 const GetAllBalancesForGameDocumentString = print(GetAllBalancesForGameDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getGames(variables: GetGamesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetGamesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+    getGames(variables: GetGamesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetGamesQuery; extensions?: any; headers: any; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetGamesQuery>(GetGamesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGames', 'query');
     },
-    getTrades(variables: GetTradesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetTradesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+    getTrades(variables: GetTradesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetTradesQuery; extensions?: any; headers: any; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetTradesQuery>(GetTradesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTrades', 'query');
     },
-    getIndulgences(variables: GetIndulgencesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetIndulgencesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+    getIndulgences(variables: GetIndulgencesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetIndulgencesQuery; extensions?: any; headers: any; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetIndulgencesQuery>(GetIndulgencesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getIndulgences', 'query');
     },
-    getAllBalancesForGame(variables: GetAllBalancesForGameQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetAllBalancesForGameQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
+    getAllBalancesForGame(variables: GetAllBalancesForGameQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetAllBalancesForGameQuery; extensions?: any; headers: any; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetAllBalancesForGameQuery>(GetAllBalancesForGameDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAllBalancesForGame', 'query');
     }
   };

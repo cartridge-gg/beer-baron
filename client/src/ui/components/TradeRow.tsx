@@ -1,5 +1,5 @@
 import { useDojo } from '@/DojoContext';
-import { Entity, Trade } from '@/generated/graphql';
+import { Trade, World__Entity } from '@/generated/graphql';
 import { TableCell, TableRow } from '../elements/table';
 import { TradeStatus, TradeStatusTitles } from '@/dojo/gameConfig';
 import { shortenHex } from '@/utils';
@@ -11,7 +11,7 @@ import Coin from '../../icons/coin.svg?react';
 import { num } from 'starknet';
 import { useQueryParams } from '@/dojo/useQueryParams';
 
-export const TradeRow = ({ trade }: { trade: Maybe<Entity> | undefined }) => {
+export const TradeRow = ({ trade }: { trade: Maybe<World__Entity> | undefined }) => {
     const trade_model = trade?.models?.find((m) => m?.__typename == 'Trade') as Trade;
 
     const { game_id } = useQueryParams();
