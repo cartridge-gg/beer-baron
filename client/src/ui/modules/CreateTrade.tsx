@@ -20,6 +20,7 @@ import Coin from '../../icons/coin.svg?react';
 
 export const CreateTrade = () => {
     const { game_id } = useQueryParams();
+    const [selectedItem, setSelectedItem] = useState<Seeds>(Seeds.FuggleSeeds);
 
     const {
         setup: {
@@ -30,7 +31,7 @@ export const CreateTrade = () => {
 
     const [formData, setFormData] = useState({
         game_id: game_id,
-        item_id: 1,
+        item_id: selectedItem,
         quantity: 1,
         price: 10,
     });
@@ -49,8 +50,6 @@ export const CreateTrade = () => {
         event.preventDefault();
         create_trade({ account, ...formData });
     };
-
-    const [selectedItem, setSelectedItem] = useState<Seeds>(Seeds.FuggleSeeds);
 
     return (
         <AlertDialog>
