@@ -61,7 +61,6 @@ export const useDojo = () => {
     const contextValue = useContext(DojoContext);
     if (!contextValue) throw new Error('The `useDojo` hook must be used within a `DojoProvider`');
 
-
     return {
         setup: contextValue,
         account: contextValue.account,
@@ -93,15 +92,17 @@ export const DojoContextProvider = ({ children, value }: DojoProviderProps) => {
         return
     }
 
+    if (!account) return
+
     return (
         <DojoContext.Provider value={{
             ...value, masterAccount, account: {
-                create,
+                create, 
                 list,
                 get,
                 select,
                 clear,
-                account: account ?? masterAccount,
+                account: account,
                 isDeploying,
             }
         }}>{children}</DojoContext.Provider>

@@ -171,28 +171,28 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
     const recipe = generateRandomRecipe('5672635178472', beer.toString());
 
     const cascade_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.CascadeSeeds)]) as Entity)
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.CascadeFlowers)]) as Entity)
             ?.balance || 0;
 
     const chinook_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.ChinookSeeds)]) as Entity)
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.ChinookFlowers)]) as Entity)
             ?.balance || 0;
 
     const cintra_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.CintraSeeds)]) as Entity)
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.CintraFlowers)]) as Entity)
             ?.balance || 0;
 
     const fuggle_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.FuggleSeeds)]) as Entity)
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.FuggleFlowers)]) as Entity)
             ?.balance || 0;
 
     const saaz_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.SaazSeeds)]) as Entity)?.balance ||
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.SaazFlowers)]) as Entity)?.balance ||
         0;
 
     const galaxy_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Seeds.GalaxySeeds)]) as Entity)
-            ?.balance || 0;
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.GalaxyFlowers)]) as Entity)
+            ?.balance || 0;   
 
     const can_brew = () => {
         return (
@@ -227,7 +227,7 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
         <Card>
             <div className="p-4 border-r border-dirt-100 w-3/12 self-center space-y-2">
                 {ImagePaths[(beer + 1000) as Beers]}
-                <Button variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
+                <Button disabled={!can_brew()} variant={'outline'} size={'sm'} onClick={() => brew_beer({ account, game_id, beer_id: beer })}>
                     Brew
                 </Button>
             </div>

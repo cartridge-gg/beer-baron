@@ -1,5 +1,5 @@
-query getGames($status: u64!) {
-    gameModels(where: { status: $status }) {
+query getGames($status: u64!, $gameId: u64) {
+    gameModels(where: { status: $status, game_id: $gameId }) {
         edges {
             node {
                 entity {
@@ -86,6 +86,30 @@ query getIndulgences($game_id: u64!, $status: u8!) {
                             auction_id_value
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+query getAllBalancesForGame($game_id: u64!) {
+    itembalanceModels(limit: 100, where: { game_id: $game_id }) {
+        edges {
+            node {
+                ... on ItemBalance {
+                    balance
+                    item_id
+                    player_id
+                }
+            }
+        }
+    }
+    playerModels(limit: 100, where: { game_id: $game_id }) {
+        edges {
+            node {
+                ... on Player {
+                    name
+                    player_id
                 }
             }
         }

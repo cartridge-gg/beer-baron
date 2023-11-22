@@ -8,17 +8,19 @@ export const WalletButton = () => {
         account: { create, list, select, account, isDeploying, clear },
     } = useDojo();
 
+    console.log('account', account);
+
     return (
         <div className="flex space-x-2">
             <Button variant="outline" onClick={create}>
                 {isDeploying ? 'deploying' : 'create'}
             </Button>
-            <Select onValueChange={(value) => select(value)}>
-                <SelectTrigger className="">
-                    <SelectValue placeholder="Burner" />
+            <Select onValueChange={(value) => select(value)} defaultValue={account.address} >
+                <SelectTrigger>
+                    <SelectValue placeholder="Select Addr" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectGroup defaultValue={account.address}>
+                    <SelectGroup >
                         {list().map((account, index) => {
                             return (
                                 <div key={index} className="flex">

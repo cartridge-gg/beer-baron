@@ -1,35 +1,49 @@
 import { useDojo } from '@/DojoContext';
 import { useQueryParams } from '@/dojo/useQueryParams';
-import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useComponentValue } from '@dojoengine/react';
 import { TextContainer } from '../elements/TextContainer';
-import { useSync } from '@dojoengine/react';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
+import { useEffect, useState } from 'react';
+import { Game } from '@/generated/graphql';
+import { GameStatus } from '@/dojo/gameConfig';
 
+//TODO: Remove Graphql
 export const GameTimer = () => {
     const { game_id } = useQueryParams();
     const {
         setup: {
-            components: { Game },
             network: {
-                contractComponents: { Game: GameContract },
-                torii_client,
+                graphSdk
             },
         },
     } = useDojo();
 
-    const entityId = getEntityIdFromKeys([BigInt(game_id)]);
+    const [game, setGame] = useState<Game>({
+        "__typename": "Game",
+        "game_id": 2,
+        "start_time": 1700643311,
+        "status": 3,
+        "number_players": 2,
+        "max_players": 10,
+        "game_length": 6000,
+        "entry_fee": 0,
+        "password": "0x4d2"
+    });
 
-    const start_time = useComponentValue(Game, entityId)?.start_time || 0;
 
-    const game_length = useComponentValue(Game, entityId)?.game_length || 0;
+    useEffect(() => {
+        const games = async () => {
+            const {
+                data: { gameModels },
+            } = await graphSdk.getGames({ status: GameStatus.Started, gameId: game_id });
+            return setGame(gameModels?.edges[0].node.entity.models.find((m) => m?.__typename == 'Game') as Game);
+        };
 
-    const { getTimeRemaining } = useTimeRemaining(start_time, game_length * 1000);
+        games();    
+    }, []);
 
-    // TODO: This not working...
-    useSync(torii_client, GameContract, [BigInt(game_id)]);
 
-    console.log(useComponentValue(Game, entityId));    
+    const { getTimeRemaining } = useTimeRemaining(game.start_time, game.game_length * 1000);
+
 
     return (
         <TextContainer>

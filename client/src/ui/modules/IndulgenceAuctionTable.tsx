@@ -25,6 +25,7 @@ export const IndulgenceAuctionTable = () => {
     } = useDojo();
 
     useEffect(() => {
+        let intervalId;
         const indulgences = async () => {
             const {
                 data: { indulgenceauctionModels },
@@ -32,7 +33,12 @@ export const IndulgenceAuctionTable = () => {
             return setIndulgenceList(indulgenceauctionModels?.edges);
         };
         indulgences();
-    }, []);
+
+        intervalId = setInterval(indulgences, 5000);
+
+        // Clear the interval when the component unmounts
+        return () => clearInterval(intervalId);
+    }, [tradeStatus]);
 
     return (
         <div>

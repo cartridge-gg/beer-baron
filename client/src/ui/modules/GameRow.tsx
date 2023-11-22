@@ -1,5 +1,5 @@
 import { useDojo } from '@/DojoContext';
-import { Entity, Game, Ownership } from '@/generated/graphql';
+import { Game, Ownership, World__Entity } from '@/generated/graphql';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TableCell, TableRow } from '../elements/table';
@@ -18,7 +18,7 @@ import {
 } from '@/ui/elements/alert-dialog';
 import { FancyTitle } from '../components/FancyTitle';
 
-export const GameRow = ({ game }: { game: Maybe<Entity> | undefined }) => {
+export const GameRow = ({ game }: { game: Maybe<World__Entity> | undefined }) => {
     const game_model = game?.models?.find((m) => m?.__typename == 'Game') as Game;
     const ownership = game?.models?.find((m) => m?.__typename == 'Ownership') as Ownership;
 

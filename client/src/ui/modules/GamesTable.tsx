@@ -37,7 +37,7 @@ export const GamesTable = () => {
                     <SelectContent>
                         <SelectGroup defaultValue={GameStatus.Lobby.toString()}>
                             <SelectItem value={GameStatus.Lobby.toString()}>Lobby</SelectItem>
-                            <SelectItem value={GameStatus.Created.toString()}>Created</SelectItem>
+                            {/* <SelectItem value={GameStatus.Created.toString()}>Created</SelectItem> */}
                             <SelectItem value={GameStatus.Started.toString()}>Started</SelectItem>
                         </SelectGroup>
                     </SelectContent>
@@ -50,11 +50,11 @@ export const GamesTable = () => {
                         <TableRow className="">
                             <TableHead className="w-[100px]">Game ID</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Entry Fee</TableHead>
-                            <TableHead>Max Players</TableHead>
-                            <TableHead>Number Players</TableHead>
-                            <TableHead>Start Time</TableHead>
-                            <TableHead>Game Length</TableHead>
+                            <TableHead>Fee</TableHead>
+                            <TableHead>Max Barons</TableHead>
+                            <TableHead>Joined</TableHead>
+                            <TableHead>Start</TableHead>
+                            <TableHead>Length</TableHead>
                             <TableHead>Join</TableHead>
                         </TableRow>
                     </TableHeader>

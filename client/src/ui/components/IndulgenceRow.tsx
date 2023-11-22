@@ -5,14 +5,14 @@ import { Button } from '../elements/button';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { useDojo } from '@/DojoContext';
 import { Maybe } from 'graphql/jsutils/Maybe';
-import { Entity, IndulgenceAuction } from '@/generated/graphql';
+import { IndulgenceAuction, World__Entity } from '@/generated/graphql';
 import { shortenHex } from '@/utils';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { Input } from '../elements/input';
 import { useState } from 'react';
 import { TradeStatus } from '@/dojo/gameConfig';
 
-export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<Entity> | undefined }) => {
+export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<World__Entity> | undefined }) => {
     const indulgence_auction_model = indulgence?.models?.find((m) => m?.__typename == 'IndulgenceAuction') as IndulgenceAuction;
 
     const { game_id } = useQueryParams();
@@ -34,7 +34,7 @@ export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<Entity> | unde
 
     return (
         <TableRow className=" m-1 text-white">
-            <TableCell>{getTimeRemaining()}</TableCell>
+            <TableCell>{getTimeRemaining() < '0' ? 'finished': getTimeRemaining() }</TableCell>
             {/* <TableCell>{indulgence_auction_model.auction_id}</TableCell> */}
             <TableCell>
                 <div className="flex space-x-2">
