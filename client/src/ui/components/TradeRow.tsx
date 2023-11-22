@@ -26,16 +26,16 @@ export const TradeRow = ({ trade }: { trade: Maybe<World__Entity> | undefined })
     return (
         <TableRow className=" m-1 text-white">
             <TableCell>
-                <div className="w-8">{ImagePaths[parseInt(num.hexToDecimalString(trade_model?.item_id)) as Seeds]}</div>
+                <div className="w-8">{ImagePaths[parseInt(trade_model?.item_id) as Seeds]}</div>
             </TableCell>
-            <TableCell>{num.hexToDecimalString(trade_model?.quantity)}</TableCell>
+            <TableCell>{trade_model?.quantity}</TableCell>
             <TableCell>
                 <div className="flex space-x-2">
                     <Coin className="self-center mr-1 h-6" />
-                    <span className="self-center">{num.hexToDecimalString(trade_model?.price)}</span>
+                    <span className="self-center">{trade_model?.price}</span>
                 </div>
             </TableCell>
-            {/* <TableCell>{TradeStatusTitles[trade_model?.status as TradeStatus]}</TableCell> */}
+            <TableCell>{TradeStatusTitles[trade_model?.status as TradeStatus]}</TableCell>
             <TableCell>{shortenHex(trade_model?.player_id)}</TableCell>
             <TableCell>
                 <Button onClick={() => accept_trade({ account, game_id, trade_id: trade_model.entity_id })}>accept</Button>

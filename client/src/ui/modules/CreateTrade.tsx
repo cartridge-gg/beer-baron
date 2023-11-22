@@ -7,7 +7,7 @@ import {
     AlertDialogTrigger,
 } from '@/ui/elements/alert-dialog';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../elements/input';
 import { Button } from '../elements/button';
 import { useDojo } from '@/DojoContext';
@@ -21,6 +21,8 @@ import Coin from '../../icons/coin.svg?react';
 export const CreateTrade = () => {
     const { game_id } = useQueryParams();
     const [selectedItem, setSelectedItem] = useState<Seeds>(Seeds.FuggleSeeds);
+
+    console.log(selectedItem);
 
     const {
         setup: {
@@ -48,8 +50,17 @@ export const CreateTrade = () => {
     // Event handler for form submission
     const handleSubmit = (event: any) => {
         event.preventDefault();
+
+        console.log(formData);
         create_trade({ account, ...formData });
     };
+
+    useEffect(() => {
+        setFormData((prevState) => ({
+            ...prevState,
+            item_id: selectedItem,
+        }));
+    }, [selectedItem]);
 
     return (
         <AlertDialog>
