@@ -44,7 +44,6 @@ export const LeaderBoardTable = () => {
 
             const balanceArray = Array.from(playerBalances.values());
 
-            console.log(balanceArray);
             setLeaderBoard(balanceArray);
         };
 

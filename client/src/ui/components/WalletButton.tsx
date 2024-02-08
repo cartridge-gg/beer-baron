@@ -8,8 +8,6 @@ export const WalletButton = () => {
         account: { create, list, select, account, isDeploying, clear },
     } = useDojo();
 
-    console.log('account', account);
-
     return (
         <div className="flex space-x-2">
             <Button variant="outline" onClick={create}>

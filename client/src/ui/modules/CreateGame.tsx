@@ -13,10 +13,6 @@ export const CreateGame = () => {
         account: { account },
     } = useDojo();
 
-    useEffect(() => {
-        console.log('account changed create', account);
-    }, [account]);
-
     const [formData, setFormData] = useState({
         max_players: 10,
         game_length: 6000,

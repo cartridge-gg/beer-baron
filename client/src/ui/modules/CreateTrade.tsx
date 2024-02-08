@@ -22,8 +22,6 @@ export const CreateTrade = () => {
     const { game_id } = useQueryParams();
     const [selectedItem, setSelectedItem] = useState<Seeds>(Seeds.FuggleSeeds);
 
-    console.log(selectedItem);
-
     const {
         setup: {
             systemCalls: { create_trade },
@@ -51,7 +49,6 @@ export const CreateTrade = () => {
     const handleSubmit = (event: any) => {
         event.preventDefault();
 
-        console.log(formData);
         create_trade({ account, ...formData });
     };
 

@@ -44,8 +44,6 @@ export const GameRow = ({ entity }: any) => {
         navigate('?game=' + id, { replace: true });
     };
 
-    // console.log(game_model.game_id, ownership?.owner, account.address)
-
     return (
         <TableRow className=" m-1 text-white">
             <TableCell>{game_model.game_id}</TableCell>

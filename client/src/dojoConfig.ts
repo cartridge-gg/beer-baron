@@ -2,8 +2,6 @@ import manifest from '../../contracts/target/dev/manifest.json';
 import release_manifest from '../../contracts/target/release/manifest.json';
 import { createDojoConfig } from '@dojoengine/core';
 
-console.log(import.meta.env);
-
 export const dojoConfig = createDojoConfig({
     rpcUrl: import.meta.env.VITE_PUBLIC_NODE_URL,
     toriiUrl: import.meta.env.VITE_PUBLIC_TORII,
