@@ -2,7 +2,7 @@ import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/element
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
 import { useEffect, useState } from 'react';
 import { TradeStatus } from '@/dojo/gameConfig';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { TradeEdge } from '@/generated/graphql';
 import { TradeRow } from '../components/TradeRow';
 import { useQueryParams } from '@/dojo/useQueryParams';
@@ -11,9 +11,7 @@ export const TradeTable = () => {
     const [tradeList, setTradeList] = useState<any | undefined[]>([]);
     const [tradeStatus, setTradeStatus] = useState<TradeStatus>(TradeStatus.Open);
     const {
-        setup: {
-            network: { graphSdk },
-        },
+        setup: { graphSdk },
     } = useDojo();
 
     const { game_id } = useQueryParams();

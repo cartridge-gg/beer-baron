@@ -2,14 +2,14 @@ import { Entity } from '@dojoengine/recs';
 import { Flowers, ItemIcons } from './ItemCard';
 import { useComponentValue } from '@dojoengine/react';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { useQueryParams } from '@/dojo/useQueryParams';
 
 export const Ingredient = ({ id, recipe }: { id: string; recipe: any }) => {
     const { game_id } = useQueryParams();
     const {
         setup: {
-            components: { ItemBalance },
+            clientComponents: { ItemBalance },
         },
         account: { account },
     } = useDojo();

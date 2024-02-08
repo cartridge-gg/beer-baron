@@ -19,16 +19,19 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const SeedRow: Story = {
     args: {
-        title: "seeds",
-        items: [{
-            type: Seeds.ChinookSeeds,
-        }, {
-            type: Seeds.CintraSeeds,
-        }, {
-            type: Seeds.FuggleSeeds,
-        }],
+        title: 'seeds',
+        items: [
+            {
+                type: Seeds.ChinookSeeds,
+            },
+            {
+                type: Seeds.CintraSeeds,
+            },
+            {
+                type: Seeds.FuggleSeeds,
+            },
+        ],
     },
 };

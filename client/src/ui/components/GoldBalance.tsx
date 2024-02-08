@@ -1,4 +1,4 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { GOLD_ID } from '@/dojo/gameConfig';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
@@ -11,11 +11,7 @@ export const GoldBalance = () => {
     const { game_id } = useQueryParams();
     const {
         setup: {
-            components: { ItemBalance },
-            network: {
-                contractComponents: { ItemBalance: ItemBalanceContract },
-                torii_client,
-            },
+            clientComponents: { ItemBalance },
         },
         account: { account },
     } = useDojo();
@@ -23,8 +19,6 @@ export const GoldBalance = () => {
     const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
 
     const gold_balance = useComponentValue(ItemBalance, entityId)?.balance.toString() || 0;
-
-    useSync(torii_client, ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(GOLD_ID)]);
 
     return (
         <TextContainer>

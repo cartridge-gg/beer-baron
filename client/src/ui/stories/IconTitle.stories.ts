@@ -19,10 +19,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const Lager: Story = {
     args: {
         title: 'market',
-        icon: Icons.PixelBeerMug
+        icon: Icons.PixelBeerMug,
     },
 };

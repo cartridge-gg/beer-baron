@@ -1,10 +1,8 @@
-import FlorishLeft from "../../icons/Flourish-Left.svg?react"
-import FlorishRight from "../../icons/Flourish-Right.svg?react"
-
+import FlorishLeft from '../../icons/Flourish-Left.svg?react';
+import FlorishRight from '../../icons/Flourish-Right.svg?react';
 
 interface FancyTitleProps {
     title: string;
-
 }
 
 export const FancyTitle = ({ title }: FancyTitleProps) => {
@@ -17,6 +15,5 @@ export const FancyTitle = ({ title }: FancyTitleProps) => {
 
             <FlorishRight className="self-center" />
         </div>
-
-    )
-}
+    );
+};

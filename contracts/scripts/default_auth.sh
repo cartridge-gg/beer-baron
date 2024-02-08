@@ -8,11 +8,11 @@ export RPC_URL="http://localhost:5050";
 
 export WORLD_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.world.address')
 
-export AUCTIONS_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "auctions" ).address')
-export BREWING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "brewing" ).address')
-export FARMING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "farming" ).address')
-export LOBBY_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "lobby" ).address')
-export TRADING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "trading" ).address')
+export AUCTIONS_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "beer_barron::systems::auctions::auctions" ).address')
+export BREWING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "beer_barron::systems::brewing::brewing" ).address')
+export FARMING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "beer_barron::systems::farming::farming" ).address')
+export LOBBY_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "beer_barron::systems::lobby::lobby" ).address')
+export TRADING_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "beer_barron::systems::trading::trading" ).address')
 
 echo "---------------------------------------------------------------------------"
 echo world : $WORLD_ADDRESS 
@@ -27,17 +27,17 @@ for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $AUCTIONS_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
 
     echo ${component}
-    sleep 1 
+    sleep 0.5
 done
 
 for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $BREWING_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
-    sleep 1 
+    sleep 0.5
 done
 
 for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $FARMING_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
-    sleep 1 
+    sleep 0.5 
 done
 
 for component in ${COMPONENTS[@]}; do
@@ -45,12 +45,12 @@ for component in ${COMPONENTS[@]}; do
 
     echo ${LOBBY_ADDRESS}
     echo ${component}
-    sleep 1 
+    sleep 0.5
 done
 
 for component in ${COMPONENTS[@]}; do
     sozo auth writer $component $TRADING_ADDRESS --world $WORLD_ADDRESS --rpc-url $RPC_URL
-    sleep 1 
+    sleep 0.5
 done
 
 echo "Default authorizations have been successfully set."

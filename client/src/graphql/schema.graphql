@@ -69,7 +69,7 @@ query getTrades($game_id: u64!, $status: u8!) {
 }
 
 query getIndulgences($game_id: u64!, $status: u8!) {
-    indulgenceauctionModels(where: { game_id: $game_id, status: $status }) {
+    indulgenceAuctionModels(where: { game_id: $game_id, status: $status }) {
         edges {
             node {
                 entity {
@@ -93,7 +93,7 @@ query getIndulgences($game_id: u64!, $status: u8!) {
 }
 
 query getAllBalancesForGame($game_id: u64!) {
-    itembalanceModels(limit: 100, where: { game_id: $game_id }) {
+    itemBalanceModels(limit: 100, where: { game_id: $game_id }) {
         edges {
             node {
                 ... on ItemBalance {

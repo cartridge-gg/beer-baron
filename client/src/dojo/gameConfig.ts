@@ -1,4 +1,4 @@
-export const BREW_TIME = 100000
+export const BREW_TIME = 100000;
 export const GROW_TIME = 200000;
 export const BATCH_AMOUNT = 100;
 
@@ -19,9 +19,9 @@ export enum Beers {
 }
 
 export const BeerNames: { [key in Beers]: string } = {
-    [Beers.DragonHideBlaze]: "Dragon Hide Blaze TIPA", // Spaces added for better readability
-    [Beers.MithralHaze]: "Mithral Haze IPA",
-    [Beers.ObsidianImperialStout]: "Obsidian Imperial Stout",
+    [Beers.DragonHideBlaze]: 'Dragon Hide Blaze TIPA', // Spaces added for better readability
+    [Beers.MithralHaze]: 'Mithral Haze IPA',
+    [Beers.ObsidianImperialStout]: 'Obsidian Imperial Stout',
 };
 
 export enum Hops {
@@ -60,7 +60,6 @@ export const BeerBottled = {
     [Beers.ObsidianImperialStout]: '/images/items/beers/obsidian_stout.png',
 };
 
-
 export type HopQuantity = {
     hop: Flowers;
     quantity: number;
@@ -74,7 +73,7 @@ export const beerRecipes: Recipe = {
     [Beers.DragonHideBlaze]: [
         { hop: Flowers.Cintra, quantity: 5 },
         { hop: Flowers.Chinook, quantity: 3 },
-        { hop: Flowers.Galaxy, quantity: 2 }
+        { hop: Flowers.Galaxy, quantity: 2 },
     ],
     [Beers.MithralHaze]: [
         { hop: Flowers.Galaxy, quantity: 1 },
@@ -97,11 +96,11 @@ export enum GameStatus {
 export enum TradeStatus {
     Open = 1,
     Accepted = 2,
-    Cancelled = 3
+    Cancelled = 3,
 }
 
 export const TradeStatusTitles = {
-    [TradeStatus.Open]: "Open",
-    [TradeStatus.Accepted]: "Accepted",
-    [TradeStatus.Cancelled]: "Cancelled",
-}
+    [TradeStatus.Open]: 'Open',
+    [TradeStatus.Accepted]: 'Accepted',
+    [TradeStatus.Cancelled]: 'Cancelled',
+};

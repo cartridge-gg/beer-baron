@@ -17,7 +17,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-
 export const Chinook: Story = {
     args: {
         type: Seeds.ChinookSeeds,

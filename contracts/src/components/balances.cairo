@@ -1,5 +1,5 @@
 use starknet::ContractAddress;
-use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
+use origami::defi::auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 use cubit::f128::types::fixed::{Fixed, FixedTrait};
 
 // All Items use this, they are internal tokens

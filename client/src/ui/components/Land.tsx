@@ -1,6 +1,6 @@
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { Chip } from '../elements/chip';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useComponentValue } from '@dojoengine/react';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
@@ -43,18 +43,12 @@ export const Land = ({ index }: Props) => {
     const {
         setup: {
             systemCalls: { build_farm },
-            components: { FarmArea, ItemBalance },
-            network: {
-                contractComponents: { FarmArea: FarmAreaContract },
-                torii_client,
-            },
+            clientComponents: { FarmArea, ItemBalance },
         },
         account: { account },
     } = useDojo();
 
     const entityId = getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(index)]);
-
-    // useSync(FarmArea, [BigInt(game_id), BigInt(account.address), BigInt(index)])
 
     const farm = useComponentValue(FarmArea, entityId);
 
@@ -99,8 +93,6 @@ export const Land = ({ index }: Props) => {
 
         return useComponentValue(ItemBalance, entityId)?.balance || 0;
     };
-
-    useSync(torii_client, FarmAreaContract, [BigInt(game_id), BigInt(account.address), BigInt(index)]);
 
     return (
         <AlertDialog>

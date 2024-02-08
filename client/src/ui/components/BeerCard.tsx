@@ -2,7 +2,7 @@ import { useQueryParams } from '@/dojo/useQueryParams';
 import { Chip } from '../elements/chip';
 import { Beers, Flowers, ImagePaths, ItemIcons, Seeds } from './ItemCard';
 import { useComponentValue } from '@dojoengine/react';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { Button } from '../elements/button';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { BREW_TIME } from '@/dojo/gameConfig';
@@ -110,16 +110,14 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
     const {
         setup: {
             systemCalls: { bottle_beer },
-            components: { Brew },
-            network: {
-                torii_client,
-                contractComponents: { Brew: BrewContract },
-            },
+            clientComponents: { Brew },
         },
         account: { account },
     } = useDojo();
 
     const brew = useComponentValue(Brew, entity_id);
+
+    console.log(brew);
 
     const { getTimeRemaining, timeRemaining } = useTimeRemaining(brew?.time_built, BREW_TIME);
 
@@ -128,8 +126,6 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
     const ready_state = ready ? 'Ready' : 'Brewing: ' + getTimeRemaining();
 
     const ready_state_color = ready ? 'green' : 'yellow';
-
-    useSync(torii_client, BrewContract, [BigInt(entity_id)]);
 
     return (
         <div className="p-2 relative">
@@ -163,7 +159,7 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
     const {
         setup: {
             systemCalls: { brew_beer },
-            components: { ItemBalance },
+            clientComponents: { ItemBalance },
         },
         account: { account },
     } = useDojo();
@@ -187,12 +183,12 @@ export const BeerRecipeCard = ({ beer }: BeerRecipeCardProps) => {
             ?.balance || 0;
 
     const saaz_quantity =
-        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.SaazFlowers)]) as Entity)?.balance ||
-        0;
+        useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.SaazFlowers)]) as Entity)
+            ?.balance || 0;
 
     const galaxy_quantity =
         useComponentValue(ItemBalance, getEntityIdFromKeys([BigInt(game_id), BigInt(account.address), BigInt(Flowers.GalaxyFlowers)]) as Entity)
-            ?.balance || 0;   
+            ?.balance || 0;
 
     const can_brew = () => {
         return (

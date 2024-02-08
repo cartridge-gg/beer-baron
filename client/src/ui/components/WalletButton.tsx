@@ -1,4 +1,4 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { Button } from '../elements/button';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
 import { shortenHex } from '@/utils';
@@ -15,12 +15,12 @@ export const WalletButton = () => {
             <Button variant="outline" onClick={create}>
                 {isDeploying ? 'deploying' : 'create'}
             </Button>
-            <Select onValueChange={(value) => select(value)} defaultValue={account.address} >
+            <Select onValueChange={(value) => select(value)} defaultValue={account.address}>
                 <SelectTrigger>
                     <SelectValue placeholder="Select Addr" />
                 </SelectTrigger>
                 <SelectContent>
-                    <SelectGroup >
+                    <SelectGroup>
                         {list().map((account, index) => {
                             return (
                                 <div key={index} className="flex">

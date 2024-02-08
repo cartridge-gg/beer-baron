@@ -4,7 +4,7 @@ import { CreateGame } from '../modules/CreateGame';
 import { IconTitle, Icons } from '../components/IconTitle';
 import { GamesTable } from '../modules/GamesTable';
 import { MyGames } from '../modules/MyGames';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 
 export const LobbyScreen = () => {
     const {

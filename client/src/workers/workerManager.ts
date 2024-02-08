@@ -20,9 +20,9 @@ workerPool.forEach((worker) => {
         const callback = callbacks[id];
         if (callback) {
             callback(result);
-            delete callbacks[id];  // Cleanup callback once done
+            delete callbacks[id]; // Cleanup callback once done
 
-            const taskIndex = taskQueue.findIndex(task => task.id === id);
+            const taskIndex = taskQueue.findIndex((task) => task.id === id);
             if (taskIndex !== -1) {
                 taskQueue.splice(taskIndex, 1);
             }
@@ -42,13 +42,13 @@ function startTask(fn: Function, args: any[], callback: (result: any) => void): 
         id: taskId++,
         fnString: fn.toString(),
         args,
-        action: 'start'
+        action: 'start',
     };
 
     // Store callback by taskId
     callbacks[task.id] = callback;
 
-    const freeWorker = workerPool.find(worker => !taskQueue.find(task => task.worker === worker));
+    const freeWorker = workerPool.find((worker) => !taskQueue.find((task) => task.worker === worker));
 
     if (freeWorker) {
         freeWorker.postMessage(task);
@@ -61,7 +61,7 @@ function startTask(fn: Function, args: any[], callback: (result: any) => void): 
 }
 
 function stopTask(id: number): void {
-    const task = taskQueue.find(t => t.id === id);
+    const task = taskQueue.find((t) => t.id === id);
     if (task && task.worker) {
         task.worker.postMessage({ action: 'stop' });
     }

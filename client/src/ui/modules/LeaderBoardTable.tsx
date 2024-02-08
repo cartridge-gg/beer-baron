@@ -1,9 +1,12 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/ui/elements/table';
 import { useEffect, useState } from 'react';
 import { GOLD_ID, GameStatus, INDULGENCE_ID } from '@/dojo/gameConfig';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { shortenHex } from '@/utils';
+import { useComponentValue } from '@dojoengine/react';
+import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { shortString } from 'starknet';
 
 export const LeaderBoardTable = () => {
     const { game_id } = useQueryParams();
@@ -11,9 +14,7 @@ export const LeaderBoardTable = () => {
     const [leaderboard, setLeaderBoard] = useState<any | undefined[]>([]);
 
     const {
-        setup: {
-            network: { graphSdk },
-        },
+        setup: { graphSdk },
     } = useDojo();
 
     // TODO: use ws to update leaderboard
@@ -22,12 +23,12 @@ export const LeaderBoardTable = () => {
         let intervalId;
         const games = async () => {
             const {
-                data: { itembalanceModels, playerModels },
+                data: { itemBalanceModels, playerModels },
             } = await graphSdk.getAllBalancesForGame({ game_id: game_id });
 
             const playerBalances = new Map();
 
-            itembalanceModels.edges.forEach(({ node }) => {
+            itemBalanceModels.edges.forEach(({ node }) => {
                 const { player_id, item_id, balance } = node;
                 if (!playerBalances.has(player_id)) {
                     playerBalances.set(player_id, { player_id, gold: 0, indulgences: 0 });
@@ -67,17 +68,30 @@ export const LeaderBoardTable = () => {
                     </TableHeader>
                     <TableBody>
                         {leaderboard.map((leaderboard: any, index: number) => {
-                            return (
-                                <TableRow key={index} className="m-1">
-                                    <TableCell>{shortenHex(leaderboard.player_id)}</TableCell>
-                                    <TableCell>{leaderboard.indulgences}</TableCell>
-                                    <TableCell>{leaderboard.gold}</TableCell>
-                                </TableRow>
-                            );
+                            return <LeaderBoardRow key={index} leaderboard={leaderboard} />;
                         })}
                     </TableBody>
                 </Table>
             </div>
         </div>
+    );
+};
+
+export const LeaderBoardRow = ({ leaderboard }: any) => {
+    const { game_id } = useQueryParams();
+
+    const {
+        setup: {
+            clientComponents: { Player },
+        },
+    } = useDojo();
+
+    const player = useComponentValue(Player, getEntityIdFromKeys([BigInt(game_id), BigInt(leaderboard.player_id)]));
+    return (
+        <TableRow className="m-1">
+            <TableCell>{shortString.decodeShortString(player?.name || 0)}</TableCell>
+            <TableCell>{leaderboard.indulgences}</TableCell>
+            <TableCell>{leaderboard.gold}</TableCell>
+        </TableRow>
     );
 };

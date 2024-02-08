@@ -1,17 +1,21 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { BeerCard } from '../components/BeerCard';
 import { useEntityQuery } from '@dojoengine/react';
 import { HasValue } from '@dojoengine/recs';
+import { useQueryParams } from '@/dojo/useQueryParams';
 
 export const BreweryRow = () => {
     const {
         setup: {
-            components: { Brew },
+            clientComponents: { Brew },
         },
         account: { account },
     } = useDojo();
 
-    const active_brews = useEntityQuery([HasValue(Brew, { owner: account.address, status: 1 })]);
+    const { game_id } = useQueryParams();
+
+    const active_brews = useEntityQuery([HasValue(Brew, { game_id, owner: BigInt(account.address), status: 1 })]);
+
     return (
         <div>
             <div className="uppercase text-dirt-100">Batches</div>

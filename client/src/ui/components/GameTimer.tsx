@@ -1,4 +1,4 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { TextContainer } from '../elements/TextContainer';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
@@ -10,25 +10,20 @@ import { GameStatus } from '@/dojo/gameConfig';
 export const GameTimer = () => {
     const { game_id } = useQueryParams();
     const {
-        setup: {
-            network: {
-                graphSdk
-            },
-        },
+        setup: { graphSdk },
     } = useDojo();
 
     const [game, setGame] = useState<Game>({
-        "__typename": "Game",
-        "game_id": 2,
-        "start_time": 1700643311,
-        "status": 3,
-        "number_players": 2,
-        "max_players": 10,
-        "game_length": 6000,
-        "entry_fee": 0,
-        "password": "0x4d2"
+        __typename: 'Game',
+        game_id: 2,
+        start_time: 1700643311,
+        status: 3,
+        number_players: 2,
+        max_players: 10,
+        game_length: 6000,
+        entry_fee: 0,
+        password: '0x4d2',
     });
-
 
     useEffect(() => {
         const games = async () => {
@@ -38,12 +33,10 @@ export const GameTimer = () => {
             return setGame(gameModels?.edges[0].node.entity.models.find((m) => m?.__typename == 'Game') as Game);
         };
 
-        games();    
+        games();
     }, []);
 
-
     const { getTimeRemaining } = useTimeRemaining(game.start_time, game.game_length * 1000);
-
 
     return (
         <TextContainer>

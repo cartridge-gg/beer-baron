@@ -1,4 +1,4 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { Game, Ownership, World__Entity } from '@/generated/graphql';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,19 +17,22 @@ import {
     AlertDialogTrigger,
 } from '@/ui/elements/alert-dialog';
 import { FancyTitle } from '../components/FancyTitle';
+import { useComponentValue } from '@dojoengine/react';
 
-export const GameRow = ({ game }: { game: Maybe<World__Entity> | undefined }) => {
-    const game_model = game?.models?.find((m) => m?.__typename == 'Game') as Game;
-    const ownership = game?.models?.find((m) => m?.__typename == 'Ownership') as Ownership;
-
+export const GameRow = ({ entity }: any) => {
     const navigate = useNavigate();
 
     const {
         setup: {
             systemCalls: { start_game, join_game },
+            clientComponents: { Game, Ownership },
         },
         account: { account },
     } = useDojo();
+
+    const game_model = useComponentValue(Game, entity);
+
+    const ownership = useComponentValue(Ownership, entity);
 
     const [name, setName] = useState('');
 

@@ -45,7 +45,8 @@ export type Auction = {
 export type AuctionConnection = {
   __typename?: 'AuctionConnection';
   edges?: Maybe<Array<Maybe<AuctionEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type AuctionEdge = {
@@ -81,12 +82,6 @@ export type AuctionWhereInput = {
   decay_constant_magLTE?: InputMaybe<Scalars['u128']['input']>;
   decay_constant_magNEQ?: InputMaybe<Scalars['u128']['input']>;
   decay_constant_sign?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signEQ?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signGT?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signGTE?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signLT?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signLTE?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signNEQ?: InputMaybe<Scalars['bool']['input']>;
   game_id?: InputMaybe<Scalars['u64']['input']>;
   game_idEQ?: InputMaybe<Scalars['u64']['input']>;
   game_idGT?: InputMaybe<Scalars['u64']['input']>;
@@ -137,12 +132,6 @@ export type AuctionWhereInput = {
   time_scale_magLTE?: InputMaybe<Scalars['u128']['input']>;
   time_scale_magNEQ?: InputMaybe<Scalars['u128']['input']>;
   time_scale_sign?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signEQ?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signGT?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signGTE?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signLT?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signLTE?: InputMaybe<Scalars['bool']['input']>;
-  time_scale_signNEQ?: InputMaybe<Scalars['bool']['input']>;
 };
 
 export type Brew = {
@@ -169,7 +158,8 @@ export type BrewBatchTrack = {
 export type BrewBatchTrackConnection = {
   __typename?: 'BrewBatchTrackConnection';
   edges?: Maybe<Array<Maybe<BrewBatchTrackEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type BrewBatchTrackEdge = {
@@ -216,7 +206,8 @@ export type BrewBatchTrackWhereInput = {
 export type BrewConnection = {
   __typename?: 'BrewConnection';
   edges?: Maybe<Array<Maybe<BrewEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type BrewEdge = {
@@ -313,7 +304,8 @@ export type FarmArea = {
 export type FarmAreaConnection = {
   __typename?: 'FarmAreaConnection';
   edges?: Maybe<Array<Maybe<FarmAreaEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type FarmAreaEdge = {
@@ -390,7 +382,8 @@ export type Game = {
 export type GameConnection = {
   __typename?: 'GameConnection';
   edges?: Maybe<Array<Maybe<GameEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type GameEdge = {
@@ -426,7 +419,8 @@ export type GameTracker = {
 export type GameTrackerConnection = {
   __typename?: 'GameTrackerConnection';
   edges?: Maybe<Array<Maybe<GameTrackerEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type GameTrackerEdge = {
@@ -543,7 +537,8 @@ export type IndulgenceAuction = {
 export type IndulgenceAuctionConnection = {
   __typename?: 'IndulgenceAuctionConnection';
   edges?: Maybe<Array<Maybe<IndulgenceAuctionEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type IndulgenceAuctionCount = {
@@ -556,7 +551,8 @@ export type IndulgenceAuctionCount = {
 export type IndulgenceAuctionCountConnection = {
   __typename?: 'IndulgenceAuctionCountConnection';
   edges?: Maybe<Array<Maybe<IndulgenceAuctionCountEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type IndulgenceAuctionCountEdge = {
@@ -677,7 +673,8 @@ export type ItemBalance = {
 export type ItemBalanceConnection = {
   __typename?: 'ItemBalanceConnection';
   edges?: Maybe<Array<Maybe<ItemBalanceEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type ItemBalanceEdge = {
@@ -740,7 +737,8 @@ export type Joined = {
 export type JoinedConnection = {
   __typename?: 'JoinedConnection';
   edges?: Maybe<Array<Maybe<JoinedEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type JoinedEdge = {
@@ -776,12 +774,6 @@ export type JoinedWhereInput = {
   game_idLTE?: InputMaybe<Scalars['u64']['input']>;
   game_idNEQ?: InputMaybe<Scalars['u64']['input']>;
   joined?: InputMaybe<Scalars['bool']['input']>;
-  joinedEQ?: InputMaybe<Scalars['bool']['input']>;
-  joinedGT?: InputMaybe<Scalars['bool']['input']>;
-  joinedGTE?: InputMaybe<Scalars['bool']['input']>;
-  joinedLT?: InputMaybe<Scalars['bool']['input']>;
-  joinedLTE?: InputMaybe<Scalars['bool']['input']>;
-  joinedNEQ?: InputMaybe<Scalars['bool']['input']>;
 };
 
 export type ModelUnion = Auction | Brew | BrewBatchTrack | FarmArea | Game | GameTracker | IndulgenceAuction | IndulgenceAuctionCount | ItemBalance | Joined | Ownership | Player | TavernAuction | Trade | TradeTrack;
@@ -801,7 +793,8 @@ export type Ownership = {
 export type OwnershipConnection = {
   __typename?: 'OwnershipConnection';
   edges?: Maybe<Array<Maybe<OwnershipEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type OwnershipEdge = {
@@ -848,7 +841,8 @@ export type Player = {
 export type PlayerConnection = {
   __typename?: 'PlayerConnection';
   edges?: Maybe<Array<Maybe<PlayerEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type PlayerEdge = {
@@ -908,7 +902,8 @@ export type TavernAuction = {
 export type TavernAuctionConnection = {
   __typename?: 'TavernAuctionConnection';
   edges?: Maybe<Array<Maybe<TavernAuctionEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type TavernAuctionEdge = {
@@ -942,12 +937,6 @@ export type TavernAuctionWhereInput = {
   decay_constant_magLTE?: InputMaybe<Scalars['u128']['input']>;
   decay_constant_magNEQ?: InputMaybe<Scalars['u128']['input']>;
   decay_constant_sign?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signEQ?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signGT?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signGTE?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signLT?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signLTE?: InputMaybe<Scalars['bool']['input']>;
-  decay_constant_signNEQ?: InputMaybe<Scalars['bool']['input']>;
   game_id?: InputMaybe<Scalars['u64']['input']>;
   game_idEQ?: InputMaybe<Scalars['u64']['input']>;
   game_idGT?: InputMaybe<Scalars['u64']['input']>;
@@ -1008,7 +997,8 @@ export type Trade = {
 export type TradeConnection = {
   __typename?: 'TradeConnection';
   edges?: Maybe<Array<Maybe<TradeEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type TradeEdge = {
@@ -1043,7 +1033,8 @@ export type TradeTrack = {
 export type TradeTrackConnection = {
   __typename?: 'TradeTrackConnection';
   edges?: Maybe<Array<Maybe<TradeTrackEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type TradeTrackEdge = {
@@ -1140,9 +1131,9 @@ export type TradeWhereInput = {
 
 export type World__Content = {
   __typename?: 'World__Content';
-  cover_uri?: Maybe<Scalars['String']['output']>;
+  coverUri?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
-  icon_uri?: Maybe<Scalars['String']['output']>;
+  iconUri?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   socials?: Maybe<Array<Maybe<World__Social>>>;
   website?: Maybe<Scalars['String']['output']>;
@@ -1150,19 +1141,19 @@ export type World__Content = {
 
 export type World__Entity = {
   __typename?: 'World__Entity';
-  created_at?: Maybe<Scalars['DateTime']['output']>;
-  event_id?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  eventId?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   keys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  model_names?: Maybe<Scalars['String']['output']>;
   models?: Maybe<Array<Maybe<ModelUnion>>>;
-  updated_at?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type World__EntityConnection = {
   __typename?: 'World__EntityConnection';
   edges?: Maybe<Array<Maybe<World__EntityEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__EntityEdge = {
@@ -1173,17 +1164,18 @@ export type World__EntityEdge = {
 
 export type World__Event = {
   __typename?: 'World__Event';
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   data?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   id?: Maybe<Scalars['ID']['output']>;
   keys?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  transaction_hash?: Maybe<Scalars['String']['output']>;
+  transactionHash?: Maybe<Scalars['String']['output']>;
 };
 
 export type World__EventConnection = {
   __typename?: 'World__EventConnection';
   edges?: Maybe<Array<Maybe<World__EventEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__EventEdge = {
@@ -1195,18 +1187,20 @@ export type World__EventEdge = {
 export type World__Metadata = {
   __typename?: 'World__Metadata';
   content?: Maybe<World__Content>;
-  cover_img?: Maybe<Scalars['String']['output']>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
-  icon_img?: Maybe<Scalars['String']['output']>;
+  coverImg?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
+  iconImg?: Maybe<Scalars['String']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  updated_at?: Maybe<Scalars['DateTime']['output']>;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
   uri?: Maybe<Scalars['String']['output']>;
+  worldAddress: Scalars['String']['output'];
 };
 
 export type World__MetadataConnection = {
   __typename?: 'World__MetadataConnection';
   edges?: Maybe<Array<Maybe<World__MetadataEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__MetadataEdge = {
@@ -1217,17 +1211,18 @@ export type World__MetadataEdge = {
 
 export type World__Model = {
   __typename?: 'World__Model';
-  class_hash?: Maybe<Scalars['felt252']['output']>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  classHash?: Maybe<Scalars['felt252']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
   name?: Maybe<Scalars['String']['output']>;
-  transaction_hash?: Maybe<Scalars['felt252']['output']>;
+  transactionHash?: Maybe<Scalars['felt252']['output']>;
 };
 
 export type World__ModelConnection = {
   __typename?: 'World__ModelConnection';
   edges?: Maybe<Array<Maybe<World__ModelEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__ModelEdge = {
@@ -1236,29 +1231,47 @@ export type World__ModelEdge = {
   node?: Maybe<World__Model>;
 };
 
+export type World__ModelOrder = {
+  direction: OrderDirection;
+  field: World__ModelOrderField;
+};
+
+export enum World__ModelOrderField {
+  ClassHash = 'CLASS_HASH',
+  Name = 'NAME'
+}
+
+export type World__PageInfo = {
+  __typename?: 'World__PageInfo';
+  endCursor?: Maybe<Scalars['Cursor']['output']>;
+  hasNextPage?: Maybe<Scalars['Boolean']['output']>;
+  hasPreviousPage?: Maybe<Scalars['Boolean']['output']>;
+  startCursor?: Maybe<Scalars['Cursor']['output']>;
+};
+
 export type World__Query = {
   __typename?: 'World__Query';
   auctionModels?: Maybe<AuctionConnection>;
+  brewBatchTrackModels?: Maybe<BrewBatchTrackConnection>;
   brewModels?: Maybe<BrewConnection>;
-  brewbatchtrackModels?: Maybe<BrewBatchTrackConnection>;
   entities?: Maybe<World__EntityConnection>;
   entity: World__Entity;
   events?: Maybe<World__EventConnection>;
-  farmareaModels?: Maybe<FarmAreaConnection>;
+  farmAreaModels?: Maybe<FarmAreaConnection>;
   gameModels?: Maybe<GameConnection>;
-  gametrackerModels?: Maybe<GameTrackerConnection>;
-  indulgenceauctionModels?: Maybe<IndulgenceAuctionConnection>;
-  indulgenceauctioncountModels?: Maybe<IndulgenceAuctionCountConnection>;
-  itembalanceModels?: Maybe<ItemBalanceConnection>;
+  gameTrackerModels?: Maybe<GameTrackerConnection>;
+  indulgenceAuctionCountModels?: Maybe<IndulgenceAuctionCountConnection>;
+  indulgenceAuctionModels?: Maybe<IndulgenceAuctionConnection>;
+  itemBalanceModels?: Maybe<ItemBalanceConnection>;
   joinedModels?: Maybe<JoinedConnection>;
   metadatas?: Maybe<World__MetadataConnection>;
   model: World__Model;
   models?: Maybe<World__ModelConnection>;
   ownershipModels?: Maybe<OwnershipConnection>;
   playerModels?: Maybe<PlayerConnection>;
-  tavernauctionModels?: Maybe<TavernAuctionConnection>;
+  tavernAuctionModels?: Maybe<TavernAuctionConnection>;
   tradeModels?: Maybe<TradeConnection>;
-  tradetrackModels?: Maybe<TradeTrackConnection>;
+  tradeTrackModels?: Maybe<TradeTrackConnection>;
   transaction: World__Transaction;
   transactions?: Maybe<World__TransactionConnection>;
 };
@@ -1276,6 +1289,18 @@ export type World__QueryAuctionModelsArgs = {
 };
 
 
+export type World__QueryBrewBatchTrackModelsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<BrewBatchTrackOrder>;
+  where?: InputMaybe<BrewBatchTrackWhereInput>;
+};
+
+
 export type World__QueryBrewModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -1285,18 +1310,6 @@ export type World__QueryBrewModelsArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<BrewOrder>;
   where?: InputMaybe<BrewWhereInput>;
-};
-
-
-export type World__QueryBrewbatchtrackModelsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order?: InputMaybe<BrewBatchTrackOrder>;
-  where?: InputMaybe<BrewBatchTrackWhereInput>;
 };
 
 
@@ -1327,7 +1340,7 @@ export type World__QueryEventsArgs = {
 };
 
 
-export type World__QueryFarmareaModelsArgs = {
+export type World__QueryFarmAreaModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1351,7 +1364,7 @@ export type World__QueryGameModelsArgs = {
 };
 
 
-export type World__QueryGametrackerModelsArgs = {
+export type World__QueryGameTrackerModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1363,19 +1376,7 @@ export type World__QueryGametrackerModelsArgs = {
 };
 
 
-export type World__QueryIndulgenceauctionModelsArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  order?: InputMaybe<IndulgenceAuctionOrder>;
-  where?: InputMaybe<IndulgenceAuctionWhereInput>;
-};
-
-
-export type World__QueryIndulgenceauctioncountModelsArgs = {
+export type World__QueryIndulgenceAuctionCountModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1387,7 +1388,19 @@ export type World__QueryIndulgenceauctioncountModelsArgs = {
 };
 
 
-export type World__QueryItembalanceModelsArgs = {
+export type World__QueryIndulgenceAuctionModelsArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<IndulgenceAuctionOrder>;
+  where?: InputMaybe<IndulgenceAuctionWhereInput>;
+};
+
+
+export type World__QueryItemBalanceModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1433,6 +1446,7 @@ export type World__QueryModelsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<World__ModelOrder>;
 };
 
 
@@ -1460,7 +1474,7 @@ export type World__QueryPlayerModelsArgs = {
 };
 
 
-export type World__QueryTavernauctionModelsArgs = {
+export type World__QueryTavernAuctionModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1484,7 +1498,7 @@ export type World__QueryTradeModelsArgs = {
 };
 
 
-export type World__QueryTradetrackModelsArgs = {
+export type World__QueryTradeTrackModelsArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1541,19 +1555,20 @@ export type World__SubscriptionModelRegisteredArgs = {
 export type World__Transaction = {
   __typename?: 'World__Transaction';
   calldata?: Maybe<Array<Maybe<Scalars['felt252']['output']>>>;
-  created_at?: Maybe<Scalars['DateTime']['output']>;
+  createdAt?: Maybe<Scalars['DateTime']['output']>;
   id?: Maybe<Scalars['ID']['output']>;
-  max_fee?: Maybe<Scalars['felt252']['output']>;
+  maxFee?: Maybe<Scalars['felt252']['output']>;
   nonce?: Maybe<Scalars['felt252']['output']>;
-  sender_address?: Maybe<Scalars['felt252']['output']>;
+  senderAddress?: Maybe<Scalars['felt252']['output']>;
   signature?: Maybe<Array<Maybe<Scalars['felt252']['output']>>>;
-  transaction_hash?: Maybe<Scalars['felt252']['output']>;
+  transactionHash?: Maybe<Scalars['felt252']['output']>;
 };
 
 export type World__TransactionConnection = {
   __typename?: 'World__TransactionConnection';
   edges?: Maybe<Array<Maybe<World__TransactionEdge>>>;
-  total_count: Scalars['Int']['output'];
+  pageInfo: World__PageInfo;
+  totalCount: Scalars['Int']['output'];
 };
 
 export type World__TransactionEdge = {
@@ -1584,14 +1599,14 @@ export type GetIndulgencesQueryVariables = Exact<{
 }>;
 
 
-export type GetIndulgencesQuery = { __typename?: 'World__Query', indulgenceauctionModels?: { __typename?: 'IndulgenceAuctionConnection', edges?: Array<{ __typename?: 'IndulgenceAuctionEdge', node?: { __typename?: 'IndulgenceAuction', entity?: { __typename?: 'World__Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Auction' } | { __typename: 'Brew' } | { __typename: 'BrewBatchTrack' } | { __typename: 'FarmArea' } | { __typename: 'Game' } | { __typename: 'GameTracker' } | { __typename: 'IndulgenceAuction', game_id?: any | null, price?: any | null, status?: any | null, auction_id?: any | null, highest_bid_player_id?: any | null, expiry?: any | null, auction_id_value?: any | null } | { __typename: 'IndulgenceAuctionCount' } | { __typename: 'ItemBalance' } | { __typename: 'Joined' } | { __typename: 'Ownership' } | { __typename: 'Player' } | { __typename: 'TavernAuction' } | { __typename: 'Trade' } | { __typename: 'TradeTrack' } | null> | null } | null } | null } | null> | null } | null };
+export type GetIndulgencesQuery = { __typename?: 'World__Query', indulgenceAuctionModels?: { __typename?: 'IndulgenceAuctionConnection', edges?: Array<{ __typename?: 'IndulgenceAuctionEdge', node?: { __typename?: 'IndulgenceAuction', entity?: { __typename?: 'World__Entity', keys?: Array<string | null> | null, models?: Array<{ __typename: 'Auction' } | { __typename: 'Brew' } | { __typename: 'BrewBatchTrack' } | { __typename: 'FarmArea' } | { __typename: 'Game' } | { __typename: 'GameTracker' } | { __typename: 'IndulgenceAuction', game_id?: any | null, price?: any | null, status?: any | null, auction_id?: any | null, highest_bid_player_id?: any | null, expiry?: any | null, auction_id_value?: any | null } | { __typename: 'IndulgenceAuctionCount' } | { __typename: 'ItemBalance' } | { __typename: 'Joined' } | { __typename: 'Ownership' } | { __typename: 'Player' } | { __typename: 'TavernAuction' } | { __typename: 'Trade' } | { __typename: 'TradeTrack' } | null> | null } | null } | null } | null> | null } | null };
 
 export type GetAllBalancesForGameQueryVariables = Exact<{
   game_id: Scalars['u64']['input'];
 }>;
 
 
-export type GetAllBalancesForGameQuery = { __typename?: 'World__Query', itembalanceModels?: { __typename?: 'ItemBalanceConnection', edges?: Array<{ __typename?: 'ItemBalanceEdge', node?: { __typename?: 'ItemBalance', balance?: any | null, item_id?: any | null, player_id?: any | null } | null } | null> | null } | null, playerModels?: { __typename?: 'PlayerConnection', edges?: Array<{ __typename?: 'PlayerEdge', node?: { __typename?: 'Player', name?: any | null, player_id?: any | null } | null } | null> | null } | null };
+export type GetAllBalancesForGameQuery = { __typename?: 'World__Query', itemBalanceModels?: { __typename?: 'ItemBalanceConnection', edges?: Array<{ __typename?: 'ItemBalanceEdge', node?: { __typename?: 'ItemBalance', balance?: any | null, item_id?: any | null, player_id?: any | null } | null } | null> | null } | null, playerModels?: { __typename?: 'PlayerConnection', edges?: Array<{ __typename?: 'PlayerEdge', node?: { __typename?: 'Player', name?: any | null, player_id?: any | null } | null } | null> | null } | null };
 
 
 export const GetGamesDocument = gql`
@@ -1668,7 +1683,7 @@ export const GetTradesDocument = gql`
     `;
 export const GetIndulgencesDocument = gql`
     query getIndulgences($game_id: u64!, $status: u8!) {
-  indulgenceauctionModels(where: {game_id: $game_id, status: $status}) {
+  indulgenceAuctionModels(where: {game_id: $game_id, status: $status}) {
     edges {
       node {
         entity {
@@ -1693,7 +1708,7 @@ export const GetIndulgencesDocument = gql`
     `;
 export const GetAllBalancesForGameDocument = gql`
     query getAllBalancesForGame($game_id: u64!) {
-  itembalanceModels(limit: 100, where: {game_id: $game_id}) {
+  itemBalanceModels(limit: 100, where: {game_id: $game_id}) {
     edges {
       node {
         ... on ItemBalance {
@@ -1727,16 +1742,16 @@ const GetIndulgencesDocumentString = print(GetIndulgencesDocument);
 const GetAllBalancesForGameDocumentString = print(GetAllBalancesForGameDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getGames(variables: GetGamesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetGamesQuery; extensions?: any; headers: any; status: number; }> {
+    getGames(variables: GetGamesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetGamesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetGamesQuery>(GetGamesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getGames', 'query');
     },
-    getTrades(variables: GetTradesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetTradesQuery; extensions?: any; headers: any; status: number; }> {
+    getTrades(variables: GetTradesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetTradesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetTradesQuery>(GetTradesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getTrades', 'query');
     },
-    getIndulgences(variables: GetIndulgencesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetIndulgencesQuery; extensions?: any; headers: any; status: number; }> {
+    getIndulgences(variables: GetIndulgencesQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetIndulgencesQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetIndulgencesQuery>(GetIndulgencesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getIndulgences', 'query');
     },
-    getAllBalancesForGame(variables: GetAllBalancesForGameQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetAllBalancesForGameQuery; extensions?: any; headers: any; status: number; }> {
+    getAllBalancesForGame(variables: GetAllBalancesForGameQueryVariables, requestHeaders?: GraphQLClientRequestHeaders): Promise<{ data: GetAllBalancesForGameQuery; extensions?: any; headers: Dom.Headers; status: number; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<GetAllBalancesForGameQuery>(GetAllBalancesForGameDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAllBalancesForGame', 'query');
     }
   };

@@ -1,6 +1,6 @@
 use cubit::f128::types::fixed::{Fixed, FixedTrait};
 use starknet::{ContractAddress, get_block_timestamp, get_caller_address};
-use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
+use origami::defi::auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 use beer_barron::vrgda::vrgda::{ReverseLinearVRGDA, ReverseLinearVRGDATrait};
 use beer_barron::components::balances::{ItemBalance, ItemBalanceTrait};
 use traits::{Into, TryInto};

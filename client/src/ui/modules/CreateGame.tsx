@@ -2,7 +2,7 @@ import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, 
 import { useEffect, useState } from 'react';
 import { Input } from '../elements/input';
 import { Button } from '../elements/button';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { FancyTitle } from '../components/FancyTitle';
 
 export const CreateGame = () => {

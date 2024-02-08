@@ -40,8 +40,8 @@ export class Fixed {
     }
 
     valueOf(): number {
-        const _value: number = this.mag / (2 ** (this.size === 64 ? 32 : 64));
-        return (this.sign) ? -_value : _value;
+        const _value: number = this.mag / 2 ** (this.size === 64 ? 32 : 64);
+        return this.sign ? -_value : _value;
     }
 }
 
@@ -53,5 +53,5 @@ export default {
     Fixed,
     toFelt,
     toFixed,
-    fromFixed
+    fromFixed,
 };

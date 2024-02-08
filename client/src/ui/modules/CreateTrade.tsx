@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { useEffect, useState } from 'react';
 import { Input } from '../elements/input';
 import { Button } from '../elements/button';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { FancyTitle } from '../components/FancyTitle';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { Flowers, ImagePaths, ItemNames, Seeds, allItems } from '../components/ItemCard';

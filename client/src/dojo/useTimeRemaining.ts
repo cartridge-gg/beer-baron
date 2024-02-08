@@ -5,7 +5,7 @@ const useTimeRemaining = (time_built?: number, GROW_TIME = 0) => {
 
     useEffect(() => {
         if (time_built) {
-            const duration = Date.now() - (time_built * 1000);
+            const duration = Date.now() - time_built * 1000;
             setTimeRemaining(GROW_TIME - duration);
         }
     }, [time_built, GROW_TIME]);

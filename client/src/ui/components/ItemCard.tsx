@@ -32,7 +32,7 @@ import RubySour from '../../icons/beers/RubySour.svg?react';
 import DiamondWheatBeer from '../../icons/beers/DiamondWheatBeer.svg?react';
 import EtherealLager from '../../icons/beers/EtherealLager.svg?react';
 
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { Button } from '../elements/button';
@@ -134,11 +134,7 @@ export const ItemCard = ({ type }: Item) => {
     const {
         setup: {
             systemCalls: { buy_hops, sell_beer },
-            components: { ItemBalance },
-            network: {
-                contractComponents: { ItemBalance: ItemBalanceContract },
-                torii_client,
-            },
+            clientComponents: { ItemBalance },
         },
 
         account: { account },
@@ -153,8 +149,6 @@ export const ItemCard = ({ type }: Item) => {
     const quantity = useComponentValue(ItemBalance, entity_id)?.balance || 0;
 
     const [actionQuantity, setActionQuantity] = useState(1);
-
-    useSync(torii_client, ItemBalanceContract, [BigInt(game_id), BigInt(account.address), BigInt(type)]);
 
     return (
         <AlertDialog>

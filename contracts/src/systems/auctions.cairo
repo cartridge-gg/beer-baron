@@ -49,7 +49,7 @@ mod auctions {
     use beer_barron::components::trading::{TradeStatus};
 
     use cubit::f128::types::fixed::{Fixed, FixedTrait};
-    use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
+    use origami::defi::auction::vrgda::{LogisticVRGDA, LogisticVRGDATrait};
 
     use beer_barron::components::beer::{BeerID, get_beer_id_from_enum};
 

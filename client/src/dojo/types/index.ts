@@ -1,20 +1,20 @@
-import { Account, num } from "starknet";
-import { BeerID } from "@/ui/components/BeerCard";
+import { Account, num } from 'starknet';
+import { BeerID } from '@/ui/components/BeerCard';
 
 export interface SystemSigner {
-    account: Account
+    account: Account;
 }
 
 export interface CreateGameProps extends SystemSigner {
-    max_players: num.BigNumberish
-    game_length: num.BigNumberish
-    password: num.BigNumberish
-    entry_fee: num.BigNumberish
+    max_players: num.BigNumberish;
+    game_length: num.BigNumberish;
+    password: num.BigNumberish;
+    entry_fee: num.BigNumberish;
 }
 
 export interface JoinGameProps extends SystemSigner {
-    game_id: num.BigNumberish
-    name: num.BigNumberish
+    game_id: num.BigNumberish;
+    name: num.BigNumberish;
 }
 
 export interface GameIdProps extends SystemSigner {

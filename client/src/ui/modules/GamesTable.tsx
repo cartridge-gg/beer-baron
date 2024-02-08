@@ -1,30 +1,22 @@
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/elements/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GameStatus } from '@/dojo/gameConfig';
-import { useDojo } from '@/DojoContext';
-import { GameEdge } from '@/generated/graphql';
+import { useDojo } from '@/dojo/useDojo';
 import { GameRow } from './GameRow';
+import { useEntityQuery } from '@dojoengine/react';
+import { Has, HasValue } from '@dojoengine/recs';
 
 export const GamesTable = () => {
-    const [gamesList, setGamesList] = useState<any | undefined[]>([]);
     const [gameStatus, setGameStatus] = useState<GameStatus>(GameStatus.Lobby);
     const {
         setup: {
-            network: { graphSdk },
+            graphSdk,
+            clientComponents: { Game },
         },
     } = useDojo();
 
-    useEffect(() => {
-        const games = async () => {
-            const {
-                data: { gameModels },
-            } = await graphSdk.getGames({ status: gameStatus });
-            return setGamesList(gameModels?.edges);
-        };
-
-        games();
-    }, [gameStatus]);
+    const games = useEntityQuery([Has(Game), HasValue(Game, { status: GameStatus.Lobby })]);
 
     return (
         <div className="mt-8 p-4">
@@ -59,8 +51,8 @@ export const GamesTable = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {gamesList.map((game: GameEdge, index: number) => {
-                            return <GameRow game={game.node?.entity} key={index} />;
+                        {games.map((entity, index) => {
+                            return <GameRow entity={entity} key={index} />;
                         })}
                     </TableBody>
                 </Table>

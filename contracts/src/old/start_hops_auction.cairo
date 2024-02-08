@@ -10,7 +10,7 @@ mod start_hops_auction {
 
     use cubit::f128::types::fixed::{Fixed, FixedTrait};
     use dojo::world::Context;
-    use dojo_defi::dutch_auction::vrgda::{LogisticVRGDA};
+    use origami::defi:auction::vrgda::{LogisticVRGDA};
 
     // TODO: Move to game state so each game can have its own auction parameters
     const target_price: u128 = 10;

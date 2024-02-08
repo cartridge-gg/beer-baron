@@ -1,44 +1,28 @@
 import { useQueryParams } from '@/dojo/useQueryParams';
-import { useDojo } from '@/DojoContext';
-import { useEffect, useState } from 'react';
+import { useDojo } from '@/dojo/useDojo';
+import { useState } from 'react';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/ui/elements/table';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/ui/elements/select';
 import { IndulgenceRow } from '../components/IndulgenceRow';
-import { IndulgenceAuctionEdge } from '@/generated/graphql';
 import { TradeStatus } from '@/dojo/gameConfig';
 import { Button } from '../elements/button';
+import { useEntityQuery } from '@dojoengine/react';
+import { Has, HasValue } from '@dojoengine/recs';
 
 export const IndulgenceAuctionTable = () => {
     const {
         setup: {
             systemCalls: { increment_indulgences_auction },
+            graphSdk,
+            clientComponents: { IndulgenceAuction },
         },
         account: { account },
     } = useDojo();
-    const [indulgenceList, setIndulgenceList] = useState<any | undefined[]>([]);
+
     const [tradeStatus, setTradeStatus] = useState<TradeStatus>(TradeStatus.Open);
     const { game_id } = useQueryParams();
-    const {
-        setup: {
-            network: { graphSdk },
-        },
-    } = useDojo();
 
-    useEffect(() => {
-        let intervalId;
-        const indulgences = async () => {
-            const {
-                data: { indulgenceauctionModels },
-            } = await graphSdk.getIndulgences({ game_id, status: tradeStatus });
-            return setIndulgenceList(indulgenceauctionModels?.edges);
-        };
-        indulgences();
-
-        intervalId = setInterval(indulgences, 5000);
-
-        // Clear the interval when the component unmounts
-        return () => clearInterval(intervalId);
-    }, [tradeStatus]);
+    const indulgenceList = useEntityQuery([Has(IndulgenceAuction), HasValue(IndulgenceAuction, { status: tradeStatus, game_id })]);
 
     return (
         <div>
@@ -69,8 +53,8 @@ export const IndulgenceAuctionTable = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {indulgenceList.map((trade: IndulgenceAuctionEdge, index: number) => {
-                        return <IndulgenceRow indulgence={trade.node?.entity} key={index} />;
+                    {indulgenceList.map((entity: any, index: number) => {
+                        return <IndulgenceRow entity={entity} key={index} />;
                     })}
                 </TableBody>
             </Table>

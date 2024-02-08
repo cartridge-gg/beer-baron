@@ -1,4 +1,4 @@
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { Trade, World__Entity } from '@/generated/graphql';
 import { TableCell, TableRow } from '../elements/table';
 import { TradeStatus, TradeStatusTitles } from '@/dojo/gameConfig';

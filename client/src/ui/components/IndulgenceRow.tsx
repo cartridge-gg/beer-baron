@@ -1,9 +1,8 @@
-import { num } from 'starknet';
 import { TableCell, TableRow } from '../elements/table';
 import Coin from '../../icons/coin.svg?react';
 import { Button } from '../elements/button';
 import { useQueryParams } from '@/dojo/useQueryParams';
-import { useDojo } from '@/DojoContext';
+import { useDojo } from '@/dojo/useDojo';
 import { Maybe } from 'graphql/jsutils/Maybe';
 import { IndulgenceAuction, World__Entity } from '@/generated/graphql';
 import { shortenHex } from '@/utils';
@@ -11,17 +10,23 @@ import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { Input } from '../elements/input';
 import { useState } from 'react';
 import { TradeStatus } from '@/dojo/gameConfig';
+import { useComponentValue } from '@dojoengine/react';
+import { getEntityIdFromKeys } from '@dojoengine/utils';
+import { num, shortString } from 'starknet';
 
-export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<World__Entity> | undefined }) => {
-    const indulgence_auction_model = indulgence?.models?.find((m) => m?.__typename == 'IndulgenceAuction') as IndulgenceAuction;
-
+export const IndulgenceRow = ({ entity }: any) => {
     const { game_id } = useQueryParams();
     const {
         setup: {
             systemCalls: { place_indulgences_bid, claim_indulgence },
+            clientComponents: { IndulgenceAuction, Player },
         },
         account: { account },
     } = useDojo();
+
+    const indulgence_auction_model = useComponentValue(IndulgenceAuction, entity);
+
+    const player = useComponentValue(Player, getEntityIdFromKeys([BigInt(game_id), BigInt(indulgence_auction_model.highest_bid_player_id)]));
 
     const { getTimeRemaining, timeRemaining } = useTimeRemaining(indulgence_auction_model.expiry);
 
@@ -34,7 +39,7 @@ export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<World__Entity>
 
     return (
         <TableRow className=" m-1 text-white">
-            <TableCell>{getTimeRemaining() < '0' ? 'finished': getTimeRemaining() }</TableCell>
+            <TableCell>{getTimeRemaining() < '0' ? 'finished' : getTimeRemaining()}</TableCell>
             {/* <TableCell>{indulgence_auction_model.auction_id}</TableCell> */}
             <TableCell>
                 <div className="flex space-x-2">
@@ -42,7 +47,7 @@ export const IndulgenceRow = ({ indulgence }: { indulgence: Maybe<World__Entity>
                     <span className="self-center">{indulgence_auction_model.price}</span>
                 </div>
             </TableCell>
-            <TableCell>{isOwner ? 'you!' : shortenHex(indulgence_auction_model.highest_bid_player_id)}</TableCell>
+            <TableCell>{isOwner ? 'you!' : shortString.decodeShortString(player?.name || 0)}</TableCell>
 
             <TableCell>
                 {!finished && (

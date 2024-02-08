@@ -1,5 +1,5 @@
 import { useEntityQuery } from '@dojoengine/react';
-import { useDojo } from '../../DojoContext';
+import { useDojo } from '../../dojo/useDojo';
 import { Button } from '@/ui/elements/button';
 import { HasValue } from '@dojoengine/recs';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +9,7 @@ export const MyGames = () => {
 
     const {
         setup: {
-            components: { Game },
+            clientComponents: { Game },
         },
     } = useDojo();
 

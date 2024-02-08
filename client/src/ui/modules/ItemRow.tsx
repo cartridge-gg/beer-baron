@@ -1,4 +1,4 @@
-import { Item, ItemCard } from "../components/ItemCard";
+import { Item, ItemCard } from '../components/ItemCard';
 
 interface ItemRowProps {
     title: string;
@@ -11,9 +11,9 @@ export const ItemRow = ({ title, items }: ItemRowProps) => {
             <div className="uppercase text-dirt-100">{title}</div>
             <div className="grid grid-cols-3 gap-2">
                 {items.map((item, index) => {
-                    return <ItemCard {...item} key={index} />
+                    return <ItemCard {...item} key={index} />;
                 })}
             </div>
         </div>
-    )
-}
+    );
+};

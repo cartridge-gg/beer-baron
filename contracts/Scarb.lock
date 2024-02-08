@@ -7,31 +7,32 @@ version = "0.1.0"
 dependencies = [
  "cubit",
  "dojo",
- "dojo_defi",
+ "origami",
 ]
 
 [[package]]
 name = "cubit"
-version = "1.2.0"
-source = "git+https://github.com/ponderingdemocritus/cubit#9c3bbdfee7b165ab06ac8cc7046ce4d4c8866bfc"
+version = "1.3.0"
+source = "git+https://github.com/influenceth/cubit.git#62756082bf2555d7ab25c69d9c7bc30574ff1ce8"
 
 [[package]]
 name = "dojo"
-version = "0.3.10"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.3.10#be1676252c41f8188465741edcbcb381d2c12080"
+version = "0.5.1"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.5.1#4a6cad5f21d8da71714ae6ff48c9cc6ecaae642a"
 dependencies = [
  "dojo_plugin",
 ]
 
 [[package]]
-name = "dojo_defi"
-version = "0.3.10"
-source = "git+https://github.com/dojoengine/dojo?tag=v0.3.10#be1676252c41f8188465741edcbcb381d2c12080"
+name = "dojo_plugin"
+version = "0.3.11"
+source = "git+https://github.com/dojoengine/dojo?tag=v0.3.11#1e651b5d4d3b79b14a7d8aa29a92062fcb9e6659"
+
+[[package]]
+name = "origami"
+version = "0.5.1"
+source = "git+https://github.com/dojoengine/origami?tag=v0.5.1#118d20d5e90fdb958f82a0115cb7ac4cd4f09d88"
 dependencies = [
  "cubit",
  "dojo",
 ]
-
-[[package]]
-name = "dojo_plugin"
-version = "0.3.10"
