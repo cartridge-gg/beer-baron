@@ -57,7 +57,7 @@ export const GameRow = ({ entity }: any) => {
             <TableCell>{game_model.game_length / 60} minutes</TableCell>
             <TableCell className="flex space-x-2">
                 {/* // TODO: Restrict to only joined games */}
-                {game_model.status == GameStatus.Started.toString() && (
+                {game_model.status == GameStatus.Started && (
                     <Button
                         onClick={() => {
                             setGameQueryParam(game_model.game_id.toString());
@@ -67,7 +67,7 @@ export const GameRow = ({ entity }: any) => {
                     </Button>
                 )}
 
-                {game_model.status == GameStatus.Lobby.toString() && (
+                {game_model.status == GameStatus.Lobby && (
                     <>
                         <AlertDialog>
                             <AlertDialogTrigger asChild>
@@ -97,7 +97,7 @@ export const GameRow = ({ entity }: any) => {
                         </AlertDialog>
                     </>
                 )}
-                {ownership?.owner == account.address && (
+                {ownership?.owner == BigInt(account.address) && (
                     <Button
                         disabled={game_model?.number_players == 0}
                         variant={'secondary'}

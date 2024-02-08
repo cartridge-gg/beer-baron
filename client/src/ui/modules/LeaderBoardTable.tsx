@@ -89,7 +89,7 @@ export const LeaderBoardRow = ({ leaderboard }: any) => {
     const player = useComponentValue(Player, getEntityIdFromKeys([BigInt(game_id), BigInt(leaderboard.player_id)]));
     return (
         <TableRow className="m-1">
-            <TableCell>{shortString.decodeShortString(player?.name || 0)}</TableCell>
+            <TableCell>{shortString.decodeShortString(player?.name.toString() || '')}</TableCell>
             <TableCell>{leaderboard.indulgences}</TableCell>
             <TableCell>{leaderboard.gold}</TableCell>
         </TableRow>

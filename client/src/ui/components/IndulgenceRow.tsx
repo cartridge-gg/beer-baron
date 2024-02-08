@@ -3,16 +3,13 @@ import Coin from '../../icons/coin.svg?react';
 import { Button } from '../elements/button';
 import { useQueryParams } from '@/dojo/useQueryParams';
 import { useDojo } from '@/dojo/useDojo';
-import { Maybe } from 'graphql/jsutils/Maybe';
-import { IndulgenceAuction, World__Entity } from '@/generated/graphql';
-import { shortenHex } from '@/utils';
 import useTimeRemaining from '@/dojo/useTimeRemaining';
 import { Input } from '../elements/input';
 import { useState } from 'react';
 import { TradeStatus } from '@/dojo/gameConfig';
 import { useComponentValue } from '@dojoengine/react';
 import { getEntityIdFromKeys } from '@dojoengine/utils';
-import { num, shortString } from 'starknet';
+import { shortString } from 'starknet';
 
 export const IndulgenceRow = ({ entity }: any) => {
     const { game_id } = useQueryParams();
@@ -32,9 +29,9 @@ export const IndulgenceRow = ({ entity }: any) => {
 
     const finished = timeRemaining <= 0;
     const claimed = indulgence_auction_model.status == TradeStatus.Accepted;
-    const isOwner = account.address == indulgence_auction_model.highest_bid_player_id;
+    const isOwner = BigInt(account.address) == indulgence_auction_model.highest_bid_player_id;
 
-    const pricePlusOne = parseInt(indulgence_auction_model.price) + 1;
+    const pricePlusOne = indulgence_auction_model.price + 1;
     const [newPrice, setNewPrice] = useState<number>(pricePlusOne);
 
     return (
@@ -47,7 +44,7 @@ export const IndulgenceRow = ({ entity }: any) => {
                     <span className="self-center">{indulgence_auction_model.price}</span>
                 </div>
             </TableCell>
-            <TableCell>{isOwner ? 'you!' : shortString.decodeShortString(player?.name || 0)}</TableCell>
+            <TableCell>{isOwner ? 'you!' : shortString.decodeShortString(player?.name.toString() || '')}</TableCell>
 
             <TableCell>
                 {!finished && (
