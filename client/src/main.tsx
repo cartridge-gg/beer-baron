@@ -4,7 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { setup } from './dojo/generated/setup.ts';
 import { DojoProvider } from './dojo/DojoContext.tsx';
-import { dojoConfig } from '../dojoConfig.ts';
+import { dojoConfig } from './dojoConfig.ts';
 
 async function init() {
     const rootElement = document.getElementById('root');
