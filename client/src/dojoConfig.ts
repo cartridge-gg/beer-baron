@@ -1,5 +1,5 @@
-import manifest from '../contracts/target/dev/manifest.json';
-import release_manifest from '../contracts/target/release/manifest.json';
+import manifest from '../../contracts/target/dev/manifest.json';
+import release_manifest from '../../contracts/target/release/manifest.json';
 import { createDojoConfig } from '@dojoengine/core';
 
 export const dojoConfig = createDojoConfig({
