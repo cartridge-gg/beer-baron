@@ -95,8 +95,10 @@ cd contracts && sozo build && sozo migrate
 cd client && yarn && yarn dev
 ```
 
+## Building on Slot
+
 Upon completion, launch your browser and navigate to http://localhost:5173/. You'll be greeted by the running example!
 
 `slot deployments create beer-baron-prod-2 katana`
 
-`slot deployments create beer-baron-prod-2 torii --world 0x7adaf3e349f9922afd8e9b7f76227b838b27904f900b4a6dfd1fc971467e70a --rpc https://api.cartridge.gg/x/beer-baron-prod-2/katana --start-block 1 `
+`slot deployments create beer-baron-prod-2 torii --world 0x69666385e91e62f0ac01f1cb1524cb9e8e56cb4267515c6bd913c73fdec82 --rpc https://api.cartridge.gg/x/beer-baron-prod-2/katana --start-block 1 `
