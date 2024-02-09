@@ -117,8 +117,6 @@ export const BeerCard = ({ entity_id }: BeerCardProps) => {
 
     const brew = useComponentValue(Brew, entity_id);
 
-    console.log(brew);
-
     const { getTimeRemaining, timeRemaining } = useTimeRemaining(brew?.time_built, BREW_TIME);
 
     const ready = timeRemaining < 0;
